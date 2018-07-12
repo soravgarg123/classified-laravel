@@ -1,0 +1,1018 @@
+<?php $__env->startSection('custom-styles'); ?>
+<?php echo HTML::style('/assets/metronic/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css'); ?>
+
+<?php echo HTML::style('/assets/metronic/frontend/onepage/css/custom.css'); ?>
+
+<?php echo HTML::style('/assets/metronic/global/plugins/bootstrap-modal/css/bootstrap-modal.css'); ?>
+
+<?php echo HTML::style('/assets/css/bootstrap-checkbox.css'); ?>
+
+<style>
+    .faq-tabbable i {
+        color: #000 !important;
+    }
+    .modal-scrollable{
+        z-index:7900 !important;
+    }
+    .page-wrapper{
+        background-color:#f7f8f9;
+    }
+    .rating-xs{
+        font-size: 1.2em !important;
+    }
+    .xdsoft_datetimepicker .xdsoft_datepicker{
+        width:306px;
+    }
+    .xdsoft_datetimepicker .xdsoft_timepicker{
+        width:85px;
+    }
+    .btn-secondary{
+        padding:8px 15px !important;
+    }
+</style>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('main'); ?>
+<?php
+$nameVal = 'name' . $currentLanguage;
+$descriptionVal = 'description' . $currentLanguage;
+$postTitleVal = 'post_title' . $currentLanguage;
+$postContentVal = 'post_content' . $currentLanguage;
+?>
+<?php $company = $store->company; ?>
+<!-- <div id="map-canvas" style="height: 450px; width: 100%;margin-top:0px;" class="margin-top-xs"></div> -->
+<div class="mb80">
+    <div class="detail-banner" style="background-image: url(<?php echo HTTP_STORE_PATH; ?>detail-banner-1.jpg);">
+        <div class="container">
+            <div class="detail-banner-left">
+                <div class="detail-banner-info">
+                    <!-- <div class="detail-label">Restaurant</div>
+                    <div class="detail-verified">Verified</div> -->
+                </div><!-- /.detail-banner-info -->
+
+                <h2 class="detail-title">
+                    <?php echo $store->$nameVal; ?>
+
+                </h2>
+
+                <!-- <div class="detail-banner-address">
+                    <i class="fa fa-map-o"></i> 347/26 22nd Avenue, New York City, USA
+                </div><!-- /.detail-banner-address -->
+
+                <div class="detail-banner-rating">
+                    <input id="js-number-rating" type="number" class="rating" min=0 max=5 step=1 data-show-clear=false data-show-caption=false data-size='xs' value="<?php echo $store->getRatingScore(); ?>" readonly=true style="cursor: pointer;">
+                </div><!-- /.detail-banner-rating -->
+
+                <!-- <div class="detail-banner-btn bookmark">
+                    <i class="fa fa-bookmark-o"></i> <span data-toggle="Bookmarked">Bookmark</span>
+                </div><!-- /.detail-claim -->
+
+                <!-- div class="detail-banner-btn heart">
+                    <i class="fa fa-heart-o"></i> <span data-toggle="I Love It">Give Heart</span>
+                </div><!-- /.detail-claim -->
+
+            </div><!-- /.detail-banner-left -->
+        </div><!-- /.container -->
+    </div><!-- /.detail-banner -->
+
+</div>
+<div class="container">
+    <div class="row detail-content padding-bottom-normal">
+        <!-- START LEFT SIDE -->
+        <div class="col-sm-7">
+            <div class="detail-gallery">
+                <div class="detail-gallery-preview">
+                    <a href="#" class="cboxElement">
+                        <img src="<?php echo HTTP_STORE_PATH.$store->photo; ?>">
+                    </a>
+                </div>            
+            </div><!-- /.detail-gallery -->
+
+            <h2><?php echo $langLbl['We Are Here']; ?></h2>
+            <div class="background-white">
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade in active" id="simple-map-panel">
+                        <div class="detail-map">
+                            <div class="map-position">
+                                <div id="map-canvas" style="height: 450px; width: 100%;margin-top:0px;" class="margin-top-xs"></div>                            
+                            </div><!-- /.map-property -->
+                        </div><!-- /.detail-map -->
+                    </div>                
+                </div>
+            </div>
+
+
+            <?php if(count($store->feedbacks) > 0): ?>
+            <h2 id="reviews"><?php echo $langLbl['All Reviews']; ?></h2>
+            <div class="reviews">
+
+                <?php foreach($store->feedbacks as $feedback): ?>
+                <div class="review">
+                    <div class="review-image">
+                        <img class="img-circle" src="<?php echo HTTP_USER_PATH.$feedback->user->photo; ?>" alt="">
+                    </div><!-- /.review-image -->
+
+                    <div class="review-inner">
+                        <div class="review-title">
+                            <h2><?php echo $feedback->user->name; ?></h2>
+
+                            <span class="report">
+                                <span class="separator">•</span><i class="fa fa-flag" title="" data-toggle="tooltip" data-placement="top" data-original-title="<?php echo $langLbl['Report']; ?>"></i>
+                            </span>
+
+                            <div class="review-overall-rating">
+                                <?php
+                                $total_rating = 0;
+                                foreach ($feedback->ratings as $rating) {
+                                    $total_rating += $rating->answer;
+                                }
+                                $avg_rating = (int) ($total_rating / 3);
+                                ?>	                	
+
+                                <input id="js-number-rating" type="number" class="rating" min=0 max=5 step=1 data-show-clear=false data-show-caption=false data-size='xs' value="<?php echo $avg_rating; ?>" readonly=true>
+                            </div><!-- /.review-rating -->
+                        </div><!-- /.review-title -->
+
+                        <div class="review-content-wrapper">
+                            <div class="review-content">
+                                <div class="review-pros">
+                                    <p><?php echo $feedback->description; ?></p>
+                                </div><!-- /.pros -->	                    
+                            </div><!-- /.review-content -->
+
+                            <div class="review-rating">
+                                <dl>
+                                    <?php foreach($store->company->visibleRatingTypes as $ratingType): ?>
+                                    <dt><?php echo $ratingType->$nameVal; ?></dt>
+                                    <dd>
+                                        <?php if($ratingType->is_score): ?>
+                                        <input id="js-number-rating" type="number" class="rating" min=0 max=5 step=1 data-show-clear=false data-show-caption=false data-size='xs' value="<?php echo $feedback->getTypeScore($ratingType->id); ?>" readonly=true>
+                                        <?php else: ?>
+                                        <?php echo $feedback->getTypeScore($ratingType->id) == -1 ? '--' :  ($feedback->getTypeScore($ratingType->id) == 0 ? 'No' : 'Yes'); ?>
+
+                                        <?php endif; ?>
+                                    </dd>
+                                    <?php endforeach; ?>
+                                </dl>
+                            </div><!-- /.review-rating -->
+                        </div><!-- /.review-content-wrapper -->
+
+                    </div><!-- /.review-inner -->
+                </div><!-- /.review -->
+                <?php endforeach; ?>
+
+            </div><!-- /.reviews -->
+            <?php endif; ?>
+
+        </div><!-- /.col-sm-7 -->
+        <!-- END LEFT SIDE -->
+        <!-- START RIGHT SIDE -->
+        <div class="col-sm-5">
+            <div class="background-white p20">            
+                <div class="detail-overview-rating">
+                    <input id="js-number-rating" type="number" class="rating" min=0 max=5 step=1 data-show-clear=false data-show-caption=false data-size='xs' value="<?php echo $store->getRatingScore(); ?>" readonly=true style="cursor: pointer;">
+                </div>
+
+                <!-- START BOOKING DETAIL OPTIONS -->	
+                <?php
+                $options = unserialize($store->options);
+                $available_officies = [];
+                foreach ($personal_officies as $office) {
+                    if ($office->office->office_available == '1')
+                        $available_officies[] = $office;
+                }
+                $flag = 0; // out of office not avaialble
+                ?>
+                <div class="pi-price">
+                    <strong>&#8364;<em><?php echo $store->price_value; ?></em></strong>
+                    <input type="hidden" id="price" value="<?php echo $store->price_value; ?>"/>								                
+                </div>
+
+                <?php if( $options['discount_available'] == 1 ): ?>
+                <div class="col-md-12" style="padding:0;">
+                    <p><b style="color:#E6400C;font-size:17px;">&euro; <?php echo $options['discount_price']; ?></b> <?php echo $langLbl['with online payment']; ?>!</p>
+                    <input type="hidden" id="discount_price" value="<?php echo $options['discount_price']; ?>">
+                </div>
+                <?php endif; ?>
+                <?php if($options['service_available'] == 1): ?>
+                <p><?php echo $langLbl['Duration of service']; ?> <?php echo $store->duration; ?>min</p>
+                <?php else: ?>
+                <?php if($options['delivery_place'] == 'online'): ?>
+                <p><?php echo $langLbl['Delivery by email']; ?></p>
+                <?php else: ?>
+                <p><?php echo $langLbl['Delivery to the office']; ?></p>
+                <?php endif; ?>
+                <?php endif; ?>
+                    <?php $serviceOfficies = [];
+                    $holidays = []; ?>
+
+                <?php if( ($options['delivery_place'] == 'office' && $options['office_available'] == '1') || $options['service_available'] == 1 ): ?>
+
+                <?php if( ($options['office_available'] == '1' ) && (count($available_officies) > 0) ): ?> 
+
+                    <?php $flag = 1; ?>
+
+                <div class="col-md-12 checkbox-list" style="padding:0px; margin-bottom:5px;">
+                    <p><b><?php echo $langLbl['Service Available in']; ?>:</b></p>
+                    <?php foreach($personal_officies as $office): ?>
+
+                    <?php if($office->office->office_available == 1): ?>
+                    <div style="padding-bottom: 15px;">
+                        <p style="margin-bottom:0px;"><?php echo $office->office->address; ?></p>
+                        <div class="usr-status isOnline" style="margin-top:5px;"></div><span style="font-size:13px;">&nbsp;<?php echo $langLbl['Available out of office']; ?> max  <?php echo $options['office_range']; ?>Km</span>
+                    </div>
+                    <?php endif; ?>
+                    <?php endforeach; ?>
+                    <div class="checkbox-list" style="background-color:#da4f49;">
+                        <label style="color:#fff; font-size:13px;">
+                            <input type="checkbox" id="home"><span style="margin-left:5px;"><?php echo $langLbl['I want to book offsite service']; ?></span></label>
+                    </div>
+                </div>
+                <?php endif; ?>
+
+                <!-- START OFFICE SETTING -->
+
+                <div class="col-md-12" style="padding:0px; margin-bottom:20px;" id="officies">
+
+                    <?php if(count($personal_officies)>1): ?>
+
+                    <select class="form-control" id="service_office">
+                        <option disabled selected><?php echo $langLbl['Select where']; ?></option>
+                        <?php $i = 0; ?>
+                        <?php foreach($personal_officies as $office): ?>
+                        <?php $serviceOfficies[] = $office->office->opening;
+                        $holidays[] = $office->office->holidays; ?>		                                		
+                        <option value="<?php echo $office->office->id; ?>"  office-index ="<?php echo $i; ?>"><?php echo $office->office->name; ?></option>
+                    <?php $i++; ?>
+                        <?php endforeach; ?>
+                    </select>
+                    <?php else: ?>
+
+                    <?php
+                    if (isset($personal_officies[0])) {
+                        $serviceOfficies[] = $personal_officies[0]->office->opening;
+                        $holidays[] = $personal_officies[0]->office->holidays;
+                        ?>
+                        <span class="form-control" id="service_office" value="<?php echo $personal_officies[0]->office->id; ?>" office-index="0"><?php echo $personal_officies[0]->office->name; ?><?php echo ($personal_officies[0]->office->office_available == 1 && $flag == 1 ) ? '('. $langLbl['Available out of office'] .')': ''; ?></span>
+<?php } ?>
+                    <?php endif; ?>
+                </div>			                                
+                <?php endif; ?>
+                <!-- \ END OFFICE SETTING -->
+
+                <!-- START SERVICE AVAILABLE -->
+                <?php if($options['service_available'] == 1): ?>
+                <!-- START DATETIMEPICKER FOR BOOKING  -->
+                <div class="col-md-12" style="padding:0px; margin-bottom:20px;">
+                    <div class="input-group date form_datetime">
+                        <input type="text" size="16" readonly="" class="form-control"  placeholder="<?php echo $langLbl['When']; ?>?" id="date_picker">
+                        <span class="input-group-btn">
+                        <!-- <button class="btn default date-reset" type="button"><i class="fa fa-times"></i></button> -->
+                            <button class="btn default date-set" type="button" onmousedown="jQuery('#date_picker').trigger('mousedown');" style="padding:7px 14px !important;"><i class="fa fa-calendar"></i></button>
+                        </span>
+                    </div>																			
+                </div>
+                <!-- \ END DATETIMEPICKER FOR BOOKING -->
+
+                <!-- START DURATION SETTING -->
+                <div class="col-md-12" style="padding:0px; margin-bottom:20px;">
+                    <?php if($store->book_amount == 1): ?>
+                    <input type="hidden" value="1" id="duration" />
+                    <input type="text" class="form-control" disabled value="<?php echo $langLbl['Book']; ?> 1 (&euro;<?php echo $store->price_value; ?>)" />
+                    <?php else: ?>
+                    <select class="form-control" id="duration">
+                        <option value="" disabled selected>Duration:</option>
+                        <?php for($i = 1;$i <= $store->book_amount; $i++): ?>
+<?php $duration_price = $i * $store->price_value; ?>	                                			
+                        <option value=<?php echo $i; ?>><?php echo $langLbl['Book']; ?> <?php echo $i; ?> (&euro;<?php echo $duration_price; ?>)</option>
+                        <?php endfor; ?>
+                    </select>
+                    <?php endif; ?>
+                </div>
+                <!-- \ END DURATION SETTING-->
+                <?php else: ?>
+                <p style="font-size:14px;"><b><?php echo $langLbl['Max days for delivery']; ?> : </b><?php echo $options['delivery_days']; ?> <?php echo $langLbl['days']; ?></p>				                           						                           		
+                <?php endif; ?>
+                <!-- \ END SERVICE AVAILABLE -->
+                <!-- MODAL DIALOG FOR BOOK -->
+                <div class="modal fade" id="basic" tabindex="-1" role="basic" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                <h4 class="modal-title"><?php echo $langLbl['Your Booking']; ?></h4>
+                            </div>
+                            <div class="modal-body">
+                                <form>															
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <?php if($options['service_available'] == 1): ?>
+                                            <span class="col-md-12 form-control"><?php echo $langLbl['Booking Date']; ?>:</span>
+
+                                            <span class="col-md-12 form-control"><?php echo $langLbl['Duration']; ?>:</span>
+
+                                            <?php else: ?>
+                                            <span class="col-md-12 form-control"><?php echo $langLbl['Max days for delivery']; ?>:</span>
+                                            <span class="col-md-12 form-control"><?php echo $langLbl['Delivery Place']; ?>:</span>
+                                            <?php endif; ?>
+                                            <span class="col-md-12 form-control"><?php echo $langLbl['Price']; ?>(&#8364;):</span>
+                                            <?php if($options['discount_available'] == 1): ?>
+                                            <span class="col-md-12 form-control"><?php echo $langLbl['Online Pay']; ?>(&#8364;):</span>
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <?php if($options['service_available'] == 1): ?>
+                                            <input type="text" readonly id="modal_date" class="col-md-12 form-control">
+                                            <input type="text" readonly  id="modal_duration" class="col-md-12 form-control">
+
+                                            <?php else: ?>
+                                            <input type="text" readonly id="modal_maxdays" value="<?php echo $options['delivery_days']; ?>" class="col-md-12 form-control" />
+                                            <input type="text" readonly id="modal_place" value="<?php echo $options['delivery_place']; ?>" class="col-md-12 form-control" />
+                                            <?php endif; ?>
+                                            <input type="text" readonly  id="modal_price" class="col-md-12 form-control">
+                                            <?php if($options['discount_available'] == 1): ?>
+                                            <input type="text" readonly  id="modal_discount_price" class="col-md-12 form-control">
+                                            <?php endif; ?>
+                                        </div>
+                                        <div id="user_addr" class="col-md-12" style="margin-top:20px;">
+                                            <input class="form-control" type="text" placeholder="Type your address" name="user_addr" style="display:none;" required>
+                                            <textarea rows="5" placeholder="<?php echo $langLbl['Type your message']; ?>..." name="user_msg" class="form-control" style="margin-top:10px;"></textarea>
+                                        </div>
+
+                                    </div>																
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" id="js-btn-add-cart" class="btn btn-primary" data-dismiss="modal" company_id="<?php echo $store->company->id; ?>" data-id="<?php echo $store->id; ?>" data-user="<?php echo Session::has('user_id') ? Session::get('user_id') : ''; ?>"><?php echo $langLbl['Pay to the office']; ?></button>
+                                <button type="button" id="js-btn-pay-now" class="btn btn-primary" company_id="<?php echo $store->company->id; ?>" data-id="<?php echo $store->id; ?>" data-user="<?php echo Session::has('user_id') ? Session::get('user_id') : ''; ?>"><?php echo $langLbl['Pay Now']; ?></button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+                <!-- END MODAL DIALOG FOR BOOK -->
+                <!-- START MODAL DIALOG FOR ASK INFO -->
+                <div class="row margin-top-normal modal fade" id="js-div-message" style="display: none;">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                <h4 class="color-default"><?php echo $langLbl['Send Us A Message']; ?></h4>
+                            </div>
+                            <div class="modal-body">
+
+                                <form action="<?php echo URL::route('user.sendMessage'); ?>" role="form" method="post">
+                                    <input type="hidden" name="company_id" value="<?php echo $store->company->id; ?>"/>
+                                    <div class="form-group">
+                                        <label for="contacts-name"><?php echo $langLbl['Name']; ?></label>
+                                        <input type="text" class="form-control" name="name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contacts-email"><?php echo $langLbl['Email']; ?></label>
+                                        <input type="email" class="form-control" name="email">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contacts-message"><?php echo $langLbl['Message']; ?></label>
+                                        <textarea class="form-control" rows="5" name="description"></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary pull-right"><i class="icon-ok"></i> <?php echo $langLbl['Send']; ?></button>
+                                </form>  
+                            </div>
+                        </div>                          
+                    </div>
+                </div>
+                <!-- END MODAL DIALOG FOR ASK INFO -->	
+                <!-- END BOOKING DETAIL OPTIONS -->	
+                <div class="detail-actions row">
+                    <div class="col-sm-4">
+                        <a  class="btn btn-primary btn-book" id="book_btn" data_id="<?php echo Session::has('user_id') ? Session::get('user_id') : ''; ?>"  href="#basic"><i class="fa fa-shopping-cart"></i><?php echo $options['service_available'] == 1 ? $langLbl['Book'].'!' : $langLbl['Order'].'!'; ?></a>
+                    </div><!-- /.col-sm-4 -->
+                    <div class="col-sm-4">                    
+                        <a href="#js-div-message" class="btn btn-secondary btn-share" id="js-btn-send-message"><i class="fa fa-pencil-square-o"></i> <?php echo $langLbl['Ask Info']; ?></a>
+                    </div><!-- /.col-sm-4 -->
+                    <div class="col-sm-4">                    
+                        <button class="btn btn-secondary btn-claim" id="js-btn-join" data-id="<?php echo $store->company->id; ?>"><i class="fa fa-user"></i> <?php echo $langLbl['Join now']; ?></button>
+                    </div><!-- /.col-sm-4 -->
+                </div><!-- /.detail-actions -->
+            </div>
+
+            <h2><?php echo $langLbl['About']; ?> <span class="text-secondary"><?php echo $store->$nameVal; ?></span></h2>
+            <div class="background-white p20">
+                <div class="detail-vcard">
+                    <div class="detail-logo">
+                        <img class="img-circle" src="<?php echo HTTP_COMPANY_PATH.$company->photo; ?>">
+                    </div><!-- /.detail-logo -->
+
+                    <div class="detail-contact">
+                        <div class="detail-contact-email">
+                            <i class="fa fa-envelope-o"></i> <a href="mailto:#"><?php echo $company->email; ?></a>
+                        </div>
+                        <div class="detail-contact-phone">
+                            <i class="fa fa-mobile-phone"></i> <a href="tel:#"><?php echo $company->phone; ?></a>
+                        </div>
+                        <!-- <div class="detail-contact-website">
+                            <i class="fa fa-globe"></i> <a href="#">www.superlist.com</a>
+                        </div> -->
+                        <div class="detail-contact-address">
+                            <i class="fa fa-globe"></i>
+                            <?php echo $company->city; ?>
+
+                        </div>
+                    </div><!-- /.detail-contact -->
+                </div><!-- /.detail-vcard -->
+
+                <div class="detail-description">
+                    <p><?php echo $store->$descriptionVal; ?></p>
+                </div>
+
+                <!-- div class="detail-follow">
+                    <h5>Follow Us:</h5>
+                    <div class="follow-wrapper">
+                        <a class="follow-btn facebook" href="#"><i class="fa fa-facebook"></i></a>
+                        <a class="follow-btn youtube" href="#"><i class="fa fa-youtube"></i></a>
+                        <a class="follow-btn twitter" href="#"><i class="fa fa-twitter"></i></a>
+                        <a class="follow-btn tripadvisor" href="#"><i class="fa fa-tripadvisor"></i></a>
+                        <a class="follow-btn google-plus" href="#"><i class="fa fa-google-plus"></i></a>
+                    </div><!-- /.follow-wrapper 
+                </div><!-- /.detail-follow -->
+            </div>
+
+            <!-- START KEYWORDS -->
+
+            <?php if($store->keyword): ?>
+            <h2><?php echo $langLbl['Keywords']; ?></h2>
+            <?php $keywords = explode(",", $store->keyword); ?>
+            <div class="background-white p20">
+                <ul class="detail-amenities">
+                    <?php foreach($keywords as $key => $value): ?>
+                    <li class="yes"><button class="btn-default btn btn-xs"><?php echo $value; ?></button></li>
+                    <?php endforeach; ?>   
+                </ul>
+            </div>
+            <?php endif; ?>
+            <!-- END KEYWORDS -->
+
+            <!-- START REVIEW FORM -->
+            <?php if($is_valid || count($store->feedbacks) > 0): ?>
+            <?php if($is_valid): ?>
+            <h2 class="margin-top-normal"><?php echo $langLbl['review']; ?> &amp; <?php echo $langLbl['feedbacks']; ?></h2>
+            <?php endif; ?>
+            <div class="detail-enquire-form background-white p20">
+
+
+                <?php if($is_valid): ?>
+                <form method="post" action="<?php echo URL::route('user.giveFeedback'); ?>">
+                    <input type="hidden" name="store_id" value="<?php echo $store->id; ?>"/>
+                    <div class="row margin-top-xs">
+                        <div class="col-sm-5">
+                            <?php foreach($store->company->visibleRatingTypes as $key => $value): ?>
+                            <?php if($value->is_score): ?>
+                            <div class="row">
+                                <div class="col-sm-6 text-right"><p style=""><b><?php echo $value->$nameVal; ?> : </b></p></div>
+                                <div class="col-sm-6">
+                                    <input id="js-number-rating" type="number" name="rating[]" class="rating" min=0 max=5 step=1 data-show-caption=false data-show-clear=false data-size='xs' value=3>
+                                    <input type="hidden" name="type_id[]" value="<?php echo $value->id; ?>">
+                                </div>
+                            </div>
+                            <?php else: ?>
+                            <div class="row">
+                                <div class="form-group form-radio">
+                                    <div class="col-sm-6 text-right"><p style="padding-top: 10px;"><b><?php echo $value->$nameVal; ?></b></p></div>
+                                    <div class="col-md-6 padding-top-xs">
+                                        <input type="hidden" name="type_id[]" value="<?php echo $value->id; ?>">
+                                        <input type="hidden" name="rating[]" id="js-hidden-rating">
+                                        <div class="btn-group" data-toggle="buttons">
+                                            <label class="btn btn-default btn-sm" data-val=1 id="js-label-answer"><input type="radio" class="toggle"> <?php echo $langLbl['Yes']; ?> </label>
+                                            <label class="btn btn-default btn-sm" data-val=0 id="js-label-answer"><input type="radio" class="toggle"> <?php echo $langLbl['No']; ?> </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php endif; ?>
+                            <?php endforeach; ?>
+                        </div>
+                        <div class="col-sm-7">
+                            <textarea class="form-control" name="description" rows="9" placeholder="<?php echo $langLbl['Write feedback here']; ?>..."></textarea>
+                            <button class="btn btn-primary pull-right margin-top-sm" onclick="return validate()"><?php echo $langLbl['Give Feedback']; ?></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <?php endif; ?>
+            <!-- END REVIEW FORM -->        
+        </div><!-- /.col-sm-5 -->
+        <?php endif; ?>
+        <!-- END RIGHT SIDE -->
+
+    </div>            
+</div>
+</div>
+
+<form id="js-frm-payment" method="post" action="<?php echo 'https://'.PAYPAL_SERVER.'/cgi-bin/webscr'; ?>" class="hide">
+    <input type="hidden" name="business" value="<?php echo PAYPAL_BUSINESS; ?>" />
+    <input type="hidden" name="cmd" value="_xclick">
+    <input type="hidden" name="item_name" value="<?php echo SITE_NAME; ?> Offer Purchase">
+    <input type="hidden" name="amount">
+    <input type="hidden" name="custom" >
+    <input type="hidden" name="currency_code" value="EUR">
+    <input type="hidden" name="notify_url" value="<?php echo URL::route('offer.purchase.ipn'); ?>">
+    <input type="hidden" name="return" value="<?php echo URL::route('offer.purchase.success', $store->slug); ?>">
+    <input type="hidden" name="cancel_return" value="<?php echo URL::route('offer.purchase.failed', $store->slug); ?>">
+    <input type="hidden" name="no_shipping" value="1">
+    <input type="hidden" name="email">
+</form>
+<!-- Booking paypal -->
+<form id="js-book-payment" method="post" action="<?php echo PAYPAL_URL; ?>" class="hide">
+    <input type="hidden" name="business" value="<?php echo PAYPAL_BUSINESS; ?>">
+    <input type="hidden" name="cmd" value="_xclick">
+    <input type="hidden" name="item_name" value="<?php echo $store->name; ?>">
+    <input type="hidden" name="user_id" value="<?php echo Session::has('user_id') ? Session::get('user_id') : ''; ?>"/>
+    <input type="hidden" name="store_id" value="<?php echo $store->id; ?>" />
+    <input type="hidden" name="company_id" value="<?php echo $store->company->id; ?>" />
+    <input type="hidden" name="amount">
+    <input type="hidden" name="custom" >
+    <input type="hidden" name="currency_code" value="EUR">
+    <input type="hidden" name="notify_url" value="<?php echo URL::route('book.purchase.ipn'); ?>">
+    <input type="hidden" name="return" value="<?php echo URL::route('book.purchase.success', $store->slug); ?>">
+    <input type="hidden" name="cancel_return" value="<?php echo URL::route('book.purchase.failed', $store->slug); ?>">
+    <input type="hidden" name="no_shipping" value="1">
+    <input type='hidden' name='rm' value='2'>
+    <input type="hidden" name="email">
+</form>
+<?php
+$lat = [];
+$lng = [];
+$office_name = [];
+$office_address = [];
+if (empty($personal_officies)) {
+    $lat[] = DEFAULT_LAT;
+    $lng[] = DEFAULT_LNG;
+} else {
+    foreach ($personal_officies as $office) {
+        $lat[] = $office->office->lat;
+        $lng[] = $office->office->lng;
+        $office_name[] = $office->office->name;
+        $office_address[] = $office->office->address;
+    }
+}
+?>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('custom-scripts'); ?>
+<?php echo HTML::script('/assets/metronic/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/global/plugins/bootstrap-modal/js/bootstrap-modal.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/global/plugins/bootstrap-modal/js/bootstrap-modalmanager.js'); ?>
+
+<?php echo HTML::script('/assets/js/bootstrap-checkbox.js'); ?>
+
+<script type='text/javascript'>
+<?php
+$lat = json_encode($lat);
+$lng = json_encode($lng);
+$office_name = json_encode($office_name);
+$office_address = json_encode($office_address);
+echo "var lat = " . $lat . ";\n";
+echo "var lng = " . $lng . ";\n";
+echo "var office_name = " . $office_name . ";\n";
+echo "var office_address = " . $office_address . ";\n";
+?>
+</script>
+<script>
+    $(document).ready(function() {
+    $("label#js-label-answer").click(function() {
+    $(this).parents("div.form-radio").find("input#js-hidden-rating").val($(this).attr('data-val'));
+    });
+            $('#book_btn').click(function(){
+    var user_id = $(this).attr('data_id');
+            if (user_id == ''){
+    var msg = "<?php echo $langLbl['You need to login.']; ?>";
+            bootbox.alert(msg);
+            window.setTimeout(function(){
+    bootbox.hideAll();
+    }, 2000);
+            return;
+    } else if ($('#date_picker').val() == '' || ($('#duration').val() == null && $('#duration').length > 0)){
+    var msg = "<?php echo $langLbl['You need to select booking date and duration']; ?>";
+            bootbox.alert(msg);
+            window.setTimeout(function(){
+    bootbox.hideAll();
+    }, 2000);
+            return;
+    } else if ($('#service_office').val() == '' || $('#service_office').val() == null){
+    var msg = "<?php echo $langLbl['You need to select office.']; ?>";
+            bootbox.alert(msg);
+            window.setTimeout(function(){
+    bootbox.hideAll();
+    }, 2000);
+            return;
+    }
+
+    if ($('#home').prop('checked'))
+            $('input[name="user_addr"]').css('display', 'block');
+            else
+            $('input[name="user_addr"]').css('display', 'none');
+            $('#basic').modal('show');
+            <?php if($options['discount_available'] == 1): ?>
+            var discount_price = Number($("#discount_price").val());
+            $('#modal_discount_price').val(discount_price);
+            <?php endif; ?>
+            var price = Number($('#price').val());
+            <?php if($options['service_available'] == 1): ?>
+            var book_id = Number($('#duration').val());
+            var book_date = $('#date_picker').val();
+            if ($('#duration').length > 0) {
+    var duration = <?php echo $store -> duration; ?>;
+            duration = book_id * Number(duration);
+            $('#modal_duration').val(duration + ' min');
+            $('input[name="duration"]').val(duration);
+    }
+    price = price * book_id;
+            <?php if($options['discount_available'] == 1): ?>
+            discount_price = discount_price * book_id;
+            $('#modal_discount_price').val(discount_price);
+            <?php endif; ?>
+            $('#modal_price').val(price);
+            $('input[name="book_date"]').val(book_date);
+            $('#modal_date').val(book_date);
+            <?php endif; ?>
+            $('#modal_price').val(price);
+            <?php if($options['discount_available'] == 1): ?>
+            $('input[name="amount"]').val(discount_price);
+            <?php else: ?>
+            $('input[name="amount"]').val(price);
+            <?php endif; ?>
+
+    });
+            });
+            function validate() {
+            var objList = $("input#js-hidden-rating");
+                    for (var i = 0; i < objList.length; i++) {
+            if (objList.eq(i).val() == '') {
+            bootbox.alert("<?php echo $langLbl['Please answer the question.']; ?>");
+                    return false;
+            }
+            }
+            }
+
+    var dateToday = new Date();
+            var daysofweek = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+            var start_time, end_time;
+            var storeId = '<?php echo $store->id; ?>';
+            var flag = <?php echo $flag; ?>;
+            var allow_time = new Array();
+            var book_time = new Array();
+            var days_opening, office_holidays;
+            var openTimes =<?php echo json_encode($serviceOfficies); ?>;
+            <?php if($options['service_available'] == 1): ?>
+            var holidays = <?php echo json_encode($holidays); ?>;
+            if (holidays.length > 0){
+    office_holidays = holidays[0].split(",");
+            office_holidays = getHolidays(office_holidays);
+            }
+
+    <?php endif; ?>
+            var available_officies = <?php echo json_encode($available_officies); ?>;
+            var personal_officies = <?php echo json_encode($personal_officies); ?>;
+            days_opening = openTimes[0];
+            function getHolidays(office_holidays){
+            for (var k in office_holidays){
+            office_holidays[k] = office_holidays[k].replace(/\s/g, '');
+                    var value = new Date(office_holidays[k]);
+                    var month = value.getMonth() + 1;
+                    month = month < 10 ? '0' + month : '' + month;
+                    var day = value.getDate();
+                    day = day < 10 ? '0' + day : '' + day;
+                    office_holidays[k] = value.getFullYear() + "/" + month + "/" + day;
+            }//console.log(office_holidays);
+            return office_holidays;
+                    }
+    <?php if($options['service_available'] == 1): ?>
+            allow_time = getAllowTime(dateToday);
+            <?php endif; ?>
+
+            $(document).ready(function() {
+    $('input[type="checkbox"]#home').checkbox({
+    buttonStyle: 'btn-danger',
+            buttonStyleChecked: 'btn-base',
+            checkedClass: 'icon-check',
+            uncheckedClass: 'icon-check-empty'
+    });
+            $('#home').change(function(){
+    var html = '<select class="form-control" id="service_office">';
+            var i = 0;
+            if ($(this).prop('checked')){
+    for (var k in available_officies){
+    html += '<option value="' + available_officies[k].office.id + '" office-index ="' + i + '">' + available_officies[k].office.name;
+            if (available_officies[k].office.office_available == 1 && flag == 1)
+            html += "(<?php echo $langLbl['Available out of office']; ?>)";
+            html += '</option>';
+    }
+    } else{
+    for (var k in personal_officies){
+    html += '<option value="' + personal_officies[k].office.id + '" office-index ="' + i + '">' + personal_officies[k].office.name;
+            if (personal_officies[k].office.office_available == 1 && flag == 1)
+            html += "(<?php echo $langLbl['Available out of office']; ?>)";
+            html += '</option>';
+    }
+    }
+    html += '</select>';
+            $('#officies').html(html);
+    });
+    // START DATETIME PICKER Imak 20150517	
+    $('#date_picker').datetimepicker({
+        minDate:dateToday,
+        onSelectDate:function(ct, $input){
+            $('#date_picker').datetimepicker({
+                minDate:dateToday,
+                allowTimes:getAllowTime(ct),
+                disabledDates:office_holidays, fomatDate:'m/d/Y'
+            });
+        },
+        allowTimes:allow_time,
+        disabledDates:office_holidays, fomatDate:'m/d/Y',
+        lang: '<?php echo isset($_COOKIE["current_lang"]) ? $_COOKIE["current_lang"] : "en"; ?>'
+    });
+    // \ END DATETIME PICKER Imak 20150517
+
+            // START CHANGE CALENDAR ACCORDING TO OFFICE
+            $('#service_office').on('change', function (e) {
+    var selectedValue = $("option:selected", this).attr('office-index');
+            days_opening = openTimes[selectedValue];
+            office_holidays = holidays[selectedValue].split(",");
+            office_holidays = getHolidays(office_holidays);
+            $('#date_picker').datetimepicker({
+            minDate:dateToday,
+            disabledDates:office_holidays, fomatDate:'m/d/Y',
+        lang: '<?php echo isset($_COOKIE["current_lang"]) ? $_COOKIE["current_lang"] : "en"; ?>'
+    });
+    });
+            // \ END CHANGE CALENDAR ACCORDINT TO OFFICE
+
+            // START PAY TO OFFICE
+            $("button#js-btn-add-cart").click(function() {
+    var p = $('#modal_price').val();
+            var office_id = '';
+            var addr = $('input[name="user_addr"]').val();
+            var msg = $('textarea[name="user_msg"]').val();
+            if (addr == '' && $('#home').prop('checked')){
+    bootbox.alert("<?php echo $langLbl['Please input your address']; ?>");
+            window.setTimeout(function(){
+    bootbox.hideAll();
+    }, 3000);
+            return false;
+    }
+    // START WHEN BOOKING AVAIALBLE
+    <?php if($options['service_available'] == 1): ?>
+            var d = <?php echo $store -> duration; ?>; // for duration
+            var book_amount;
+            var w = $('#date_picker').val();
+            book_amount = $('#duration').val();
+            d = Number(d) * book_amount;
+            office_id = $('#service_office').val();
+            var data = {
+    service_available : 1,
+            store_id : $(this).attr('data-id'),
+            duration:d,
+            when:w,
+            company_id : $(this).attr('company_id'),
+            price : p,
+            addr : addr,
+            msg : msg,
+            office_id : office_id
+    };
+            // \ END WHEN BOOKING AVAILABLE
+            <?php else: ?>
+            // START WHEN BOOKING UNAVAILABLE
+            office_id = $('#service_office').val();
+            var delivery_days = <?php echo $options['delivery_days']; ?>;
+            var delivery_place = "<?php echo $options['delivery_place']; ?>";
+            var data = {
+    service_available : 0,
+            store_id:$(this).attr('data-id'),
+            company_id : $(this).attr('company_id'),
+            price : p,
+            office_id : office_id,
+            delivery_days : delivery_days,
+            delivery_place : delivery_place,
+            addr : addr,
+            msg : msg
+    }
+    // \END WHEN BOOKING UNAVAILABLE
+    <?php endif; ?>
+
+            $.ajax({
+    url: "<?php echo URL::route('async.user.cart.add'); ?>",
+            dataType : "json",
+            type : "POST",
+            data : data,
+            success : function(data){
+    bootbox.alert(data.msg);
+            window.setTimeout(function(){
+    bootbox.hideAll();
+    }, 2000);
+    }
+    });
+    });
+// \ END PAY TO OFFICE
+
+            $("div.service-item").hover(function() {
+    $(this).addClass('service-item-hover');
+    }, function() {
+    $(this).removeClass('service-item-hover');
+    });
+            $("#js-btn-send-message").click(function() {
+    $("div#js-div-message").modal('show');
+    });
+            $("button#js-btn-purchase").click(function() {
+    var userId = $(this).attr('data-user');
+            var offerId = $(this).attr('data-id');
+            var price = $(this).attr('data-price');
+            if (userId == '') {
+    window.location.href = "<?php echo URL::route('user.login').'?redirect='.urlencode(URL::route('store.detail', $store->slug)); ?>";
+    } else {
+    var custom = '{"uid":' + userId + ',"oid":"' + offerId + '"}';
+            $("input[name='custom']").val(custom);
+            $("input[name='amount']").val(price);
+            $("form#js-frm-payment").submit();
+    }
+    });
+            $("button#js-btn-pay-now").click(function(){
+    var addr = $('input[name="user_addr"]').val();
+            if (addr == '' && $('#home').prop('checked')){
+    bootbox.alert('Please Input your address');
+            window.setTimeout(function(){
+    bootbox.hideAll();
+    }, 3000);
+            return false;
+    }
+    var cmpId = $(this).attr('company_id');
+            var storeId = $(this).attr('data-id');
+            var userId = $(this).attr('data-user');
+            var office_id = $('#service_office').val();
+            var msg = $('textarea[name="user_msg"]').val();
+            var service_available = <?php echo $options['service_available'] == 1 ? 1 : 0; ?>;
+            <?php if($options['service_available'] == 1): ?>
+            var book_date = $("#date_picker").val();
+            var book_id = $("#duration").val();
+            var duration = <?php echo $store -> duration; ?>;
+            duration = Number(book_id) * duration;
+            var custom = '{"uid":' + userId + ',"cid":' + cmpId + ',"sid":' + storeId + ',"book_date":"' + book_date + '","duration":"' + duration + '", "addr":"' + addr + '", "msg" : "' + msg + '", "office_id": "' + office_id + '", "service_available":' + service_available + '}';
+            <?php else: ?>
+            var delivery_days = <?php echo $options['delivery_days']; ?>;
+            var delivery_place = "<?php echo $options['delivery_place']; ?>";
+            var custom = '{"uid":' + userId + ',"cid":' + cmpId + ',"sid":' + storeId + ',"delivery_days":"' + delivery_days + '","delivery_place":"' + deilvery_place + '", "addr":"' + addr + '", "msg" : "' + msg + '", "office_id": "' + office_id + '", "service_available":' + service_available + '}';
+            <?php endif; ?>
+
+            $("input[name='custom']").val(custom);
+            $("form#js-book-payment").submit();
+    });
+            $("button#js-btn-join").click(function() {
+    $.ajax({
+    url: "<?php echo URL::route('async.user.store.join'); ?>",
+            dataType : "json",
+            type : "POST",
+            data : { company_id : $(this).attr('data-id') },
+            success : function(data){
+    bootbox.alert(data.msg);
+            window.setTimeout(function(){
+    bootbox.hideAll();
+    }, 2000);
+    }
+    });
+    });
+            var markers = new Array();
+            var infowindow = new google.maps.InfoWindow();
+            var bounds = new google.maps.LatLngBounds();
+            var mapOptions = { zoom: 15, scrollwheel: false, };
+            map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+            for (var i = 0; i < lat.length; i++){
+    var mapPosition = new google.maps.LatLng(lat[i], lng[i]);
+            var content_string = ''
+            + '<div style="width:220px;">'
+            + '<strong>' + office_name[i] + '</strong>'
+            + '<p>' + office_address[i] + '</p>'
+            + '</div>';
+            var marker = new google.maps.Marker({position: mapPosition, map: map, title: '<?php echo $store->name; ?>', info : content_string});
+            google.maps.event.addListener(marker, 'click', function () {
+    infowindow.setContent(this.info);
+            infowindow.open(map, this);
+    });
+            bounds.extend(mapPosition);
+            //markers.push(marker);
+    }
+    map.fitBounds(bounds);
+            //   AutoCenter();
+                    function AutoCenter() {
+                    //  Create a new viewpoint bound
+                    var bounds = new google.maps.LatLngBounds();
+                            //  Go through each...
+                            $.each(markers, function (index, marker) {
+                    bounds.extend(marker.position);
+                    });
+                            //  Fit these bounds to the map
+                            map.fitBounds(bounds);
+                    }
+            });
+            function getAllowTime(ct){
+
+            book_time = [];
+                    var day_index = ct.getUTCDay();
+                    var dd = ct.getDate();
+                    var mm = ct.getMonth(); //January is 0!
+                    var yyyy = ct.getFullYear();
+                    var start_time, end_time;
+                    var day = daysofweek[day_index];
+                    var yyyy_str = ct.getFullYear().toString();
+                    var mm_str = (ct.getMonth() + 1).toString(); // getMonth() is zero-based
+                    var dd_str = ct.getDate().toString();
+                    var bookDate = yyyy_str + '/' + (mm_str[1]?mm_str:"0" + mm_str[0]) + '/' + (dd_str[1]?dd_str:"0" + dd_str[0]);
+                    $.ajax({
+            url : "<?php echo URL::route('async.user.bookTime'); ?>",
+                    dataType : "json",
+                    type : "POST",
+                    data : {
+            ct : bookDate,
+                    storeId : storeId
+            },
+                    success : function (data){
+            start_time = "00:00";
+                    end_time = "23:00";
+                    if ($('#home').prop('checked')){
+            start_time = "00:00";
+                    end_time = "23:00";
+            } else{
+            for (var key in days_opening) {
+            if (days_opening.hasOwnProperty(key) && day + "_start" == key) {
+            start_time = days_opening[key];
+            }
+            if (days_opening.hasOwnProperty(key) && day + "_end" == key) {
+            end_time = days_opening[key];
+            }
+            }
+            }
+            start_time = start_time.split(':');
+                    start_time = new Date(yyyy, mm, dd, start_time[0], start_time[1]);
+                    end_time = end_time.split(':');
+                    end_time = new Date(yyyy, mm, dd, end_time[0], end_time[1]);
+                    allow_time = [];
+                    for (var i = start_time.getHours(); i <= end_time.getHours(); i++) { // getting allow time 
+            if (start_time.getMinutes() == 0){
+            allow_time.push(i.toString() + ':00');
+            } else if (start_time.getMinutes() == 30){
+            if (i == start_time.getHours()){
+            allow_time.push(i.toString() + ':30');
+                    continue;
+            }
+            else allow_time.push(i.toString() + ':00');
+            }
+            if (i != end_time.getHours())
+                    allow_time.push(i.toString() + ':30');
+                    if (end_time.getMinutes() == 30 && i == end_time.getHours()){
+            allow_time.push(i.toString() + ':30');
+            }
+            } // \ end getting allow time
+            for (var i = 0; i <= data.length - 1; i++){
+            var d = data[i].book_date;
+                    d = new Date(d);
+                    var h = addZero(d.getHours());
+                    var m = addZero(d.getMinutes());
+                    //book_time.push(h+':'+m);
+                    var item = h + ':' + m;
+                    var index = allow_time.indexOf(item);
+                    allow_time.splice(index, 1);
+            }
+            $('#date_picker').datetimepicker({
+            minDate:dateToday,
+                    onSelectDate:function(ct, $input){
+            $('#date_picker').datetimepicker({
+            minDate:dateToday,
+                    allowTimes:getAllowTime(ct),
+                    disabledDates:office_holidays, fomatDate:'m/d/Y'
+            });
+            },
+                    allowTimes:allow_time,
+                    disabledDates:office_holidays, fomatDate:'m/d/Y',
+        lang: '<?php echo isset($_COOKIE["current_lang"]) ? $_COOKIE["current_lang"] : "en"; ?>'
+            });
+                    return allow_time;
+            } // \ end success function
+            }); // \ end ajax				
+                    }
+
+    function addZero(i) {
+    if (i < 10) {
+    i = "0" + i;
+    }
+    return i;
+            }
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('user.layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

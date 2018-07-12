@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <div>
+            <h4>Hi <?php echo $user_name; ?></h4>
+        </div>
+        <div>
+            <p>Your booking was <?php echo $status; ?> by <?php echo $store_name; ?></p>            
+            <p>Book Date : <?php echo $book_date; ?></p>
+            <p>Duration : <?php echo $duration; ?></p>                    
+        </div>
+        <hr/>
+        <div>
+            <b>From <?php echo SITE_NAME; ?> Team</b>
+        </div>
+    </body>
+</html>

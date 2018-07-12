@@ -1,0 +1,8 @@
+[22-Nov-2015 14:55:55 UTC] PHP Parse error:  syntax error, unexpected '=', expecting ')' in /home/tretecapi3/public_html/mela/app/storage/views/a3040dda8f8e687438335e7d5d5b41ef on line 90
+[22-Nov-2015 14:56:15 UTC] PHP Parse error:  syntax error, unexpected '=', expecting ')' in /home/tretecapi3/public_html/mela/app/storage/views/a3040dda8f8e687438335e7d5d5b41ef on line 90
+[22-Nov-2015 14:56:34 UTC] PHP Parse error:  syntax error, unexpected '=', expecting ')' in /home/tretecapi3/public_html/mela/app/storage/views/a3040dda8f8e687438335e7d5d5b41ef on line 90
+[22-Nov-2015 14:59:04 UTC] PHP Parse error:  syntax error, unexpected '>' in /home/tretecapi3/public_html/mela/app/storage/views/a3040dda8f8e687438335e7d5d5b41ef on line 90
+[22-Nov-2015 14:59:27 UTC] PHP Parse error:  syntax error, unexpected '>' in /home/tretecapi3/public_html/mela/app/storage/views/a3040dda8f8e687438335e7d5d5b41ef on line 90
+[23-Dec-2015 21:17:20 UTC] PHP Fatal error:  Call to a member function delete() on a non-object in /home/tretecapi3/public_html/mela/app/controllers/admin/PostController.php on line 137
+[23-Dec-2015 21:17:37 UTC] PHP Fatal error:  Call to a member function delete() on a non-object in /home/tretecapi3/public_html/mela/app/controllers/admin/PostController.php on line 137
+[23-Dec-2015 21:18:02 UTC] PHP Fatal error:  Call to a member function delete() on a non-object in /home/tretecapi3/public_html/mela/app/controllers/admin/PostController.php on line 137

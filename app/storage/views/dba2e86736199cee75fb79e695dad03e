@@ -1,0 +1,283 @@
+<?php $__env->startSection('custom-styles'); ?>
+<?php echo HTML::style('/assets/metronic/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css'); ?>
+
+<?php echo HTML::style('/assets/metronic/frontend/onepage/css/custom.css'); ?>
+
+<?php echo HTML::style('/assets/metronic/global/plugins/bootstrap-modal/css/bootstrap-modal.css'); ?>
+
+<?php echo HTML::style('/assets/css/bootstrap-checkbox.css'); ?>
+
+<style>
+    .faq-tabbable i {
+        color: #000 !important;
+    }
+</style>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('main'); ?>
+<?php
+$nameVal = 'name' . $currentLanguage;
+$postTitleVal = 'post_title' . $currentLanguage;
+$postContentVal = 'post_content' . $currentLanguage;
+?>
+<div class="container">
+    <div class="row">        
+        <div class="col-md-12 margin-top-normal">
+
+            <?php if(isset($alert)): ?>
+            <div class="alert alert-<?php echo $alert['type']; ?> alert-dismissibl fade in">
+                <button type="button" class="close" data-dismiss="alert">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only"><?php echo $langLbl['Close']; ?></span>
+                </button>
+                <p>
+                    <?php echo $alert['msg']; ?>
+
+                </p>
+            </div>
+            <?php endif; ?>
+
+            <div class="page-content">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="company-profile">
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <div class="content">
+                                    <div class="page-title">
+                                        <h1><?php echo $langLbl['FAQ']; ?></h1>
+                                    </div><!-- /.page-title -->
+
+                                    <div class="faq">
+
+                                        <div class="faq-item">
+                                            <div class="faq-item-question">
+                                                <h2>Nulla blandit eu eros nec ultrices?</h2>
+                                            </div><!-- /.faq-item-question -->
+
+                                            <div class="faq-item-answer">
+                                                <p>
+                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla blandit eu eros nec ultrices. Aliquam gravida dictum odio sed gravida. Nunc posuere imperdiet lectus, et rutrum arcu bibendum eu. Praesent vitae purus vulputate, mattis dolor non, euismod urna. Vivamus porta et urna ultricies commodo.
+                                                </p>
+                                            </div><!-- /.faq-item-answer -->
+
+                                            <div class="faq-item-meta">
+                                                <?php echo $langLbl['Was this answer helpful?']; ?>
+
+                                                <span class="rate">
+                                                    <a href="#">Yes</a><span class="separator">/</span><a href="#">No</a>
+                                                </span><!-- /.rate -->
+                                            </div><!-- /.faq-item-meta -->
+                                        </div><!-- /.faq-item -->
+
+                                        <div class="faq-item">
+                                            <div class="faq-item-question">
+                                                <h2>Nulla blandit eu eros nec ultrices?</h2>
+                                            </div><!-- /.faq-item-question -->
+
+                                            <div class="faq-item-answer">
+                                                <p>
+                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla blandit eu eros nec ultrices. Aliquam gravida dictum odio sed gravida. Nunc posuere imperdiet lectus, et rutrum arcu bibendum eu. Praesent vitae purus vulputate, mattis dolor non, euismod urna. Vivamus porta et urna ultricies commodo.
+                                                </p>
+                                            </div><!-- /.faq-item-answer -->
+
+                                            <div class="faq-item-meta">
+                                                <?php echo $langLbl['Was this answer helpful?']; ?>
+
+                                                <span class="rate">
+                                                    <a href="#">Yes</a><span class="separator">/</span><a href="#">No</a>
+                                                </span><!-- /.rate -->
+                                            </div><!-- /.faq-item-meta -->
+                                        </div><!-- /.faq-item -->
+
+                                        <div class="faq-item">
+                                            <div class="faq-item-question">
+                                                <h2>Nulla blandit eu eros nec ultrices?</h2>
+                                            </div><!-- /.faq-item-question -->
+
+                                            <div class="faq-item-answer">
+                                                <p>
+                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla blandit eu eros nec ultrices. Aliquam gravida dictum odio sed gravida. Nunc posuere imperdiet lectus, et rutrum arcu bibendum eu. Praesent vitae purus vulputate, mattis dolor non, euismod urna. Vivamus porta et urna ultricies commodo.
+                                                </p>
+                                            </div><!-- /.faq-item-answer -->
+
+                                            <div class="faq-item-meta">
+                                                <?php echo $langLbl['Was this answer helpful?']; ?>
+
+                                                <span class="rate">
+                                                    <a href="#">Yes</a><span class="separator">/</span><a href="#">No</a>
+                                                </span><!-- /.rate -->
+                                            </div><!-- /.faq-item-meta -->
+                                        </div><!-- /.faq-item -->
+
+                                        <div class="faq-item">
+                                            <div class="faq-item-question">
+                                                <h2>Nulla blandit eu eros nec ultrices?</h2>
+                                            </div><!-- /.faq-item-question -->
+
+                                            <div class="faq-item-answer">
+                                                <p>
+                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla blandit eu eros nec ultrices. Aliquam gravida dictum odio sed gravida. Nunc posuere imperdiet lectus, et rutrum arcu bibendum eu. Praesent vitae purus vulputate, mattis dolor non, euismod urna. Vivamus porta et urna ultricies commodo.
+                                                </p>
+                                            </div><!-- /.faq-item-answer -->
+
+                                            <div class="faq-item-meta">
+                                                <?php echo $langLbl['Was this answer helpful?']; ?>
+
+                                                <span class="rate">
+                                                    <a href="#">Yes</a><span class="separator">/</span><a href="#">No</a>
+                                                </span><!-- /.rate -->
+                                            </div><!-- /.faq-item-meta -->
+                                        </div><!-- /.faq-item -->
+
+                                        <div class="faq-item">
+                                            <div class="faq-item-question">
+                                                <h2>Nulla blandit eu eros nec ultrices?</h2>
+                                            </div><!-- /.faq-item-question -->
+
+                                            <div class="faq-item-answer">
+                                                <p>
+                                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla blandit eu eros nec ultrices. Aliquam gravida dictum odio sed gravida. Nunc posuere imperdiet lectus, et rutrum arcu bibendum eu. Praesent vitae purus vulputate, mattis dolor non, euismod urna. Vivamus porta et urna ultricies commodo.
+                                                </p>
+                                            </div><!-- /.faq-item-answer -->
+
+                                            <div class="faq-item-meta">
+                                                <?php echo $langLbl['Was this answer helpful?']; ?>
+
+                                                <span class="rate">
+                                                    <a href="#">Yes</a><span class="separator">/</span><a href="#">No</a>
+                                                </span><!-- /.rate -->
+                                            </div><!-- /.faq-item-meta -->
+                                        </div><!-- /.faq-item -->
+
+                                    </div><!-- /.faq -->
+
+                                    <!-- <div class="pager">
+                                        <ul>
+                                            <li><a href="#">Prev</a></li>
+                                            <li><a href="#">5</a></li>
+                                            <li class="active"><a>6</a></li>
+                                            <li><a href="#">7</a></li>
+                                            <li><a href="#">Next</a></li>
+                                        </ul> 
+                                    </div><!-- /.pagination -->
+
+
+                                </div>
+                            </div>
+                            <!-- START SIDEBAR -->
+                            <div class="col-sm-3 side-bar">
+                                <div class="row">
+                                    <div class="col-sm-9">
+                                        <div class="form-group">
+                                            <div class="input-icon">
+                                                <i class="fa fa-pencil" style="margin-top:16px;"></i>
+                                                <input type="text" class="form-control input-lg input-circle custom-typeahead" id="js-cat-keyword" placeholder="<?php echo $langLbl['Enter Keyword']; ?>" value="<?php echo Session::get('prof_keyword'); ?>">
+                                            </div>
+                                        </div>					                	                
+                                    </div>
+                                    <div class="col-sm-3" style="padding-left:0px;">
+                                        <div class="form-group">
+                                            <button type="button" class="btn green btn-block btn-circle btn-lg" id="js-cat-search">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3 style="color:#E02222;"><i class="fa fa-bookmark" style="font-size:23px;"></i> <?php echo $langLbl['Categories']; ?></h3>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <ul class="list-unstyled cat-wrapper">
+                                            <?php foreach($postcategory as $c): ?>
+                                            <?php if($c->$nameVal != $langLbl['Other']): ?>
+                                            <li><a href="<?php echo URL::route('post.category', $c->slug ); ?>"><?php echo $c->$nameVal; ?> </a>(<?php echo $c->getCatCount($c->id); ?>)</li>
+                                            <?php endif; ?>
+                                            <?php endforeach; ?>
+                                            <?php foreach($postcategory as $c): ?>
+                                            <?php if($c->$nameVal == $langLbl['Other']): ?>
+                                            <li><a href="<?php echo URL::route('post.category', $c->slug ); ?>"><?php echo $c->$nameVal; ?> </a>(<?php echo $c->getCatCount($c->id); ?>)</li>
+                                            <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                </br>
+                                <h3 style="color:#E02222;"><i class="fa fa-book" style="font-size:23px;"></i> <?php echo $langLbl['Recent Posts']; ?></h3>
+                                <?php foreach($recent_posts as $recent_post): ?>	                            	
+                                <div class="cards-small">
+                                    <div class="card-small">
+                                        <div class="card-small-image">
+                                            <a href="<?php echo URL::route('post.detail', $recent_post->slug); ?>">
+                                                <img class="img-responsive" src="<?php echo HTTP_POST_PATH.$recent_post->featured_image; ?>">
+                                            </a>
+                                        </div><!-- /.card-small-image -->
+
+                                        <div class="card-small-content">
+                                            <h3><a href="<?php echo URL::route('post.detail', $recent_post->slug ); ?>"><?php echo $recent_post->$postTitleVal; ?></a></h3>
+                                            <h4><?php echo substr($recent_post->$postContentVal, 0, 50); ?></h4>								                    
+                                        </div><!-- /.card-small-content -->
+                                    </div><!-- /.card-small -->
+                                </div>	
+                                <hr/>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>   
+                        <!-- \ END SIDEBAR -->                         
+                    </div>
+                    <hr/>
+
+                </div>
+            </div>
+        </div>
+    </div>            
+</div>
+</div>
+<form method="get" action="<?php echo URL::route('post.search'); ?>" id="post-search-frm">
+    <input type="hidden" name="keyword"/>
+</form>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('custom-scripts'); ?>
+<?php echo HTML::script('/assets/metronic/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/global/plugins/bootstrap-modal/js/bootstrap-modal.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/global/plugins/bootstrap-modal/js/bootstrap-modalmanager.js'); ?>
+
+<?php echo HTML::script('/assets/js/bootstrap-checkbox.js'); ?>
+
+<script>
+
+
+// START SEARCH FUNCTION
+    var categories = [];
+    <?php foreach($postcategory as $key => $value): ?>
+            categories[categories.length] = '<?php echo $value->name; ?>';
+    <?php foreach($value -> subCategories as $subKey => $subValue): ?>
+            categories[categories.length] = '<?php echo $subValue->name; ?>';
+    <?php endforeach; ?>
+            <?php endforeach; ?>
+            $('#js-cat-keyword').typeahead({
+        hint: true,
+        highlight: true,
+        minLength: 1
+    }, {
+        name: 'keywords',
+        displayKey: 'value',
+        source: substringMatcher(categories)
+    });
+
+    $("button#js-cat-search").click(function() {
+        $("input[name='keyword']").val($("#js-cat-keyword").val());
+        $("#post-search-frm").submit();
+    });
+// \ END SEARCH FUNCTION
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('user.layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

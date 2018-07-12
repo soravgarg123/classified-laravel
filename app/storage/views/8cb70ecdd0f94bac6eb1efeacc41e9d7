@@ -1,0 +1,23 @@
+
+
+<?php $__env->startSection('breadcrumb'); ?>
+<div class="row">
+    <div class="col-md-12">
+        <h3 class="page-title"><?php echo $langLbl['Dashboard']; ?></h3>
+        <ul class="page-breadcrumb breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <span><?php echo $langLbl['Dashboard']; ?></span>
+            </li>
+        </ul>
+    </div>
+</div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<?php echo $langLbl['Dashboard will come soon!']; ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin.layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

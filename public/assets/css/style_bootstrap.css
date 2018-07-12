@@ -1,0 +1,13 @@
+.top-menu a {
+	color: #FFF;
+}
+
+.page-header.navbar .top-menu .navbar-nav > li.dropdown .dropdown-toggle > i {
+	color: #FFF;
+}
+
+.modal-backdrop {
+	bottom: 0px;
+	z-index: 10000;
+	position: fixed;
+}

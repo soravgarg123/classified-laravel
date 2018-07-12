@@ -1,0 +1,344 @@
+<?php $__env->startSection('page-styles'); ?>
+<!-- BEGIN GLOBAL MANDATORY STYLES -->
+<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css"/>
+<?php echo HTML::style('/assets/metronic/global/plugins/font-awesome/css/font-awesome.min.css'); ?>
+
+<?php echo HTML::style('/assets/metronic/global/plugins/simple-line-icons/simple-line-icons.min.css'); ?>
+
+<?php echo HTML::style('/assets/metronic/global/plugins/bootstrap/css/bootstrap.min.css'); ?>
+
+<?php echo HTML::style('/assets/metronic/global/plugins/uniform/css/uniform.default.css'); ?>
+
+<!-- END GLOBAL MANDATORY STYLES -->
+<!-- BEGIN THEME STYLES -->
+<?php echo HTML::style('/assets/metronic/global/css/components.css'); ?>
+
+<!-- END THEME STYLES -->    
+
+<?php echo HTML::style('/assets/metronic/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css'); ?>
+
+<?php echo HTML::style('/assets/metronic/global/css/plugins.css'); ?>
+
+
+<?php echo HTML::style('/assets/metronic/admin/layout/css/layout.css'); ?>
+
+<?php echo HTML::style('/assets/metronic/admin/layout/css/themes/blue.css'); ?>
+
+<?php echo HTML::style('/assets/metronic/admin/layout/css/custom.css'); ?>
+
+<?php echo HTML::style('/assets/css/style_admin.css'); ?>
+
+<?php echo HTML::style('/assets/metronic/global/plugins/select2/select2.css'); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('body'); ?>
+<body class="page-header-fixed page-quick-sidebar-over-content">
+    <?php $__env->startSection('header'); ?>
+    <div class="page-header navbar navbar-fixed-top">
+        <!-- BEGIN HEADER INNER -->
+        <div class="page-header-inner">
+            <!-- BEGIN LOGO -->
+            <div class="page-logo">
+                <a href="<?php echo URL::route('admin.dashboard'); ?>">
+                    <img src="/assets/img/logo.png" alt="logo" class="logo-default" style="height: 38px; margin-top: 3px;">
+                </a>
+            </div>
+            <!-- END LOGO -->
+            <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+            <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+            </a>
+            <!-- END RESPONSIVE MENU TOGGLER -->
+
+            <!-- BEGIN TOP NAVIGATION MENU -->
+            <div class="top-menu">
+                <?php if(Session::has('admin_id')): ?>
+                <ul class="nav navbar-nav pull-right">
+                    <?php if($siteLanguage): ?>
+                    <li class="dropdown dropdown-quick-sidebar-toggler" style="padding-top: 10px;">
+                        <select id="langDD" class="select2" style="width: 150px;">
+                            <?php foreach($siteLanguage as $sLangKey => $sLangVal): ?>
+                            <option value="<?php echo $sLangVal == '' ? 'en' : $sLangVal; ?>" <?php if(($sLangVal == '' ? 'en' : $sLangVal) == (isset($_COOKIE['current_lang']) ? $_COOKIE['current_lang'] : 'en')): ?> selected <?php endif; ?>><?php echo $sLangKey; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </li>                        
+                    <?php endif; ?>
+                    <li class="dropdown dropdown-quick-sidebar-toggler">
+                        <a href="#" class="dropdown-toggle">
+                            <?php echo Session::get('admin_name'); ?>
+
+                        </a>
+                    </li>                        
+                    <li class="dropdown dropdown-quick-sidebar-toggler">
+                        <a href="<?php echo URL::route('admin.auth.logout'); ?>" class="dropdown-toggle">
+                            <i class="icon-logout"></i> <?php echo $langLbl['Sign Out']; ?>
+
+                        </a>
+                    </li>
+                </ul>
+                <?php endif; ?>
+            </div>
+            <!-- END TOP NAVIGATION MENU -->
+        </div>
+        <!-- END HEADER INNER -->
+    </div>
+    <div class="clearfix"></div>
+    <?php echo $__env->yieldSection(); ?>
+
+    <?php $__env->startSection('main'); ?>
+    <?php
+    if (!isset($pageNo)) {
+        $pageNo = 1;
+    }
+    ?>
+    <div class="page-container">
+        <div class="page-sidebar-wrapper">
+            <div class="page-sidebar navbar-collapse collapse">
+                <ul class="page-sidebar-menu" data-auto-scroll="true" data-slide-speed="200">
+                    <li class="sidebar-toggler-wrapper">
+                        <div class="sidebar-toggler"></div>
+                    </li>
+                    <li class="start <?php echo ($pageNo == 1) ? 'active' : ''; ?>">
+                        <a href="#">
+                            <i class="icon-bar-chart"></i>
+                            <span class="title"><?php echo $langLbl['Dashboard']; ?></span>
+                        </a>
+                    </li>
+                    <!-- PROFESSIONAL MANAGEMENT -->
+                    <li class="<?php echo ($pageNo == 3)||($pageNo == 18) ? 'active open' : ''; ?>">
+                        <a href="javascript:;">
+                            <i class="fa fa-building"></i>
+                            <span class="title"><?php echo $langLbl['Professional Management']; ?></span>
+                            <span class="arrow "></span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li class="<?php echo ($pageNo == 3) ? 'active' : ''; ?>">
+                                <a href="<?php echo URL::route('admin.company'); ?>">
+                                    <i class="fa fa-child"></i>
+                                    <span class="title"><?php echo $langLbl['Professional Management']; ?></span>
+                                </a>
+                            </li>
+                            <li class="<?php echo ($pageNo == 18) ? 'active' : ''; ?>">
+                                <a href="<?php echo URL::route('admin.class'); ?>">
+                                    <i class="fa fa-leaf"></i>
+                                    <span class="title"><?php echo $langLbl['Category Management']; ?></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- SERVICE MANAGEMENT -->
+                    <li class="<?php echo ($pageNo == 12)||($pageNo == 5) ? 'active open' : ''; ?>">
+                        <a href="javascript:;">
+                            <i class="fa fa-bank"></i>
+                            <span class="title"><?php echo $langLbl['Service Management']; ?></span>
+                            <span class="arrow "></span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li class="<?php echo ($pageNo == 12) ? 'active' : ''; ?>">
+                                <a href="<?php echo URL::route('admin.store'); ?>">
+                                    <i class="fa fa-leaf"></i>
+                                    <span class="title"><?php echo $langLbl['Service Management']; ?></span>
+                                </a>
+                            </li>
+                            <li class="<?php echo ($pageNo == 5) ? 'active' : ''; ?>">
+                                <a href="<?php echo URL::route('admin.category'); ?>">
+                                    <i class="fa fa-tag"></i>
+                                    <span class="title"><?php echo $langLbl['Category Management']; ?></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- POST MANAGEMENT -->
+                    <li class="<?php echo ($pageNo == 13)||($pageNo == 14) ? 'active open' : ''; ?>">
+                        <a href="javascript:;">
+                            <i class="fa fa-heart"></i>
+                            <span class="title"><?php echo $langLbl['Post Management']; ?></span>
+                            <span class="arrow "></span>
+                        </a>
+                        <ul class="sub-menu">
+                            <li class="<?php echo ($pageNo == 13) ? 'active' : ''; ?>">
+                                <a href="<?php echo URL::route('admin.post'); ?>">
+                                    <i class="fa fa-leaf"></i>
+                                    <span class="title"><?php echo $langLbl['Post Management']; ?></span>
+                                </a>
+                            </li>
+                            <li class="<?php echo ($pageNo == 14) ? 'active' : ''; ?>">
+                                <a href="<?php echo URL::route('admin.postcategory'); ?>">
+                                    <i class="fa fa-tag"></i>
+                                    <span class="title"><?php echo $langLbl['Category Management']; ?></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- PROFESSION MANAGEMENT -->
+                    <li class="<?php echo ($pageNo == 21) ? 'active open' : ''; ?>">
+                        <a href="<?php echo URL::route('admin.profession'); ?>">
+                            <i class="fa fa-graduation-cap"></i>
+                            <span class="title"><?php echo $langLbl['World of Profession']; ?></span>                                    
+                        </a>                                
+                    </li>
+                    <!-- USER MANAGEMENT -->
+                    <li class="<?php echo ($pageNo == 2) ? 'active' : ''; ?>">
+                        <a href="<?php echo URL::route('admin.user'); ?>">
+                            <i class="icon-users"></i>
+                            <span class="title"><?php echo $langLbl['User Management']; ?></span>
+                        </a>
+                    </li>
+                    <!--  <li class="<?php echo ($pageNo == 4) ? 'active' : ''; ?>">
+                         <a href="<?php echo URL::route('admin.city'); ?>">
+                             <i class="fa fa-map-marker"></i>
+                             <span class="title">City Management</span>
+                         </a>
+                     </li> -->                            
+
+                    <!-- li class="<?php echo ($pageNo == 6) ? 'active' : ''; ?>">
+                        <a href="#">
+                            <i class="fa fa-comments"></i>
+                            <span class="title">Comments Management</span>
+                        </a>
+                    </li -->
+                    <!-- li class="<?php echo ($pageNo == 7) ? 'active' : ''; ?>">
+                        <a href="#">
+                            <i class="fa fa-cogs"></i>
+                            <span class="title">Settings</span>
+                        </a>
+                    </li -->
+                    <!-- OFFER MANAGEMENT -->
+                    <li class="<?php echo ($pageNo == 8) ? 'active' : ''; ?>">
+                        <a href="<?php echo URL::route('admin.offer'); ?>">
+                            <i class="fa fa-gavel"></i>
+                            <span class="title"><?php echo $langLbl['Offer Management']; ?></span>
+                        </a>
+                    </li>
+                    <!-- LOYALTY MANAGEMENT --> 
+                    <li class="<?php echo ($pageNo == 9) ? 'active' : ''; ?>">
+                        <a href="<?php echo URL::route('admin.loyalty'); ?>">
+                            <i class="fa fa-heart"></i>
+                            <span class="title"><?php echo $langLbl['Loyalty Management']; ?></span>
+                        </a>
+                    </li>
+
+                    <li class="<?php echo ($pageNo == 10) ? 'active' : ''; ?>">
+                        <a href="<?php echo URL::route('admin.office'); ?>">
+                            <i class="fa fa-gear"></i>
+                            <span class="title"><?php echo $langLbl['Office Management']; ?></span>
+                        </a>
+                    </li>
+                    <!-- PLAN MANAGEMENT -->
+                    <li class="<?php echo ($pageNo == 11) ? 'active' : ''; ?>">
+                        <a href="<?php echo URL::route('admin.plan'); ?>">
+                            <i class="icon-envelope-open"></i>
+                            <span class="title"><?php echo $langLbl['Plan Management']; ?></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="page-content-wrapper">
+            <div class="page-content">
+                <?php echo $__env->yieldContent('breadcrumb'); ?>
+                <?php echo $__env->yieldContent('content'); ?>
+            </div>
+        </div>
+    </div>
+    <?php echo $__env->yieldSection(); ?>
+
+    <?php $__env->startSection('footer'); ?>
+    <div class="page-footer footer-background">
+        <div class="page-footer-inner">
+            &copy; <?php echo $langLbl['Copyright']; ?> 2015 | <?php echo $langLbl['All Rights Reserved']; ?> | <?php echo $langLbl['Powered by']; ?> Itdepth
+        </div>
+        <div class="page-footer-tools">
+            <span class="go-top">
+                <i class="fa fa-angle-up"></i>
+            </span>
+        </div>
+    </div>
+    <?php echo $__env->yieldSection(); ?>
+</body>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('page-scripts'); ?>
+<?php echo HTML::script('//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'); ?>
+
+<?php echo HTML::script('//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js'); ?>
+
+
+<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+<!-- BEGIN CORE PLUGINS -->
+<!--[if lt IE 9]>
+<?php echo HTML::script('/assets/metronic/global/plugins/respond.min.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/global/plugins/excanvas.min.js'); ?>
+
+<![endif]-->
+<?php echo HTML::script('/assets/metronic/global/plugins/jquery-1.11.0.min.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/global/plugins/jquery-migrate-1.2.1.min.js'); ?>
+
+<!-- IMPORTANT! Load jquery-ui-1.10.3.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
+<?php echo HTML::script('/assets/metronic/global/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/global/plugins/bootstrap/js/bootstrap.min.js'); ?>
+
+<!-- END CORE PLUGINS -->
+
+<?php echo HTML::script('/assets/metronic/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/global/plugins/jquery.blockui.min.js'); ?>    
+<?php echo HTML::script('/assets/metronic/global/plugins/jquery.cokie.min.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/global/plugins/uniform/jquery.uniform.min.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js'); ?>    
+
+<?php echo HTML::script('/assets/metronic/global/scripts/metronic.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/admin/layout/scripts/layout.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/admin/layout/scripts/quick-sidebar.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/global/plugins/bootbox/bootbox.min.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/admin/pages/scripts/components-form-tools.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/global/plugins/jquery-multi-select/js/jquery.multi-select.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/admin/pages/scripts/components-dropdowns.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/global/plugins/select2/select2.min.js'); ?>
+
+<script>
+    jQuery(document).ready(function() {
+        Metronic.init(); // init metronic core components
+        Layout.init(); // init current layout
+        QuickSidebar.init() // init quick sidebar
+        ComponentsDropdowns.init();
+
+        $("a#js-a-delete").click(function(event) {
+            event.preventDefault();
+            var url = $(this).attr('href');
+            bootbox.confirm("Are you sure?", function(result) {
+                if (result) {
+                    window.location.href = url;
+                }
+            });
+        });
+
+       $('#langDD').select2({
+            placeholder: "Select an option",
+            minimumResultsForSearch: - 1
+        });
+        $("#langDD").on('change', function() {
+            $.post("<?php echo url('change-language'); ?>", {lang:  $("#langDD").val()}, function() {
+                location.href = location.href;
+            });
+        });
+    });
+</script>        
+<?php $__env->stopSection(); ?>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('main', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

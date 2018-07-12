@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <?php $__env->startSection('meta'); ?>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <?php echo $__env->yieldContent('meta-seo'); ?>
+        <?php echo $__env->yieldSection(); ?>
+        <link rel="shortcut icon" href="/favicon.png">
+
+        <title>
+            <?php $__env->startSection('title'); ?>
+            <?php echo SITE_NAME; ?>
+
+            <?php echo $__env->yieldSection(); ?>
+        </title>
+
+        <?php $__env->startSection('common-styles'); ?>
+        <!-- BEGIN GLOBAL MANDATORY STYLES -->
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css"/>
+        <?php echo HTML::style('/assets/metronic/global/plugins/simple-line-icons/simple-line-icons.min.css'); ?>
+
+        <?php echo HTML::style('/assets/metronic/global/plugins/font-awesome/css/font-awesome.min.css'); ?>
+
+        <?php echo HTML::style('/assets/metronic/global/plugins/bootstrap/css/bootstrap.min.css'); ?>
+
+        <?php echo HTML::style('/assets/metronic/global/plugins/uniform/css/uniform.default.css'); ?>
+
+        <?php echo HTML::style('/assets/metronic/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css'); ?>
+
+        <?php echo HTML::style('/assets/metronic/global/plugins/bootstrap-datetimepicker/css/jquery.datetimepicker.css'); ?>
+
+        <!-- END GLOBAL MANDATORY STYLES -->
+
+        <!-- BEGIN THEME STYLES -->
+        <?php echo HTML::style('/assets/metronic/global/css/components.css'); ?>
+
+        <?php echo HTML::style('/assets/metronic/global/css/plugins.css'); ?>
+
+        <!-- END THEME STYLES -->
+        <?php echo $__env->yieldSection(); ?>
+
+        <?php echo $__env->yieldContent('page-styles'); ?>
+
+        <?php echo $__env->yieldContent('custom-styles'); ?>        
+
+        <!-- BEGIN CUSTOM STYLES -->
+        <?php echo HTML::style('/assets/css/star-rating.min.css'); ?>
+
+        <?php echo HTML::style('/assets/css/style_bootstrap.css'); ?>
+
+        <?php echo HTML::style('/assets/css/style_common.css'); ?>
+
+        <!-- BEGIN END STYLES -->
+
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+
+    <?php echo $__env->yieldContent('body'); ?>
+
+    <?php $__env->startSection('common-scripts'); ?>
+    <?php echo HTML::script('//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'); ?>
+
+    <?php echo HTML::script('//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js'); ?>
+
+
+    <!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+    <!-- BEGIN CORE PLUGINS -->
+    <!--[if lt IE 9]>
+    <?php echo HTML::script('/assets/metronic/global/plugins/respond.min.js'); ?>
+
+    <?php echo HTML::script('/assets/metronic/global/plugins/excanvas.min.js'); ?>
+
+    <![endif]-->
+    <?php echo HTML::script('/assets/metronic/global/plugins/jquery-1.11.0.min.js'); ?>
+
+    <?php echo HTML::script('/assets/metronic/global/plugins/jquery-migrate-1.2.1.min.js'); ?>
+
+    <!-- IMPORTANT! Load jquery-ui-1.10.3.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
+    <?php echo HTML::script('/assets/metronic/global/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js'); ?>
+
+    <?php echo HTML::script('/assets/metronic/global/plugins/bootstrap/js/bootstrap.min.js'); ?>      
+    <!-- END CORE PLUGINS -->
+
+    <?php echo HTML::script('/assets/metronic/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js'); ?>
+
+    <?php echo HTML::script('/assets/metronic/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js'); ?>
+
+    <?php echo HTML::script('/assets/metronic/global/plugins/jquery.blockui.min.js'); ?>    
+    <?php echo HTML::script('/assets/metronic/global/plugins/jquery.cokie.min.js'); ?>
+
+    <?php echo HTML::script('/assets/metronic/global/plugins/uniform/jquery.uniform.min.js'); ?>
+
+    <?php echo HTML::script('/assets/metronic/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js'); ?>
+
+
+    <?php echo HTML::script('/assets/metronic/global/scripts/metronic.js'); ?>
+
+    <?php echo HTML::script('/assets/metronic/global/plugins/bootbox/bootbox.min.js'); ?>
+
+    <?php echo HTML::script('/assets/metronic/global/plugins/bootstrap-datetimepicker/js/jquery.datetimepicker.js'); ?>
+
+    <?php echo HTML::script('/assets/js/star-rating.min.js'); ?>
+
+    <?php echo HTML::script('/assets/js/bootstrap-tooltip.js'); ?>
+
+    <?php echo $__env->yieldSection(); ?>    
+
+    <?php echo $__env->yieldContent('page-scripts'); ?>
+
+    <?php echo $__env->yieldContent('custom-scripts'); ?>
+
+</html>

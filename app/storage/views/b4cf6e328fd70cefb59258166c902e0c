@@ -1,0 +1,393 @@
+
+<?php $__env->startSection('custom-styles'); ?>
+<?php echo HTML::style('/assets/metronic/global/plugins/carousel-owl-carousel/owl-carousel/owl.carousel.css'); ?>
+
+<style>
+    #owl-demo .item{
+        margin: 7px;
+    }
+    p.dark-text{
+        color:#555;
+    }
+</style>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('main'); ?>
+<?php
+$nameVal = 'name' . $currentLanguage;
+$descriptionVal = 'description' . $currentLanguage;
+$postTitleVal = 'post_title' . $currentLanguage;
+$postContentVal = 'post_content' . $currentLanguage;
+?>
+<div class="container">   
+    <div class="row margin-bottom-30 padding-top-normal">
+
+        <div class="col-md-3 front-carousel">
+            <div style="position: relative;" class="thumbnail">
+                <?php
+                $tooltip = "<h4>" . $company->name . "</h4>";
+                $tooltip.= "<p><b>" . $langLbl['Keywords'] . " : </b>";
+                $keywords = explode(",", $company->keyword);
+                foreach ($keywords as $subKey => $value) {
+                    if ($subKey != 0)
+                        $tooltip.=", ";
+                    $tooltip.= $value;
+                }
+                $tooltip.= "</p>";
+                $tooltip.= "<p><b>" . $langLbl['Email'] . " : </b>" . $company->email . "</p>";
+                $tooltip.= "<p><b>" . $langLbl['Phone'] . " : </b>" . $company->phone . "</p>";
+                $tooltip.= "<p><b>" . $langLbl['VAT ID'] . " : </b>" . $company->vat_id . "</p>";
+                $tooltip.= "<p><b>" . $langLbl['Zip Code'] . " : </b>" . $company->zip_code . "</p>";
+                $tooltip.= "<p><b>" . $langLbl['Address'] . " : </b>" . $company->address . "</p>";
+                $tooltip.= "<p><b>" . $langLbl['Description'] . " : </b>" . substr($company->$descriptionVal, 0, 300) . "</p>";
+                ?>
+                <a href="<?php echo URL::route('company.detail', $company->slug); ?>" >
+                    <div style="height: 250px; width: 100%; background: url(<?php echo HTTP_COMPANY_PATH.$company->photo; ?>); background-size: cover;" data-placement="right" data-toggle="tooltip" data-html="true" data-title="<?php echo $tooltip; ?>"></div>
+                </a>
+                <h4 class="color-default margin-top-xs">
+                    <a href="<?php echo URL::route('company.detail', $company->slug); ?>" data-toggle="tooltip"  data-html="true" data-title="<?php echo $tooltip; ?>">
+                        <?php echo $company->name; ?>
+
+                    </a>
+                </h4>
+                <div class="pull-left">
+                    <?php if((int)$company->session_status == 1): ?>
+                    <div class="usr-status isOnline"></div><span style="color:#60cc00;"><b>&nbsp;<?php echo $langLbl['ONLINE']; ?></b></span>
+                    <?php else: ?>
+                    <div class="usr-status isOffline"></div><span style="color:#cccccc;"><b>&nbsp;<?php echo $langLbl['OFFLINE']; ?></b></span>
+                    <?php endif; ?>
+                </div>
+                <div class="icons">
+                    <ul>
+                        <li><img title="<?php echo $langLbl['Email-id Verified']; ?>" src="<?php echo MY_BASE_URL; ?>/icons/Email Verified.png"></li>
+                        <?php if((int)$company->phone_verified == 0): ?>
+                            <li><img title="<?php echo $langLbl['Phone Verified']; ?>" src="<?php echo MY_BASE_URL; ?>/icons/Telephone Verified.png"></li>
+                        <?php else: ?>
+                            <li><img title="<?php echo $langLbl['Phone Not Verified']; ?>" src="<?php echo MY_BASE_URL; ?>/icons/phone.png"></li>
+                        <?php endif; ?>
+
+                        <?php if((int)$company->payment_verified == 0): ?>
+                            <li><img title="<?php echo $langLbl['Payment Verified']; ?>" src="<?php echo MY_BASE_URL; ?>/icons/Payment Verified.png"></li>
+                        <?php else: ?>
+                            <li><img title="<?php echo $langLbl['Payment Not Verified']; ?>" src="<?php echo MY_BASE_URL; ?>/icons/euro.png"></li>
+                        <?php endif; ?>
+                        
+                    </ul>
+                </div>
+                <div class="clearfix"></div>
+                <div class="pull-left">                            
+                    <input id="js-number-rating" data-symbol="&#8226;" type="number" class="rating" min=0 max=5 step=1 data-show-clear=false data-show-caption=false data-size='xs' value="<?php echo $company->getRatingScore(); ?>" readonly=true>
+                </div>
+                <span class="pull-left company-highlight" style="padding:12px;">( <?php echo $company->getRatingCount(); ?> <?php echo $langLbl['Reviews']; ?> )</span>
+                <div class="clearfix"></div>
+
+            </div>
+        </div>
+        <div class="col-md-6" id="detail_div_blog">
+            <div  style="background:transparent;border:none;margin-bottom:20px;">
+                <?php foreach($company->subClasses as $subClass): ?>
+                <span style="font-size:14px;margin-right:10px;"><b><i class="<?php echo $subClass->subClasses->icon; ?>"></i> <?php echo $subClass->subClasses->$nameVal; ?></b></span>
+                <?php endforeach; ?>               			
+            </div>
+            <h2><?php echo $langLbl['About Me']; ?></h2>
+            <nav class="social_links">
+            <ul>
+                <li class="fb"><a target="_blank" title="Facebook" href="http://www.facebook.com/sharer.php?u=<?php echo URL::route('company.detail', $company->slug); ?>"><span class="fa fa-facebook"></span></a></li>
+                <li class="gp"><a target="_blank" title="Google Plus" href="https://plus.google.com/share?url=<?php echo URL::route('company.detail', $company->slug); ?>"><span class="fa fa-google"></span></a></li>
+                <li class="tw"><a target="_blank" title="Twitter" href="http://twitter.com/home?status=<?php echo URL::route('company.detail', $company->slug); ?>"><span class="fa fa-twitter"></span></a></li>
+                <li class="pt"><a target="_blank" title="Pinterest" href="https://www.pinterest.com/pin/create/button/?url=<?php echo URL::route('company.detail', $company->slug); ?>&description=<?php echo $company->$descriptionVal; ?>&media=<?php echo HTTP_COMPANY_PATH.$company->photo; ?>&title=<?php echo $company->name; ?>" data-pin-do="buttonPin" data-pin-config="above"><span class="fa fa-pinterest"></span></a></li>
+            </ul>
+        </nav>
+            <p style="word-wrap:break-word;text-align: justify;" class="drop-cap">
+            <?php if(empty($company->$descriptionVal)){
+                     echo $company->description;
+            }else{ 
+                    echo $company->$descriptionVal.$company->$descriptionVal.$company->$descriptionVal.$company->$descriptionVal;
+            } ?>
+            </p>
+            <a href="javascript:void(0);" class="read_more_btn"><?php echo $langLbl['Read More']; ?></a>
+            <a href="javascript:void(0);" style="display:none;" class="read_less_btn"><?php echo $langLbl['Read Less']; ?></a>
+        </div>
+
+
+        <div class="col-md-3 testimonials-v1">
+            <div class="portlet yellow box" style="border:none;background-color:transparent;">
+                <div class="portlet-body" style="display:inline-block;">
+                    <?php
+                    $originalDate = $company->created_at;
+                    $newDate = $langLbl[date("M", strtotime($originalDate))] . ' ' . date("Y", strtotime($originalDate));
+                    ?>
+                    <p><b><i class="fa fa-group"></i>&nbsp;<?php echo $langLbl['Member Since']; ?> </b><?php echo $newDate; ?></p>
+                    <?php if($company->country): ?>
+                    <p><b><i class="fa fa-globe"></i>&nbsp;<?php echo $langLbl['From']; ?> </b><?php echo $company->getCountryName()->short_name; ?></p>
+                    <?php endif; ?>
+                    <?php if($company->languages): ?>
+                    <p><b><i class="fa fa-comments"></i>&nbsp;<?php echo $langLbl['Speaks']; ?> </b><?php echo $company->getLang(); ?></p>
+                    <?php endif; ?>
+                    <?php if($company->register != ''): ?>
+                    <p class="dark-text"><b><?php echo $langLbl['Registered to']; ?></b></p>
+                    <p class="dark-text"><?php echo $langLbl[$company->register]; ?></p>
+                    <?php endif; ?>
+                    <?php if($company->user_key != ''): ?>
+                    <p class="dark-text"><b>No. </b><?php echo $company->user_key; ?></p>
+                    <?php endif; ?>
+                    <?php if($company->city != ''): ?>
+                    <p class="dark-text"><b><?php echo $langLbl['City of']; ?></b> <?php echo $company->city; ?></p>
+                    <?php endif; ?>
+                    <?php if($company->reg_no != ''): ?>
+                    <p class="dark-text"><b><?php echo $langLbl['reg no']; ?></b> <?php echo $company->reg_no; ?></p>
+                    <?php endif; ?>
+                    <?php if($company->rate): ?>
+                    <p><b>EUR </b>€ <?php echo $company->rate; ?>,00</p>
+                    <?php endif; ?>
+                    <p><b><?php echo $langLbl['Skills Booked']; ?> </b><?php echo $company->getBooked(); ?></p>
+                    <?php
+                    $office_available = 0;
+                    foreach ($stores as $store) {
+                        $options = unserialize($store->options);
+                        if ($options['office_available'] == 1) {
+                            $office_available = 1;
+                            break;
+                        }
+                    }
+                    ?>
+                    <?php if($office_available == 1): ?>
+                    <p><div class="usr-status isOnline"></div><span style="color:#F3565D;"><b>&nbsp;<?php echo $langLbl['Available for Offsite Service']; ?></b></span></p>
+                    <?php endif; ?>
+                    <div class="row">
+                        <?php $sessData = Session::all(); 
+                            if(isset($sessData['user_type']) && ($sessData['user_type'] == "user" || $sessData['user_type'] == "professional")) { ?>
+                                <button class="btn btn-primary btn-lg btn-block" main="<?php echo $company->id; ?>" u_type="professional" id="js-btn-send-message"><i class="fa fa-wechat"></i> <?php echo $langLbl['CONTACT NOW']; ?></button>
+                            <?php } else{ ?>
+                                <a href="<?php echo URL::route('user.login'); ?>" class="btn btn-primary btn-lg btn-block"><i class="fa fa-wechat"></i> <?php echo $langLbl['CONTACT NOW']; ?></a>
+                            <?php } ?>
+                    </div>
+                    <!-- <div class="row margin-top-normal" id="js-div-message" style="display: none;">	                            
+                        <h4 class="color-default"><?php echo $langLbl['Send Message']; ?></h4>
+                        <form action="<?php echo URL::route('user.sendMessagepro'); ?>" role="form" method="post">
+                            <input type="hidden" name="company_id" value="<?php echo $company->id; ?>"/>
+                            <input type="hidden" value="<?php echo $company->slug; ?>" name="slug_name_hidden">
+                            <div class="form-group">
+                                <label for="contacts-name"><?php echo $langLbl['Name']; ?></label>
+                                <input required type="text" class="form-control" name="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="contacts-email"><?php echo $langLbl['Email']; ?></label>
+                                <input required type="email" class="form-control" name="email">
+                            </div>
+                            <div class="form-group">
+                                <label for="contacts-message"><?php echo $langLbl['Message']; ?></label>
+                                <textarea required class="form-control" rows="5" name="description"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary pull-right"><i class="icon-ok"></i> <?php echo $langLbl['Send']; ?></button>
+                        </form>	                            
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <div class="row padding-top-normal padding-bottom-normal">
+            <div class="col-sm-12 text-center padding-top-normal padding-bottom-normal"><h2 class="color-default"><?php echo $langLbl['Featured Services']; ?></h2></div>        
+        </div>
+        <div class="row">
+            <?php foreach($stores as $key => $store): ?>
+            <div class="col-sm-3">
+                <div style="position: relative;" class="thumbnail">
+                    <?php
+                    $tooltip = "<h4>" . $store->$nameVal . "</h4>";
+                    $tooltip.= "<p><b>" . $langLbl['Keywords'] . " : </b>";
+                    $keywords = explode(",", $store->keyword);
+                    foreach ($keywords as $subKey => $value) {
+                        if ($subKey != 0)
+                            $tooltip.=", ";
+                        $tooltip.= $value;
+                    }
+                    $tooltip.= "</p>";
+                    $tooltip.= "<p><b>" . $langLbl['Email'] . " : </b>" . $store->company->email . "</p>";
+                    $tooltip.= "<p><b>" . $langLbl['Phone'] . " : </b>" . $store->company->phone . "</p>";
+                    $tooltip.= "<p><b>" . $langLbl['Price'] . " : </b> &euro;" . $store->price_value;
+                    $tooltip.= "<p><b>" . $langLbl['VAT ID'] . " : </b>" . $store->company->vat_id . "</p>";
+                    $tooltip.= "<p><b>" . $langLbl['Description'] . " : </b>" . substr($store->$descriptionVal, 0, 300) . "</p>";
+                    ?>
+                    <a href="<?php echo URL::route('store.detail', $store->slug); ?>">
+                        <div style="height: 145px; width: 100%; background: url(<?php echo HTTP_STORE_PATH.$store->photo; ?>); background-size: cover;" data-toggle="tooltip" data-placement="<?php echo $key % 4 == 3 ? 'left' : 'right'; ?>" data-html="true" data-title="<?php echo $tooltip; ?>"></div>
+                    </a>
+                    <h4 class="color-default margin-top-xs">
+                        <a href="<?php echo URL::route('store.detail', $store->slug); ?>" data-toggle="tooltip" data-placement="<?php echo $key % 4 == 3 ? 'left' : 'right'; ?>" data-html="true" data-title="<?php echo $tooltip; ?>">
+                            <?php echo $store->name; ?>
+
+                        </a>
+                    </h4>
+
+                    <div class="pull-left">                            
+                        <input id="js-number-rating" data-symbol="&#8226;" type="number" class="rating" min=0 max=5 step=1 data-show-clear=false data-show-caption=false data-size='xs' value="<?php echo $store->getRatingScore(); ?>" readonly=true>
+                    </div>
+                    <span class="pull-left company-highlight" style="padding:12px;">( <?php echo $store->getRatingCount(); ?> <?php echo $langLbl['Reviews']; ?> )</span>
+                    <div class="clearfix"></div>
+
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </div>
+
+        <!-- START PLACE POST  AREA-->
+        <?php if(count($posts) > 0): ?>
+        <div class="row padding-top-normal padding-bottom-normal">
+            <div class="col-sm-12 text-center padding-top-normal padding-bottom-normal"><h2 class="color-default"><?php echo $langLbl['Posts Published']; ?></h2></div>        
+        </div>
+        <div class="row">
+            <?php foreach($posts as $post): ?>
+            <?php
+            $company = $post->company;
+            $name = [];
+            $subCategories = $post->subCategories;
+            foreach ($subCategories as $s) {
+                $name[] = $s->Category->$nameVal;
+            }
+            $cat_name = implode(",", $name);
+            ?>
+            <div class="col-md-6 margin-top-xs">
+                <div class="col-md-4 col-sm-4">
+                    <?php $slug = str_replace(" ", "_", $post->$postTitleVal); ?>
+                    <a href="<?php echo URL::route('post.detail', array($post->id, $slug)); ?>">
+                        <img class="img-responsive img-rounded" alt="" src="<?php echo HTTP_POST_PATH.$post->featured_image; ?>" >
+                    </a>
+                </div>
+                <div class="col-md-8 col-sm-8">
+                    <h4 class="" style="text-transform: uppercase;">
+                        <a href="<?php echo URL::route('post.detail', array($post->id, $slug)); ?>"><?php echo $post->$postTitleVal; ?></a>
+                    </h4>
+
+                    <div class="clearfix"></div>
+                    <p><?php echo substr($post->$postContentVal, 0, 150); ?></p>
+                    <a href="<?php echo URL::route('post.detail', $post->id ); ?>" class="more"><?php echo $langLbl['Read More']; ?> <i class="icon-angle-right"></i></a>                        
+                </div>
+            </div>
+
+            <?php endforeach; ?>
+        </div>
+        <?php endif; ?>
+        <!-- END PLACE POST  AREA-->
+        <hr/>
+        <div class="row padding-top-normal padding-bottom-normal">
+            <div class="col-sm-12 text-center"><h2 class="color-default"><?php echo $langLbl['Recent Reviews']; ?></h2></div>        
+        </div>
+        <div class="row padding-bottom-normal">
+            <div class="col-sm-12">
+                <div id="owl-demo" class="owl-carousel owl-theme">
+                    <?php foreach($feedbacks as $feedback): ?>
+                    <div class="item">
+                        <div class="testimonials-v1">
+                            <blockquote><p><?php echo $feedback->description; ?></p></blockquote>
+                            <table>
+                                <?php foreach($feedback->ratings as $rating): ?>
+                                <tr>
+                                    <td class="text-right"><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $rating->type->$nameVal; ?>&nbsp;:&nbsp;</b></td>
+                                    <td>
+                                        <input id="js-number-rating" data-symbol="&#8226;" type="number" class="rating" min=0 max=5 step=1 data-show-clear=false data-show-caption=false data-size='xs' value="<?php echo $rating->answer; ?>" readonly=true>                                
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                            </table>
+                            <div class="carousel-info">
+                                <img class="pull-left" src="<?php echo HTTP_USER_PATH.$feedback->user->photo; ?>" style="height: 60px; width: 60px;">
+                                <div class="pull-left">
+                                    <span class="testimonials-name" style="margin-top: 10px;"><?php echo $feedback->user->name; ?></span>
+                                    <span class="testimonials-post"><i class="fa fa-clock-o"></i>&nbsp;<?php echo date(DATE_FORMAT, strtotime($feedback->created_at)); ?></span>
+                                </div>
+                            </div>                    
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                </div>    
+            </div>        
+        </div>
+    </div>
+</div>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('custom-scripts'); ?>
+<?php echo HTML::script('/assets/metronic/global/plugins/carousel-owl-carousel/owl-carousel/owl.carousel.min.js'); ?>
+
+<?php echo HTML::script('/assets/js/bootstrap-tooltip.js'); ?>
+
+<?php echo $__env->make('js.user.home.index', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<?php echo $__env->make('chating_common', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+<script>
+    $(document).ready(function() {
+        var desc_height = parseInt($('p.drop-cap').height());
+        if(desc_height > 240){
+            $('.read_more_btn').show();
+            $('.read_less_btn').hide();
+            var columnHeight = 240;
+            $("#detail_div_blog p").css('height', columnHeight + 'px');
+        }else{
+            $('.read_more_btn').hide();
+            $('.read_less_btn').hide();
+        }
+        $("#owl-demo").owlCarousel({
+            autoPlay: 3000, //Set AutoPlay to 3 seconds       
+            items: 4,
+            itemsDesktop: [1199, 3],
+            itemsDesktopSmall: [979, 3]
+        });
+        $('.prof_scroller').slimScroll({
+            color: '#57b5e3',
+            height: '480px'
+        });
+    });
+
+/*    $("button#js-btn-send-message").click(function() {
+        if ($("div#js-div-message").css("display") == "none") {
+            $("div#js-div-message").show();
+        } else {
+            $("div#js-div-message").hide();
+        }
+    });*/
+
+    $(".read_more_btn").click(function(){
+    $('.read_less_btn').show();
+    $('.read_more_btn').hide();
+    $("p.drop-cap").addClass("para_text");
+    });
+    $(".read_less_btn").click(function(){
+        $('.read_less_btn').hide();
+        $('.read_more_btn').show();
+        $("p.drop-cap").removeClass("para_text");
+    });
+</script>
+
+<!-- Text-Chating Script Start -->
+    
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('body').on('click','#js-btn-send-message',function(){
+            var userid = $(this).attr('main');
+            var u_type = $(this).attr('u_type');
+            var unique_id;
+            if(u_type == "professional"){
+                unique_id = "p" + userid;
+            }else{
+                unique_id = "u" + userid;
+            }
+            var user_string = $('#hidden_array').val();
+            var chatingURL = "<?php echo url(); ?>"; 
+            var user_array = user_string.split(",");
+            if($.inArray(unique_id,user_array) == -1){
+                  user_array.push(unique_id); // insert id in id array
+                  var usertostring = user_array.toString();
+                  $('#hidden_array').val(usertostring); // set array string in hidden value 
+                  $(".chatting_main").append('<div class="chating_wind_wrapper chat_window_'+unique_id+'"></div>');
+                  $(".chat_window_"+unique_id).load(chatingURL+'/chatbox/'+unique_id);
+              }else{
+                return false;
+              }
+        });
+    });
+</script>
+
+<!-- Text-Chating Script End -->
+
+<?php $__env->stopSection(); ?>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('user.layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

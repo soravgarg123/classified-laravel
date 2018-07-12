@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <div>
+            <h2>Congratulation!</h2>
+        </div>
+        <div>
+            <p>You have booked on <?php echo SITE_NAME; ?></p>
+            <table>
+            	<thead>
+            		<tr>
+            			<th>Service Name</th>
+            			<th>Office</th>
+            			<th>Address</th>
+            			<?php if(!empty($book_date)): ?>
+            			<th>Book Date</th>
+            			<?php endif; ?>
+            			<?php if(!empty($duration)): ?>
+            			<th>Duration</th>
+            			<?php endif; ?>
+            			<?php if(!empty($delivery_days)): ?>
+            			<th>Delivery Days</th>
+            			<?php endif; ?>
+            			<th>Total</th>
+            		</tr>
+            	</thead>
+            	<tbody>
+            		<tr>
+            			<td><?php echo $store_name; ?></td>
+            			<td><?php echo $location; ?></td>
+            			<td><?php echo $addr; ?></td>
+            			<?php if(!empty($book_date)): ?>
+            			<td><?php echo $book_date; ?></td>
+            			<?php endif; ?>
+            			<?php if(!empty($duration)): ?>
+            			<td><?php echo $duration; ?></td>
+            			<?php endif; ?>
+            			<?php if(!empty($delivery_days)): ?>
+            			<td>$delivery_days</td>
+            			<?php endif; ?>
+            			<td>$price</td>
+            		</tr>
+            	</tbody>
+            </table>
+           <br />
+            <p>Message : <?php echo $msg; ?></p>
+        </div>
+        <hr/>
+        <div>
+            <b>From <?php echo SITE_NAME; ?> Team</b>
+        </div>
+    </body>
+</html>

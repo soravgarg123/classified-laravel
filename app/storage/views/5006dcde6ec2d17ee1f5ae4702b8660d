@@ -1,0 +1,254 @@
+
+
+<?php $__env->startSection('custom-styles'); ?>
+<?php echo HTML::style('/assets/metronic/global/plugins/bootstrap-datepicker/css/datepicker3.css'); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('breadcrumb'); ?>
+<div class="row">
+    <div class="col-md-12">
+        <ul class="page-breadcrumb breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <span><?php echo $langLbl['Dashboard']; ?></span>
+            </li>
+        </ul>
+    </div>
+</div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<div class="row">
+    <div class="col-sm-12">
+        <form class="form-horizontal" method="get" action="<?php echo URL::route('company.dashboard'); ?>">
+            <div class="form-group">
+                <label class="col-sm-2 control-label"><?php echo $langLbl['Period']; ?> : </label>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control text-center" name="startDate" id="js-text-start-date" placeholder="<?php echo $langLbl['Start Date']; ?>" value="<?php echo $startDate; ?>">
+                </div>
+                <div class="col-sm-2">
+                    <input type="text" class="form-control text-center" name="endDate" id="js-text-end-date" placeholder="<?php echo $langLbl['End Date']; ?>" value="<?php echo $endDate; ?>">
+                </div>
+                <div class="col-sm-2">
+                    <button class="btn btn-primary" onclick="return onValidate();"><i class="fa fa-search"></i> <?php echo $langLbl['Search']; ?></button>
+                </div>
+                <div class="col-sm-1">
+                    &nbsp;
+                </div>                                
+                <div class="col-sm-3">
+                    <select class="form-control" id="js-select-period">
+                        <option value="0"><?php echo $langLbl['Select Period']; ?></option>
+                        <option value="3"><?php echo $langLbl['Last 3 days']; ?></option>
+                        <option value="7"><?php echo $langLbl['Last 1 week']; ?></option>
+                        <option value="30"><?php echo $langLbl['Last 1 month']; ?></option>
+                        <option value="60"><?php echo $langLbl['Last 2 months']; ?></option>
+                        <option value="90"><?php echo $langLbl['Last 3 months']; ?></option>
+                        <option value="180"><?php echo $langLbl['Last 6 months']; ?></option>
+                        <option value="365"><?php echo $langLbl['Last 1 year']; ?></option>
+                    </select>
+                </div>            
+            </div>                        
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <hr/>
+    </div>
+</div>    
+<div class="row">
+    <div class="col-sm-4">
+        <div class="dashboard-stat red">
+            <div class="visual">
+                <i class="icon-diamond"></i>
+            </div>
+            <div class="details">
+                <div class="number">
+                    <?php echo $userOffers->count(); ?> <?php echo $langLbl['Sold']; ?>
+
+                </div>
+                <div class="desc">
+                    <?php echo $langLbl['Sold Offers Count']; ?>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="dashboard-stat red">
+            <div class="visual">
+                <i class="fa fa-money"></i>
+            </div>
+            <div class="details">
+                <div class="number">
+                    <?php
+                    $soldRevenue = 0;
+                    foreach ($userOffers as $key => $value) {
+                        $soldRevenue += $value->offer->price;
+                    }
+                    ?>
+                    <?php echo $soldRevenue; ?> &euro;
+                </div>
+                <div class="desc">
+                    <?php echo $langLbl['Sold Offers Revenue']; ?>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="dashboard-stat red">
+            <div class="visual">
+                <i class="fa fa-legal"></i>
+            </div>
+            <div class="details">
+                <div class="number">
+                    <?php echo $userLoyalties->count(); ?> <?php echo $langLbl['Loyalties']; ?>
+
+                </div>
+                <div class="desc">
+                    <?php echo $langLbl['Loyalties Uses']; ?>
+
+                </div>
+            </div>
+        </div>
+    </div>        
+</div> 
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="dashboard-stat red">
+            <div class="visual">
+                <i class="fa fa-smile-o"></i>
+            </div>
+            <div class="details">
+                <div class="number">
+                    <?php echo $feedbacks->count(); ?> <?php echo $langLbl['Feedbacks']; ?>
+
+                </div>
+                <div class="desc">
+                    <?php echo $langLbl['Feedbacks Count']; ?>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="dashboard-stat red">
+            <div class="visual">
+                <i class="fa fa-star"></i>
+            </div>
+            <div class="details">
+                <div class="number">
+                    <?php
+                    $avg = 0;
+                    foreach ($feedbacks as $feedback) {
+                        $avg += $feedback->ratings()->avg('answer');
+                    }
+                    if (count($feedbacks) != 0) {
+                        $avg = round($avg / count($feedbacks), 2);
+                    } else {
+                        $avg = 0;
+                    }
+                    ?>
+                    <?php echo $avg; ?>
+
+                </div>
+                <div class="desc">
+                    <?php echo $langLbl['Feedbacks Average']; ?>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-4">
+        <div class="dashboard-stat red">
+            <div class="visual">
+                <i class="fa fa-user"></i>
+            </div>
+            <div class="details">
+                <div class="number">
+                    <?php echo $registers->count(); ?> <?php echo $langLbl['Users']; ?>
+
+                </div>
+                <div class="desc">
+                    <?php echo $langLbl['User Registered']; ?>
+
+                </div>
+            </div>
+        </div>
+    </div>         
+</div>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('custom-scripts'); ?>
+<?php echo HTML::script('/assets/metronic/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js'); ?>
+
+<script>
+    function getFormattedDate(date) {
+        var year = date.getFullYear();
+        var month = (1 + date.getMonth()).toString();
+        month = month.length > 1 ? month : '0' + month;
+        var day = date.getDate().toString();
+        day = day.length > 1 ? day : '0' + day;
+        return year + '-' + month + '-' + day;
+    }
+    $(document).ready(function() {
+
+        $("#js-select-period").change(function() {
+            var type = $(this).val();
+            var startDate = new Date();
+            var endDate = new Date();
+            if (type == 0) {
+                $("#js-text-start-date").val("");
+                $("#js-text-end-date").val("");
+            } else if (type == 3) {
+                startDate.setDate(startDate.getDate() - 3);
+            } else if (type == 7) {
+                startDate.setDate(startDate.getDate() - 7);
+            } else if (type == 30) {
+                startDate.setMonth(startDate.getMonth() - 1);
+            } else if (type == 60) {
+                startDate.setMonth(startDate.getMonth() - 2);
+            } else if (type == 90) {
+                startDate.setMonth(startDate.getMonth() - 3);
+            } else if (type == 180) {
+                startDate.setMonth(startDate.getMonth() - 6);
+            } else if (type == 365) {
+                startDate.setYear(startDate.getFullYear() - 1);
+            }
+            $("#js-text-start-date").val(getFormattedDate(startDate));
+            $("#js-text-end-date").val(getFormattedDate(endDate));
+        });
+
+        $('#js-text-start-date, #js-text-end-date').datepicker({format: 'yyyy-mm-dd'});
+
+
+        var startDate = $("#js-text-start-date").val();
+        var endDate = $("#js-text-end-date").val();
+        if (startDate == '' || endDate == '') {
+            $("#js-select-period").val(7);
+            $("#js-select-period").change();
+        }
+
+    });
+
+    function onValidate() {
+        if ($('#js-text-start-date').val() > $('#js-text-end-date').val()) {
+            bootbox.alert("<?php echo $langLbl['Select the period correctly.']; ?>");
+            return;
+        }
+        return true;
+    }
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('company.layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

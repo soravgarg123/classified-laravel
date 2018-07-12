@@ -1,0 +1,72 @@
+Cart Object
+(
+    [table:protected] => cart
+    [connection:protected] => 
+    [primaryKey:protected] => id
+    [perPage:protected] => 15
+    [incrementing] => 1
+    [timestamps] => 1
+    [attributes:protected] => Array
+        (
+            [user_id] => 5
+            [company_id] => 1
+            [store_id] => 14
+            [txn_id] => 8XB98944RD319321W
+            [price] => 50.00
+            [book_date] => 2015/09/09 14:00
+            [duration] => 60
+            [user_address] => 
+            [message] => ttttt
+            [office_id] => 1
+            [status] => 3
+            [options] => a:1:{s:17:"service_available";i:1;}
+        )
+
+    [original:protected] => Array
+        (
+        )
+
+    [relations:protected] => Array
+        (
+        )
+
+    [hidden:protected] => Array
+        (
+        )
+
+    [visible:protected] => Array
+        (
+        )
+
+    [appends:protected] => Array
+        (
+        )
+
+    [fillable:protected] => Array
+        (
+        )
+
+    [guarded:protected] => Array
+        (
+            [0] => *
+        )
+
+    [dates:protected] => Array
+        (
+        )
+
+    [touches:protected] => Array
+        (
+        )
+
+    [observables:protected] => Array
+        (
+        )
+
+    [with:protected] => Array
+        (
+        )
+
+    [morphClass:protected] => 
+    [exists] => 
+)

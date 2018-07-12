@@ -1,0 +1,307 @@
+<?php $__env->startSection('custom-styles'); ?>
+<?php echo HTML::style('/assets/metronic/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css'); ?>
+
+<?php echo HTML::style('/assets/metronic/frontend/onepage/css/custom.css'); ?>
+
+<?php echo HTML::style('/assets/metronic/global/plugins/bootstrap-modal/css/bootstrap-modal.css'); ?>
+
+<?php echo HTML::style('/assets/css/bootstrap-checkbox.css'); ?>
+
+<style>
+    .faq-tabbable i {
+        color: #000 !important;
+    }
+</style>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('main'); ?>
+<?php
+$nameVal = 'name' . $currentLanguage;
+$descriptionVal = 'description' . $currentLanguage;
+$postTitleVal = 'post_title' . $currentLanguage;
+$postContentVal = 'post_content' . $currentLanguage;
+?>
+<div class="container">
+    <div class="row">        
+        <div class="col-md-12 margin-top-normal">
+
+            <?php if(isset($alert)): ?>
+            <div class="alert alert-<?php echo $alert['type']; ?> alert-dismissibl fade in">
+                <button type="button" class="close" data-dismiss="alert">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only"><?php echo $langLbl['Close']; ?></span>
+                </button>
+                <p>
+                    <?php echo $alert['msg']; ?>
+
+                </p>
+            </div>
+            <?php endif; ?>
+
+            <div class="page-content">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="company-profile">
+                        <div class="row">
+                            <div class="col-sm-9  blog-item posts post-detail">
+
+                            <div class="rating_social clearfix">
+                                <div class="page-title">
+                                    <h1 class="color-default" style="text-transform: uppercase;"><?php echo $post->$postTitleVal; ?></h1>
+                                </div>
+                                
+                            </div>
+                                <p>
+                                    <img class="img-responsive thumbnail" alt="" src="<?php echo HTTP_POST_PATH.$post->featured_image; ?>" id="blogs-images">
+                                </p>
+                                </hr>
+                                <p>
+                                    <?php
+                                    $name = [];
+                                    $sl = [];
+                                    if ($post->company_id != 0 && isset($post->company))
+                                        $company = $post->company;
+                                    else {
+                                        $company = new stdClass();
+                                        $company->slug = 'admin';
+                                        $company->name = 'Admin';
+                                    }
+                                    $subCategories = $post->subCategories;
+                                    foreach ($subCategories as $s) {
+                                        $name[] = $s->Category->$nameVal;
+                                        $sl[] = $s->Category->slug;
+                                    }
+                                    $cat_name = implode(",", $name);
+                                    ?>
+
+                                <div class="post-meta clearfix">
+                                    <!-- <div class="post-meta-author"><i class="fa fa-user"></i> <a><?php echo $langLbl['By']; ?> </a><a href="<?php echo URL::route('post.author', $company->slug ); ?>"><?php echo $company->name; ?></a></div><!-- /.post-meta-author --> 
+                                    <!-- <div class="post-meta-date"><i class="fa fa-calendar"></i> <?php echo $post->created_at; ?></div><!-- /.post-meta-date --> 
+                                    <?php if($cat_name != ''): ?>
+                                    <!-- <div class="post-meta-categories"><i class="fa fa-tags"></i> 
+                                        <?php for($i=0; $i<count($name); $i++): ?>
+                                            <a href="<?php echo URL::route('post.category', $sl[$i] ); ?>"><?php echo $name[$i]; ?></a><?php if($i != count($name)-1): ?>,<?php endif; ?>
+                                            <?php endfor; ?>
+                                    </div> -->
+                                    <!-- /.post-meta-categories -->
+                                    <?php endif; ?>
+                                    <!-- <div class="post-meta-comments"><i class="fa fa-comments"></i> <a href="blog-detail.html"><?php echo $post->comment_count; ?> <?php echo $langLbl['comments']; ?></a></div><!-- /.post-meta-comments --> 
+                                    <nav class="social_links">
+                                    <ul>
+                                        <?php $currentURL = $_SERVER['REQUEST_SCHEME']."://".$_SERVER['SERVER_NAME']."".$_SERVER['REQUEST_URI']; ?>
+                                        <li class="fb"><a target="_blank" title="Facebook" href="http://www.facebook.com/sharer.php?u=<?php echo $currentURL; ?>"><span class="fa fa-facebook"></span></a></li>
+                                        <li class="gp"><a target="_blank" title="Google Plus" href="https://plus.google.com/share?url=<?php echo $currentURL; ?>"><span class="fa fa-google"></span></a></li>
+                                        <li class="tw"><a target="_blank" title="Twitter" href="http://twitter.com/home?status=<?php echo $currentURL; ?>"><span class="fa fa-twitter"></span></a></li>
+                                        <li class="pt"><a target="_blank" title="Pinterest" href="https://www.pinterest.com/pin/create/button/?url=<?php echo $currentURL; ?>&description=<?php echo $post->$postContentVal; ?>&media=<?php echo HTTP_POST_PATH.$post->featured_image; ?>&title=<?php echo $post->$postTitleVal; ?>" data-pin-do="buttonPin" data-pin-config="above"><span class="fa fa-pinterest"></span></a></li>
+                                    </ul>
+                                </nav>
+                                </div><!-- /.post-meta -->
+
+                                </p>
+                                <div class="clearfix"></div>
+                                <div class="post-content">
+                                    <p class="drop-cap" style="text-align: justify;">
+                                        <?php echo $post->$postContentVal; ?>
+
+                                    </p>
+                                    <!-- <a href="javascript:void(0);" class="read_more_btn"><?php echo $langLbl['Read More']; ?></a> -->
+                                    <!-- <a href="javascript:void(0);" style="display:none;" class="read_less_btn"><?php echo $langLbl['Read Less']; ?></a> -->
+                                </div>
+
+                                <!-- START COMMENT -->
+                                <!-- <h2><?php echo $langLbl['Comments']; ?></h2>
+                                <?php echo $post->getComments(0,$post->id); ?>
+
+                                <div class="post-comment padding-top-40">
+                                    <h3><?php echo $langLbl['Leave a Comment']; ?></h3>
+                                    <form role="form">				                      
+                                        <div class="form-group">
+                                            <label><?php echo $langLbl['Message']; ?></label>
+                                            <textarea class="form-control" rows="8" id="message"></textarea>
+                                        </div>
+                                        <p><button class="btn btn-primary" type="button" id="cmt_btn" onclick="return postComment(0)"><?php echo $langLbl['Post a Comment']; ?></button></p>
+                                    </form>
+                                </div>  -->                     
+                                <!-- END COMMENT -->
+                            </div>
+                            <!-- START SIDEBAR -->
+                            <div class="col-sm-3 side-bar">
+                                <div class="row">
+                                    <div class="col-sm-9">
+                                        <div class="form-group">
+                                            <div class="input-icon">
+                                                <i class="fa fa-pencil" style="margin-top:16px;"></i>
+                                                <input type="text" class="form-control input-lg input-circle custom-typeahead" id="js-cat-keyword" placeholder="<?php echo $langLbl['Enter Keyword']; ?>" value="<?php echo Session::get('prof_keyword'); ?>">
+                                            </div>
+                                        </div>					                	                
+                                    </div>
+                                    <div class="col-sm-3" style="padding-left:0px;">
+                                        <div class="form-group">
+                                            <button type="button" class="btn green btn-block btn-circle btn-lg" id="js-cat-search">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h3 style="color:#E02222;"><i class="fa fa-bookmark" style="font-size:23px;"></i> <?php echo $langLbl['Categories']; ?></h3>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <ul class="list-unstyled cat-wrapper">
+                                            <?php foreach($postcategory as $c): ?>
+                                            <?php if($c->$nameVal != $langLbl['Other']): ?>
+                                            <li><a href="<?php echo URL::route('post.category', $c->slug ); ?>"><?php echo $c->$nameVal; ?> </a>(<?php echo $c->getCatCount($c->id); ?>)</li>
+                                            <?php endif; ?>
+                                            <?php endforeach; ?>
+                                            <?php foreach($postcategory as $c): ?>
+                                            <?php if($c->$nameVal == $langLbl['Other']): ?>
+                                            <li><a href="<?php echo URL::route('post.category', $c->slug ); ?>"><?php echo $c->$nameVal; ?> </a>(<?php echo $c->getCatCount($c->id); ?>)</li>
+                                            <?php endif; ?>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                </br>
+                                <h3 style="color:#E02222;"><i class="fa fa-book" style="font-size:23px;"></i> <?php echo $langLbl['Recent Posts']; ?></h3>
+                                <?php foreach($recent_posts as $recent_post): ?>
+                                <?php $slug = str_replace(" ", "_", $post->$postTitleVal) ?>
+                                <div class="cards-small">
+                                    <div class="card-small">
+                                        <div class="card-small-image">
+                                            <a href="<?php echo URL::route('post.detail', $recent_post->slug); ?>">
+                                                <img class="img-responsive thumbnail" src="<?php echo HTTP_POST_PATH.$recent_post->featured_image; ?>">
+                                            </a>
+                                        </div><!-- /.card-small-image -->
+
+                                        <div class="card-small-content">
+                                            <h3><a href="<?php echo URL::route('post.detail', $recent_post->slug ); ?>"><?php echo $recent_post->$postTitleVal; ?></a></h3>
+                                            <h4><?php echo substr($recent_post->$postContentVal, 0, 50); ?></h4>								                    
+                                        </div><!-- /.card-small-content -->
+                                    </div><!-- /.card-small -->
+                                </div>	
+                                <hr/>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>   
+                        <!-- \ END SIDEBAR -->                         
+                    </div>
+                    <hr/>
+
+                </div>
+            </div>
+        </div>
+    </div>            
+</div>
+</div>
+<form method="get" action="<?php echo URL::route('post.search'); ?>" id="post-search-frm">
+    <input type="hidden" name="keyword"/>
+</form>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('custom-scripts'); ?>
+<?php echo HTML::script('/assets/metronic/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/global/plugins/bootstrap-modal/js/bootstrap-modal.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/global/plugins/bootstrap-modal/js/bootstrap-modalmanager.js'); ?>
+
+<?php echo HTML::script('/assets/js/bootstrap-checkbox.js'); ?>
+
+<script>
+
+//START CLICK POST COMMENT
+function postComment(parent_id){
+<?php if(!Session::has('user_id')): ?>
+        alert("<?php echo $langLbl['You need to login.']; ?>");
+        return false;
+        <?php endif; ?>
+        if (parent_id != 0 && jQuery('.active_reply').val() == ''){
+        alert("<?php echo $langLbl['Please leave your comment.']; ?>");
+        return false;
+}
+if (parent_id == 0 && jQuery('#message').val() == ''){
+        alert("<?php echo $langLbl['Please leave a message.']; ?>");
+        return false;
+}
+if (parent_id != 0) message = jQuery('.active_reply').val();
+        if (parent_id == 0) message = jQuery('#message').val();
+        var user_id = <?php echo Session::has('user_id') ? Session::get('user_id') : '""'; ?>;
+        var post_id = <?php echo $post -> id; ?>;
+        $.ajax({
+url: "<?php echo URL::route('async.user.comment'); ?>",
+        dataType : "json",
+        type : "POST",
+        data : {
+message : message,
+        user_id : user_id,
+        post_id : post_id,
+        parent_id:parent_id
+},
+        success : function(data){
+        alert(data.msg);
+        window.setTimeout(function(){
+            window.location.reload();
+        }, 100);
+        }
+});
+}
+// \ END CLICK POST COMMENT
+//START REPLY TOGGLE
+function replyToggle(id){
+jQuery('#reply_form_' + id).toggleClass('reply_form');
+jQuery('#reply_form_' + id).find('textarea').addClass('active_reply');
+}
+// \ END REPLY TOGGLE
+
+// START SEARCH FUNCTION
+var categories = [];
+<?php foreach($postcategory as $key => $value): ?>
+categories[categories.length] = '<?php echo $value->name; ?>';
+<?php foreach($value -> subCategories as $subKey => $subValue): ?>
+categories[categories.length] = '<?php echo $subValue->name; ?>';
+<?php endforeach; ?>
+<?php endforeach; ?>
+$('#js-cat-keyword').typeahead({
+hint: true,
+highlight: true,
+minLength: 1
+}, {
+name: 'keywords',
+displayKey: 'value',
+source: substringMatcher(categories)
+});
+$("button#js-cat-search").click(function() {
+$("input[name='keyword']").val($("#js-cat-keyword").val());
+$("#post-search-frm").submit();
+});
+// \ END SEARCH FUNCTION
+
+ var desc_height = parseInt($('p.drop-cap').height());
+    if(desc_height > 100){
+        $('.read_more_btn').show();
+        $('.read_less_btn').hide();
+        var columnHeight = 100;
+        $("#detail_div_blog p").css('height', columnHeight + 'px');
+    }else{
+        $('.read_more_btn').hide();
+        $('.read_less_btn').hide();
+    }
+
+$(".read_more_btn").click(function(){
+    $('.read_less_btn').show();
+    $('.read_more_btn').hide();
+    $("p.drop-cap").addClass("para_text");
+});
+$(".read_less_btn").click(function(){
+    $('.read_less_btn').hide();
+    $('.read_more_btn').show();
+    $("p.drop-cap").removeClass("para_text");
+});
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('user.layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

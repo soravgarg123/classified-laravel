@@ -1,0 +1,196 @@
+.margin-top-xs {
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+.block_list1{
+	min-height: 150px;
+}
+.block_list2{
+	min-height: 150px;
+}
+
+.margin-top-sm {
+	margin-top: 20px;
+}
+
+.margin-top-normal {
+	margin-top: 30px;
+}
+
+.margin-top-lg {
+	margin-top: 50px;
+}
+
+.margin-top-xl {
+	margin-top: 100px;
+}
+
+.margin-bottom-xs {
+	margin-bottom: 10px;
+}
+
+.margin-bottom-sm {
+	margin-bottom: 20px;
+}
+
+.margin-bottom-normal {
+	margin-bottom: 30px;
+}
+
+.margin-bottom-lg {
+	margin-bottom: 50px;
+}
+
+.margin-bottom-xl {
+	margin-bottom: 100px;
+}
+
+.padding-top-xs {
+	padding-top: 10px;
+}
+
+.padding-top-sm {
+	padding-top: 20px;
+}
+
+.padding-top-normal {
+	padding-top: 30px;
+}
+
+.padding-top-lg {
+	padding-top: 50px;
+}
+
+.padding-top-xl {
+	padding-top: 100px;
+}
+
+.padding-bottom-xs {
+	padding-bottom: 10px;
+}
+
+.padding-bottom-sm {
+	padding-bottom: 20px;
+}
+
+.padding-bottom-normal {
+	padding-bottom: 30px;
+}
+
+.padding-bottom-lg {
+	padding-bottom: 50px;
+}
+
+.padding-bottom-xl {
+	padding-bottom: 100px;
+}
+
+.th-action {
+	width: 80px;
+}
+
+.readonly {
+	background: #FFF !important;
+	cursor: pointer !important;
+}
+
+.color-white {
+	color: #FFF;
+}
+
+.color-black {
+	color: #000;
+}
+
+.color-orange {
+	color: #E79E36;
+}
+
+.color-default {
+	color: #E6400C !important;
+}
+
+.color-blue {
+	color: #009CFF;
+}
+
+.color-gray-normal {
+	color: #A3ACB5;
+}
+
+.color-gray-dark {
+	
+}
+
+.color-gray-light {
+	color: #848689;
+}
+
+.font-size-xl {
+	font-size: 18px;
+}
+
+.font-size-lg {
+	font-size: 16px;
+}
+
+.font-size-normal {
+	font-size: 14px;
+}
+
+.font-size-sm {
+	font-size: 12px !important;
+}
+
+.font-size-xs {
+	font-size: 10px;
+}
+
+.font-weight-bold {
+	font-weight: bold !important;
+}
+
+.row-no-margin {
+	margin-left: 0px !important;
+	margin-right: 0px !important;
+}
+
+.select-search {
+	margin-left: 77px;
+	width: 153px;
+	height: 30px;
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+	border-color: #C4C4C4;
+	color: #333;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	font-size: 13px;
+	font-stretch: normal;
+	font-style: normal;
+	font-weight: bold;	
+}
+
+.background-gray {
+	background: #F2F5F7;
+}
+
+.background-default {
+	background: #ffffff;
+}
+
+
+.company-item .blog-info {
+	margin: 5px 0px 5px 0px;
+}
+
+.company-item a{
+	text-decoration: none;
+}
+
+.rating-disabled {
+	cursor: default;
+}
+textarea{
+	height: 400px !important;
+}
+

@@ -1,0 +1,429 @@
+<?php $__env->startSection('page-styles'); ?>
+<?php echo HTML::style('/assets/metronic/admin/layout/css/layout.css'); ?>
+
+<?php echo HTML::style('/assets/metronic/admin/layout/css/themes/default.css'); ?>
+
+<?php echo HTML::style('/assets/metronic/admin/layout/css/custom.css'); ?>
+
+<?php echo HTML::style('/assets/css/style_company.css'); ?>
+
+<?php echo HTML::style('/assets/css/messenger.css'); ?>
+
+<?php echo HTML::style('/assets/metronic/global/plugins/select2/select2.css'); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('body'); ?>
+<body class="page-header-fixed page-quick-sidebar-over-content">
+    <?php $__env->startSection('header'); ?>
+
+    <div class="page-header navbar navbar-fixed-top">
+        <!-- BEGIN HEADER INNER -->
+        <div class="page-header-inner">
+            <!-- BEGIN LOGO -->
+            <div class="page-logo">
+                <a href="<?php echo URL::route('user.home'); ?>">
+                    <img src="<?php echo asset('img/logo_company.png'); ?>" alt="logo" class="logo-default" style="height: 38px; margin-top: 3px;">
+                </a>
+            </div>
+            <!-- END LOGO -->
+            <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+            <a href="javascript:;" class="menu-toggler responsive-toggler" data-toggle="collapse" data-target=".navbar-collapse">
+            </a>
+            <!-- END RESPONSIVE MENU TOGGLER -->
+
+            <!-- BEGIN TOP NAVIGATION MENU -->
+            <div class="top-menu">                    
+                <ul class="nav navbar-nav pull-right">
+                    <?php if($siteLanguage): ?>
+                    <li class="dropdown dropdown-quick-sidebar-toggler" style="padding-top: 10px;">
+                        <select id="langDD" class="select2" style="width: 150px;">
+                            <?php foreach($siteLanguage as $sLangKey => $sLangVal): ?>
+                            <option value="<?php echo $sLangVal == '' ? 'en' : $sLangVal; ?>" <?php if(($sLangVal == '' ? 'en' : $sLangVal) == (isset($_COOKIE['current_lang'])? $_COOKIE['current_lang'] : 'en')): ?> selected <?php endif; ?>><?php echo $sLangKey; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                    </li>                        
+                    <?php endif; ?>
+                    <?php if(Session::has('company_id')): ?>
+                    <li class="dropdown dropdown-quick-sidebar-toggler">
+                        <a href="#" class="dropdown-toggle">
+                            <?php echo Session::get('company_name'); ?>
+
+                        </a>
+                    </li>
+                    <li class="dropdown dropdown-quick-sidebar-toggler">
+                        <span class="badge badge-info" style="margin-top:18px;">
+                            <?php if(Session::get('company_type') == 'basic'): ?>
+                            <?php echo $langLbl['Basic Member']; ?>
+
+                            <?php else: ?>
+                            <?php echo $langLbl['Pro Member']; ?>
+
+                            <?php endif; ?>
+                        </span>
+                    </li>
+                    <li class="dropdown dropdown-quick-sidebar-toggler">
+                        <a href="<?php echo URL::route('company.auth.logout'); ?>" class="dropdown-toggle">
+                            <i class="icon-logout"></i> <?php echo $langLbl['Sign Out']; ?>
+
+                        </a>
+                    </li>
+                    <?php else: ?>
+                    <li class="dropdown dropdown-quick-sidebar-toggler <?php echo ($pageNo == 51) ? 'active' : ''; ?>">
+                        <a href="<?php echo URL::route('company.auth.login'); ?>" class="dropdown-toggle">
+                            <i class="icon-login"></i>
+                            <?php echo $langLbl['Login']; ?>
+
+                        </a>
+                    </li>
+                    <li class="dropdown dropdown-quick-sidebar-toggler <?php echo ($pageNo == 52) ? 'active' : ''; ?>">
+                        <a href="<?php echo URL::route('company.auth.membership'); ?>" class="dropdown-toggle">
+                            <i class="icon-note"></i>
+                            <?php echo $langLbl['Register']; ?>
+
+                        </a>
+                    </li>
+                    <?php endif; ?>
+                </ul>                        
+            </div>
+            <!-- END TOP NAVIGATION MENU -->
+        </div>
+        <!-- END HEADER INNER -->
+    </div>
+    <div class="clearfix"></div>
+    <?php echo $__env->yieldSection(); ?>
+
+    <?php $__env->startSection('main'); ?>
+    <?php
+    if (!isset($pageNo)) {
+        $pageNo = 0;
+    }
+    ?>
+    <div class="page-container">
+        <div class="page-sidebar-wrapper">
+            <div class="page-sidebar navbar-collapse collapse">
+                <ul class="page-sidebar-menu" data-auto-scroll="true" data-slide-speed="200">
+                    <li class="sidebar-toggler-wrapper">
+                        <div class="sidebar-toggler"></div>
+                    </li>
+
+                    <li class="start <?php echo ($pageNo == 1) ? 'active' : ''; ?>">
+                        <a href="<?php echo URL::route('company.dashboard'); ?>">
+                            <i class="icon-bar-chart"></i>
+                            <span class="title"><?php echo $langLbl['Dashboard']; ?></span>
+                        </a>
+                    </li>
+                    <li class="last <?php echo ($pageNo == 9) ? 'active' : ''; ?>">
+                        <a href="<?php echo URL::route('company.profile'); ?>">
+                            <i class="fa fa-building"></i>
+                            <span class="title"><?php echo $langLbl['Professional Profile']; ?></span>
+                        </a>
+                    </li>
+                    <li class="<?php echo ($pageNo == 5) ? 'active' : ''; ?>">
+                        <a href="<?php echo URL::route('company.office'); ?>">
+                            <i class="fa fa-map-marker"></i>
+                            <span class="title"><?php echo $langLbl['Office Management']; ?></span>
+                        </a>
+                    </li>
+
+                    <li class="<?php echo ($pageNo == 13) ? 'active' : ''; ?>">
+                        <a href="<?php echo URL::route('company.store'); ?>">
+                            <i class="fa fa-bank"></i>
+                            <span class="title"><?php echo $langLbl['Service Management']; ?></span>
+                        </a>
+                    </li>    
+                    <li class="<?php echo ($pageNo == 33) ? 'active' : ''; ?>">
+                        <a href="<?php echo URL::route('company.request'); ?>">
+                            <i class="fa fa-edit"></i>
+                            <span class="title"><?php echo $langLbl['Requests']; ?></span>
+                        </a>
+                    </li>                         
+                    <li class="<?php echo ($pageNo == 3) ? 'active' : ''; ?>">
+                        <a href="<?php echo URL::route('company.book'); ?>">
+                            <i class="fa fa-shopping-cart"></i>
+                            <span class="title"><?php echo $langLbl['Book Management']; ?></span>
+                        </a>
+                    </li>
+                    <li class="<?php echo ($pageNo == 2) ? 'active' : ''; ?>">
+                        <a href="<?php echo URL::route('company.user'); ?>">
+                            <i class="icon-users"></i>
+                            <span class="title"><?php echo $langLbl['Consumer Management']; ?></span>
+                        </a>
+                    </li>
+
+
+                    <!-- li class="<?php echo ($pageNo == 4) ? 'active' : ''; ?>">
+                        <a href="<?php echo URL::route('company.comment'); ?>">
+                            <i class="fa fa-comments"></i>
+                            <span class="title">Comment Management</span>
+                        </a>
+                    </li -->
+                    <!-- <li class="<?php echo ($pageNo == 11) ? 'active' : ''; ?>">
+                        <a href="<?php echo URL::route('company.ratingType'); ?>">
+                            <i class="fa fa-bookmark"></i>
+                            <span class="title"><?php echo $langLbl['Rating Type Management']; ?></span>
+                        </a>
+                    </li> -->
+                    <!-- li class="<?php echo ($pageNo == 5) ? 'active' : ''; ?>">
+                        <a href="#">
+                            <i class="fa fa-star"></i>
+                            <span class="title">Rating Management</span>
+                        </a>
+                    </li -->
+                    <li class="<?php echo ($pageNo == 6) ? 'active' : ''; ?>">
+                        <a href="<?php echo URL::route('company.feedback'); ?>">
+                            <i class="fa fa-edit"></i>
+                            <span class="title"><?php echo $langLbl['Feedback Management']; ?></span>
+                        </a>
+                    </li>
+
+                    <li class="<?php echo ($pageNo == 14) ? 'active' : ''; ?>">
+                        <a href="<?php echo URL::route('company.message'); ?>">
+                            <i class="fa fa-comment"></i>
+                            <span class="title"><?php echo $langLbl['Message Management']; ?></span>
+                        </a>
+                    </li>                            
+
+                    <!-- <li class="<?php echo ($pageNo == 7) ? 'active' : ''; ?>">
+                        <a href="<?php echo URL::route('company.offer'); ?>">
+                            <i class="fa fa-gavel"></i>
+                            <span class="title"><?php echo $langLbl['Offer Management']; ?></span>
+                        </a>
+                    </li> -->
+
+                    <!-- <li class="<?php echo ($pageNo == 8) ? 'active' : ''; ?>">
+                        <a href="<?php echo URL::route('company.loyalty'); ?>">
+                            <i class="fa fa-heart"></i>
+                            <span class="title"><?php echo $langLbl['Loyalty Management']; ?></span>
+                        </a>
+                    </li> -->
+
+                    <?php if(Session::get('company_type') != 'pro_py'): ?>
+                    <!-- <li class="<?php echo ($pageNo == 12) ? 'active' : ''; ?>">
+                        <a href="<?php echo URL::route('company.subscribe'); ?>">
+                            <i class="fa fa-trophy"></i>
+                            <span class="title"><?php echo $langLbl['Subscribe Management']; ?></span>
+                        </a>
+                    </li>  -->
+                    <?php endif; ?>
+                    <li class="<?php echo ($pageNo == 16) ? 'active' : ''; ?>">
+                        <a href="<?php echo URL::route('company.post'); ?>">
+                            <i class="fa fa-table"></i>
+                            <span class="title"><?php echo $langLbl['Post Management']; ?></span>
+                        </a>
+                    </li>
+                    
+                                               
+                    
+                    <!-- <li class="<?php echo ($pageNo == 10) ? 'active' : ''; ?>">
+                        <a href="<?php echo URL::route('company.widget.index'); ?>">
+                            <i class="fa fa-gear"></i>
+                            <span class="title"><?php echo $langLbl['Widgets']; ?></span>
+                        </a>
+                    </li> -->
+
+                    
+
+                    <li class="<?php echo ($pageNo == 15) ? 'active' : ''; ?>">
+                        <a href="<?php echo URL::route('company.contact'); ?>">
+                            <i class="fa fa-envelope"></i>
+                            <span class="title"><?php echo $langLbl['Contact Us']; ?></span>
+                        </a>
+                    </li>                            
+                </ul>
+            </div>
+        </div>
+        <div class="page-content-wrapper">
+            <div class="page-content">
+                <?php echo $__env->yieldContent('breadcrumb'); ?>
+                <?php echo $__env->yieldContent('content'); ?>
+            </div>
+        </div>
+    </div>            
+    <?php echo $__env->yieldSection(); ?>
+
+    <?php $__env->startSection('footer'); ?>
+    <div class="page-footer footer-background">
+        <div class="page-footer-inner">
+            &copy; <?php echo $langLbl['Copyright']; ?> <?php echo date('Y'); ?> | <?php echo $langLbl['All Rights Reserved']; ?> 
+        </div>
+        <div class="page-footer-tools">
+            <span class="go-top">
+                <i class="fa fa-angle-up"></i>
+            </span>
+        </div>
+    </div>
+    <?php echo $__env->yieldSection(); ?>
+</body>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('page-scripts'); ?>   
+<?php echo $__env->make('chating_common', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>     
+<?php echo HTML::script('/assets/metronic/admin/layout/scripts/layout.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/admin/layout/scripts/quick-sidebar.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/admin/layout/scripts/layout.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/admin/pages/scripts/components-form-tools.js'); ?>
+
+<?php echo HTML::script('/assets/js/brain-socket.min.js'); ?>
+
+<?php echo HTML::script('/assets/js/socket.io-1.2.0.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/global/plugins/select2/select2.min.js'); ?>
+
+<script>
+    jQuery(document).ready(function() {
+    Metronic.init(); // init metronic core components
+            Layout.init(); // init current layout
+            QuickSidebar.init() // init quick sidebar
+
+            $("a#js-a-delete").click(function(event) {
+    event.preventDefault();
+            var url = $(this).attr('href');
+            bootbox.confirm("Are you sure?", function(result) {
+    if (result) {
+    window.location.href = url;
+    }
+    });
+    });
+            $('[data-toggle="tooltip"]').tooltip();
+            if ($('.messenger').hasClass('open')){
+    $('.messenger').animate({height:"40px"}, 200);
+            $('.messenger').removeClass("open"); console.log('close');
+            $('.messenger').addClass("close_cb");
+            $('.chat-footer').hide();
+            $('#chat-toggle span').removeClass('glyphicon-chevron-down');
+            $('#chat-toggle span').addClass('glyphicon-chevron-up');
+    }
+    });
+//~*~*~*~*~*~*~*~ START LIVE CHAT ~*~*~*~~*~*~*~*~*~**~
+
+            jQuery(function(){
+    var receiver_id = 1;
+            <?php if(Session::has('company_id')): ?>
+            var fake_user_id = <?php echo Session::get('company_id'); ?>;
+            <?php else: ?>
+            var fake_user_id = ''
+            <?php endif; ?>
+//make sure to update the port number if your ws server is running on a different one.
+            window.app = {};
+            app.BrainSocket = new BrainSocket(
+            new WebSocket('ws://23.229.247.199:8080'),
+            new BrainSocketPubSub()
+            );
+            app.BrainSocket.Event.listen('generic.event', function(msg){
+    console.log(msg);
+            receiver_id = msg.client.data.user_id;
+            if (msg.client.data.user_id == fake_user_id){
+    $('#chat-log').append('<li><img src="<?php echo HTTP_USER_PATH. DEFAULT_PHOTO; ?>" class="img-circle" width="40"><div class="message">' + msg.client.data.message + '</div></li>');
+    } else if (msg.client.data.receiver_id == fake_user_id){
+    var str_test = '<li class="right"><img src="' + msg.client.data.user_portrait + '" class="img-circle" width="40"><div class="message">' + msg.client.data.message + '</div></li>';
+            $('#chat-log').append(str_test);
+            if ($('.messenger').hasClass("close_cb"))
+            $('#chat-toggle').eq(0).click();
+    }
+    });
+            app.BrainSocket.Event.listen('app.success', function(data){
+    console.log('An app success message was sent from the ws server!');
+            console.log(data);
+    });
+            app.BrainSocket.Event.listen('app.error', function(data){
+    console.log('An app error message was sent from the ws server!');
+            console.log(data);
+    });
+            $('#chat-message').keypress(function(event) {
+
+    if (event.keyCode == 13){
+    console.log(fake_user_id);
+            app.BrainSocket.message('generic.event',
+    {
+    'message':$(this).val(),
+            'user_id':fake_user_id,
+            'user_portrait':'<?php echo HTTP_USER_PATH. DEFAULT_PHOTO; ?>',
+            'receiver_id': receiver_id
+    }
+    );
+            var message = $(this).val();
+            $.ajax({
+    url: "<?php echo URL::route('async.user.savechat'); ?>",
+            dataType : "json",
+            type : "POST",
+            data : {
+    from : fake_user_id,
+            to : receiver_id,
+            message : message,
+            direction : 'pu'
+    },
+            success : function(data){
+
+    }
+    });
+            $(this).val('');
+    }
+
+    return event.keyCode != 13; }
+    );
+    });
+            function scrollChat(){
+            var s = $('.messenger-body').scrollTop();
+                    var h = $('.messenger-body').height();
+                    //alert( "scrollTop: " + s + " " + "height: " + h)
+                    $('.messenger-body').scrollTop(h);
+            }
+    // jQuery Animation
+    $('#chat-toggle, .open-close-chat').click(function(event){
+    event.stopPropagation();
+            if ($('.messenger').hasClass("close_cb")){ //open chat box
+    $('.messenger').animate({height:"395px"}, 200); console.log('open');
+            $('.messenger').removeClass("close_cb");
+            $('.messenger').addClass("open");
+            $('.chat-footer').fadeIn();
+            $('#chat-toggle span').removeClass('glyphicon-chevron-up');
+            $('#chat-toggle span').addClass('glyphicon-chevron-down');
+            scrollChat();
+    } else{ // close chat box
+    $('.messenger').animate({height:"40px"}, 200);
+            $('.messenger').removeClass("open"); console.log('close');
+            $('.messenger').addClass("close_cb");
+            $('.chat-footer').hide();
+            $('#chat-toggle span').removeClass('glyphicon-chevron-down');
+            $('#chat-toggle span').addClass('glyphicon-chevron-up');
+    }
+    return false;
+    });
+// \ ~*~*~~*~*~*~*~*~* END LIVE CHAT ~*~*~~*~*~*~*~*  	
+</script> 
+<script>
+    jQuery(document).ready(function() {
+        Metronic.init(); // init metronic core components
+        Layout.init(); // init current layout
+        QuickSidebar.init() // init quick sidebar
+      //  ComponentsDropdowns.init();
+
+        $("a#js-a-delete").click(function(event) {
+            event.preventDefault();
+            var url = $(this).attr('href');
+            bootbox.confirm("Are you sure?", function(result) {
+                if (result) {
+                    window.location.href = url;
+                }
+            });
+        });
+        
+        $('#langDD').select2({
+            placeholder: "Select an option",
+            minimumResultsForSearch: - 1
+        });
+        $("#langDD").on('change', function() {
+            $.post("<?php echo url('change-language'); ?>", {lang:  $("#langDD").val()}, function() {
+                location.href = location.href;
+            });
+        });
+    });
+</script>           
+<?php $__env->stopSection(); ?>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('main', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

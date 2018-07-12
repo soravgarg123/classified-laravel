@@ -1,0 +1,93 @@
+
+
+<?php $__env->startSection('breadcrumb'); ?>
+<div class="row">
+    <div class="col-md-12">
+        <h3 class="page-title"><?php echo $langLbl['Company Management']; ?></h3>
+        <ul class="page-breadcrumb breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <span><?php echo $langLbl['Company']; ?></span>
+                <i class="fa fa-angle-right"></i>
+            </li>
+            <li>
+                <span><?php echo $langLbl['Feedback']; ?></span>
+            </li>
+        </ul>
+
+    </div>
+</div>    
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+
+<?php if(isset($alert)): ?>
+<div class="alert alert-<?php echo $alert['type']; ?> alert-dismissibl fade in">
+    <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only"><?php echo $langLbl['Close']; ?></span>
+    </button>
+    <p>
+        <?php echo $alert['msg']; ?>
+
+    </p>
+</div>
+<?php endif; ?>
+
+<div class="portlet box blue">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-navicon"></i> <?php echo $langLbl['Feedback List']; ?>
+
+        </div>
+    </div>
+    <div class="portlet-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th style="width: 120px;"><?php echo $langLbl['Consumer']; ?></th>
+                    <th><?php echo $langLbl['Store']; ?></th>
+                    <?php foreach($company->ratingTypes as $key => $ratingType): ?>
+                    <td class="text-center">
+                        <p><?php echo $ratingType->name; ?></p>
+                    </td>
+                    <?php endforeach; ?>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($company->feedbacks(date('Y'), date('m'))->get() as $feedback): ?>
+                <?php if(count($feedback->ratings) > 0): ?>
+                <tr>
+                    <td rowspan="2">
+                        <a href="<?php echo URL::route('admin.user.edit', $feedback->user->id); ?>"><?php echo $feedback->user->name; ?></a>
+                        <p class="margin-top-xs">
+                            <i class="fa fa-clock-o"></i>&nbsp;<?php echo date(DATE_FORMAT, strtotime($feedback->created_at)); ?>
+
+                        </p>
+                    </td>
+                    <td><?php echo $feedback->store->name; ?></td>
+                    <?php foreach($company->ratingTypes as $key => $ratingType): ?>
+                    <td>
+                        <?php if($ratingType->is_score): ?>
+                        <input id="js-number-rating" type="number" class="rating" min=0 max=5 step=1 data-show-clear=false data-show-caption=false data-size='xs' value="<?php echo $feedback->getTypeScore($ratingType->id); ?>" readonly=true>
+                        <?php else: ?>
+                        <?php echo $feedback->getTypeScore($ratingType->id) == -1 ? '--' : ($feedback->getTypeScore($ratingType->id) == 1 ? 'Yes' : 'No'); ?>
+
+                        <?php endif; ?>                                
+                    </td>
+                    <?php endforeach; ?>
+                </tr>
+                <tr>
+                    <td colspan="<?php echo count($company->ratingTypes) + 1; ?>" style="border-top: none; padding-top: 0px; padding-bottom: 5px;"><i><?php echo $feedback->description; ?></i></td>
+                </tr>
+                <?php endif; ?>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>   
+<?php $__env->stopSection(); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin.layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

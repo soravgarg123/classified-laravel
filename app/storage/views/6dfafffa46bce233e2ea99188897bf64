@@ -1,0 +1,102 @@
+<?php $__env->startSection('custom-styles'); ?>
+<?php echo HTML::style('/assets/metronic/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css'); ?>
+
+<?php echo HTML::style('/assets/metronic/frontend/onepage/css/custom.css'); ?>
+
+<?php echo HTML::style('/assets/metronic/global/plugins/bootstrap-modal/css/bootstrap-modal.css'); ?>
+
+<?php echo HTML::style('/assets/css/bootstrap-checkbox.css'); ?>
+
+<style>
+    .faq-tabbable i {
+        color: #000 !important;
+    }
+</style>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('main'); ?>
+
+<div class="container">
+    <div class="row">        
+        <div class="col-md-12 margin-top-normal">
+
+            <?php if(isset($alert)): ?>
+            <div class="alert alert-<?php echo $alert['type']; ?> alert-dismissibl fade in">
+                <button type="button" class="close" data-dismiss="alert">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only"><?php echo $langLbl['Close']; ?></span>
+                </button>
+                <p>
+                    <?php echo $alert['msg']; ?>
+
+                </p>
+            </div>
+            <?php endif; ?>
+
+            <div class="content">
+
+                <div class="page-title center">
+                    <h1><?php echo $langLbl['Privacy Policy']; ?></h1>
+                </div><!-- /.page-header -->
+
+                <ol style="list-style:none;">
+                <?php 
+                $currentLang = $_COOKIE['current_lang'];
+                $column = "content".$currentLang;
+                foreach($policy as $p) { ?>
+                    <li>
+                        <?php echo $p->$column; ?>
+                    </li>
+                <?php } ?>
+                </ol>
+
+            </div>
+        </div>
+    </div>            
+</div>
+</div>
+<form method="get" action="<?php echo URL::route('post.search'); ?>" id="post-search-frm">
+    <input type="hidden" name="keyword"/>
+</form>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('custom-scripts'); ?>
+<?php echo HTML::script('/assets/metronic/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/global/plugins/bootstrap-modal/js/bootstrap-modal.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/global/plugins/bootstrap-modal/js/bootstrap-modalmanager.js'); ?>
+
+<?php echo HTML::script('/assets/js/bootstrap-checkbox.js'); ?>
+
+<script>
+
+
+// START SEARCH FUNCTION
+    var categories = [];
+    <?php foreach($postcategory as $key => $value): ?>
+            categories[categories.length] = '<?php echo $value->name; ?>';
+    <?php foreach($value -> subCategories as $subKey => $subValue): ?>
+            categories[categories.length] = '<?php echo $subValue->name; ?>';
+    <?php endforeach; ?>
+            <?php endforeach; ?>
+            $('#js-cat-keyword').typeahead({
+        hint: true,
+        highlight: true,
+        minLength: 1
+    }, {
+        name: 'keywords',
+        displayKey: 'value',
+        source: substringMatcher(categories)
+    });
+
+    $("button#js-cat-search").click(function() {
+        $("input[name='keyword']").val($("#js-cat-keyword").val());
+        $("#post-search-frm").submit();
+    });
+// \ END SEARCH FUNCTION
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('user.layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

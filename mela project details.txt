@@ -1,0 +1,98 @@
+site url - http://localhost/mela/mela/public/
+login url - http://localhost/mela/mela/public/login
+email - sourav@mobiwebtech.com
+password - 6april91
+user type - professional
+
+-------css update-------
+--layout.css--
+ line - 1105
+ .page-sidebar {
+    width: 235px
+    float: left;
+    position: relative;
+    margin-right: -100%;
+  }
+line-832
+.page-sidebar .page-sidebar-menu > li,
+.page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0px;
+}
+line-1980
+.page-content-wrapper .page-content {
+    margin-left: 235px;
+    margin-top: 0px;
+    min-height: 600px;
+    padding: 25px 20px 10px 20px;
+  }
+line-824
+.page-sidebar .page-sidebar-menu,
+.page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  /* 1st level links */
+  /* all links */
+}
+---style_company.css---
+ line-5
+.page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover, .page-sidebar {
+	background-color: #AB3009;
+}
+line-9
+.page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu > li > a, .page-sidebar .page-sidebar-menu > li > a {
+	border-top: 1px solid #E6400C;
+	color: #FFF;
+}
+line-1
+body {
+	background-color: #AB3009;
+}
+-----components.css------
+.dashboard-stat.red {
+  background-color: #d84a38;
+}
+line-3511
+.dashboard-stat .visual > i {
+  margin-left: -27px;
+  font-size: 110px;
+  line-height: 110px;
+}
+Line-7038
+.portlet.box.red > .portlet-title {
+  background-color: #d84a38;
+}
+line-7034
+.portlet.box.red {
+  border: 1px solid #e07163;
+  border-top: 0;
+}
+Line-4486
+.tabbable-line > .nav-tabs > li.active {
+  border-bottom: 4px solid #f3565d;
+  position: relative;
+}
+Line-4472
+.tabbable-line > .nav-tabs > li.open, .tabbable-line > .nav-tabs > li:hover {
+  border-bottom: 4px solid #fbcdcf;
+}
+Line-4395
+.tabbable-custom > .nav-tabs > li.active {
+  border-top: 3px solid #f3565d;
+  margin-top: 0;
+  position: relative;
+}
+------default.css-----
+line-325
+.page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .sidebar-toggler,
+.page-sidebar .sidebar-toggler {
+  background: url(../../img/sidebar_inline_toggler_icon_default.jpg);
+}
+----------select2.css--------------
+line-643
+.top-menu div#s2id_langDD {
+    display: none;
+}

@@ -1,0 +1,253 @@
+<?php $__env->startSection('custom-styles'); ?>]
+<?php echo HTML::style('/assets/metronic/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css'); ?>
+
+<?php echo HTML::style('/assets/css/bootstrap-multiselect.css'); ?>
+
+<style>
+    .multiselect span.multiselect-selected-text{
+        float:left;
+    }
+    .multiselect b.caret{
+        float:right;
+        margin-top:8px;
+    }
+</style>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('breadcrumb'); ?>
+<div class="row">
+    <div class="col-md-12">
+        <h3 class="page-title"><?php echo $langLbl['Professional Management']; ?></h3>
+        <ul class="page-breadcrumb breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <span><?php echo $langLbl['Professional']; ?></span>
+                <i class="fa fa-angle-right"></i>
+            </li>
+            <li>
+                <span><?php echo $langLbl['Edit']; ?></span>
+            </li>
+        </ul>
+
+    </div>
+</div>    
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<?php
+$nameVal = 'name' . $currentLanguage;
+$short_nameVal = 'short_name' . $currentLanguage;
+?>
+<?php if($errors->has()): ?>
+<div class="alert alert-danger alert-dismissibl fade in">
+    <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only"><?php echo $langLbl['Close']; ?></span>
+    </button>
+    <?php foreach($errors->all() as $error): ?>
+    <?php echo $error; ?>		
+    <?php endforeach; ?>
+</div>
+<?php endif; ?>
+
+<div class="portlet box blue">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-pencil-square-o"></i> <?php echo $langLbl['Edit Professional']; ?>
+
+        </div>
+    </div>
+    <div class="portlet-body form">
+        <form class="form-horizontal form-bordered form-row-stripped" role="form" method="post" action="<?php echo URL::route('admin.company.store'); ?>" enctype="multipart/form-data">
+            <input type="hidden" name="company_id" value="<?php echo $company->id; ?>"/>
+            <div class="form-body"> 
+                
+                <?php foreach([
+                'name' => $langLbl['Name'],
+                'email' => $langLbl['Email'],
+                'category' => $langLbl['Category'],
+                'password' => $langLbl['Password'],
+                'phone' => $langLbl['Phone'],
+                'country'=> $langLbl['Country'],
+                'languages'=> $langLbl['Languages'], 
+                'rate'=> $langLbl['Hourly Rate'],
+                'register'=> $langLbl['Registered to'],
+                'city'=> $langLbl['City of College or Order'],
+                'user_key'=> $langLbl['Registration Number'],
+                'vat_id' => $langLbl['VAT ID'],
+                'keyword' => $langLbl['Keyword'],
+                'membership' => $langLbl['Membership'],   
+                'photo' => $langLbl['Photo']
+                ] as $key => $value): ?>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label"><?php echo Form::label($key, $value); ?></label>
+                    <div class="col-sm-9">
+                        <?php if($key == 'photo'): ?>
+                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                            <div class="fileinput-new thumbnail" style="width: 120px; height: 120px;">
+                                <img src="<?php echo HTTP_COMPANY_PATH.$company->photo; ?> " alt=""/>
+                            </div>
+                            <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 120px; max-height: 120px;"></div>
+                            <div>
+                                <span class="btn default btn-file">
+                                    <span class="fileinput-new"><?php echo $langLbl['Select image']; ?></span>
+                                    <span class="fileinput-exists"><?php echo $langLbl['Change']; ?></span>
+                                    <input type="file" name="<?php echo $key; ?>">
+                                </span>
+                                <a href="#" class="btn red fileinput-exists" data-dismiss="fileinput"><?php echo $langLbl['Remove']; ?></a>
+                            </div>
+                        </div>
+                        <?php elseif($key == 'category'): ?>
+                        <?php
+                        $sel_cat = [];
+                        foreach ($company->subClasses as $item) {
+                            $sel_cat[] = $item->sub_class_id;
+                        }
+                        ?>
+                        <select id="cat_sel" multiple="multiple" name="sub_category[]">
+                            <?php foreach($categories as $category): ?>									                
+                            <optgroup label="<?php echo $category->name; ?>">
+                                <?php foreach($category->subClasses as $subCategory): ?>
+                                <option value="<?php echo $subCategory->id; ?>">&nbsp; <?php echo $subCategory->name; ?></option>
+                                <?php endforeach; ?>
+                                <?php endforeach; ?>
+                        </select>
+                        <?php elseif($key == 'membership'): ?>
+                        <p class="form-control-static"><?php echo $company->plan_id ? $company->plan->name : '---'; ?>     
+                            <?php elseif($key == 'password'): ?>
+                            <input type="password" class="form-control" name="<?php echo $key; ?>" value="">
+                            <?php elseif($key == 'description'): ?>
+                        <div class="form-group">							
+                            <textarea class="form-control" name="<?php echo $key; ?>" rows="3"><?php echo $company->{$key}; ?></textarea>							
+                        </div>
+                        <?php elseif($key == 'country'): ?>
+                        <select name="<?php echo $key; ?>" id="select2_sample4" class="form-control select2">
+                            <?php foreach($countries as $c): ?>
+                            <option value="<?php echo $c->iso2; ?>" <?php echo $c->iso2 == $company->country ? 'selected':''; ?>><?php echo $c->$short_nameVal; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <?php elseif($key == 'rate'): ?>
+                        <input type="text" class="form-control rate" placeholder="price in euro" name="<?php echo $key; ?>" value="<?php echo $company->rate; ?>" required/>
+                        <?php elseif($key == 'languages'): ?>
+                        <?php $sel_lng = explode(",", $company->languages); ?>											
+                        <select id="lng_sel" multiple="multiple" name="<?php echo $key; ?>[]">
+                            <?php foreach($languages as $l): ?>
+                            <option value="<?php echo $l->alpha2; ?>" ><?php echo $l->$nameVal; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <?php elseif($key == 'register'): ?>
+                        <select name="<?php echo $key; ?>" class="form-control" required>
+                            <?php foreach([ 'Professional College' => $langLbl['Professional College'], 'Professional Order' => $langLbl['Professional Order'], 
+                            'Bar Register' => $langLbl['Bar Register']] as $r => $v): ?>
+                            <option value="<?php echo $r; ?>" <?php echo $company->register == $r ? 'selected':''; ?>><?php echo $v; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <?php else: ?>
+                        <input type="text" class="form-control" name="<?php echo $key; ?>" value="<?php echo $company->{$key}; ?>">
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+                
+                <?php if($siteLanguage): ?>
+                <?php foreach($siteLanguage as $lkey=>$rvalue): ?>  
+                <div class="form-group">
+                    <label class="col-sm-3 control-label"><?php echo Form::label('description'.$rvalue, $langLbl['Description'].' ('.$langLbl[$lkey].')'); ?></label>
+                    <div class="col-sm-9">
+                        <div class="form-group">							
+                            <textarea class="form-control" name="<?php echo 'description' . $rvalue; ?>" rows="3"><?php echo $company->{'description'.$rvalue}; ?></textarea>							
+                        </div> 
+                    </div>
+                </div>   
+                <?php endforeach; ?>
+                <?php endif; ?>           
+                
+            </div>
+            <div class="form-actions fluid">
+                <div class="col-sm-12 text-center">
+                    <button class="btn btn-success" onclick="return validate()">
+                        <span class="glyphicon glyphicon-ok-circle"></span> <?php echo $langLbl['Save']; ?>
+
+                    </button>
+                    <a href="<?php echo URL::route('admin.company'); ?>" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-share-alt"></span> <?php echo $langLbl['Back']; ?>
+
+                    </a>
+                </div>
+            </div>            
+        </form>
+    </div>
+</div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('custom-scripts'); ?>
+<?php echo HTML::script('/assets/metronic/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js'); ?>
+
+<?php echo HTML::script('/assets/js/bootstrap-3.3.2.min.js'); ?>    
+<?php echo HTML::script('/assets/js/bootstrap-multiselect.js'); ?>
+
+<?php echo HTML::script('/assets/js/bootstrap-multiselect-collapsible-groups.js'); ?>
+
+<script>
+                        $(document).ready(function() {
+                            var sel_lng = <?php echo json_encode($sel_lng); ?>;
+                            $('#lng_sel').multiselect({
+                                enableFiltering: true,
+                                enableCaseInsensitiveFiltering: true,
+                                maxHeight: 250,
+                                buttonWidth: '100%',
+                                enableClickableOptGroups: true,
+                            });
+
+                            $('input.rate').keypress(function(event) {
+                                if (event.which >= 37 && event.which <= 40) {
+                                    event.preventDefault();
+                                }
+                                var $this = $(this);
+                                var num = $this.val().replace(/,/gi, "").split("").reverse().join("");
+
+                                var num2 = RemoveRougeChar(num.replace(/(.{3})/g, "$1,").split("").reverse().join(""));
+
+                                // the following line has been simplified. Revision history contains original.
+                                $this.val(num2);
+                            });
+
+                            $('#lng_sel').multiselect('select', <?php echo json_encode($sel_lng); ?>);
+
+                            //category multiselect
+                            var sel_cat = <?php echo json_encode($sel_cat); ?>;
+                            $('#cat_sel').multiselect({
+                                enableFiltering: true,
+                                enableCaseInsensitiveFiltering: true,
+                                maxHeight: 250,
+                                buttonWidth: '100%',
+                                enableClickableOptGroups: true,
+                            });
+
+                            $('#cat_sel').multiselect('select', <?php echo json_encode($sel_cat); ?>);
+                        });
+
+                        function RemoveRougeChar(convertString) {
+
+
+                            if (convertString.substring(0, 1) == ",") {
+
+                                return convertString.substring(1, convertString.length)
+
+                            }
+                            return convertString;
+
+                        }
+                        function validate() {
+                            var objList = $("input#js-checkbox-sub-category:checked");
+                            for (var i = 0; i < objList.length; i++) {
+                                $("div#js-div-sub-category").append($("<input type='hidden' name='sub_category[]' value=" + objList.eq(i).val() + ">"));
+                            }
+                            return true;
+                        }
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin.layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

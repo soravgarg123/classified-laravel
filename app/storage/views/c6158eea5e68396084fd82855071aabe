@@ -1,0 +1,128 @@
+
+
+<?php $__env->startSection('custom-styles'); ?>
+<style>
+    .control-label {
+        font-weight: bold;
+    }
+    .page-container {
+        background: #FFF;
+    }
+</style>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('main'); ?>
+<div class="page-container">
+    <div class="page-contect-wrapper">
+        <div class="page-content"> 
+            <div class="col-sm-8 col-sm-offset-2 padding-bottom-lg" style="margin-top:120px;">             
+                <div class="col-md-3 col-sm-offset-2" style="margin-top:95px;">
+                    <div class="pricing hover-effect">
+                        <div class="pricing-head">
+                            <h3><?php echo $langLbl['Professional Basic']; ?>
+
+                                <span>
+                                    Officia deserunt mollitia
+                                </span>
+                            </h3>
+                            <h4>Free</h4>
+                        </div>
+                        <ul class="pricing-content list-unstyled">
+                            <li>
+                                <i class="fa fa-tags"></i><?php echo $langLbl['VIEWING YOUR PROFESSIONAL DETAILS']; ?>
+
+                            </li>
+                            <li>
+                                <i class="fa fa-asterisk"></i><?php echo $langLbl['PERSONAL ADMINISTRATOR PANEL']; ?>
+
+                            </li>
+                            <li>
+                                <i class="fa fa-heart"></i><?php echo $langLbl['ONE SERVICE AND ONE OFFICE']; ?>
+
+                            </li>
+                            <li>
+                                <i class="fa fa-star"></i><?php echo $langLbl['PERSONAL CONNECTION URL']; ?>
+
+                            </li>
+                            <li>
+                                <i class="fa fa-shopping-cart"></i><?php echo $langLbl['INDEX PROFILE']; ?>
+
+                            </li>
+                        </ul>
+                        <div class="pricing-footer">
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut non libero magna psum olor.
+                            </p>
+                            <a href="<?php echo URL::route('company.auth.signup', array('basic','free') ); ?>" class="btn btn-primary">
+                                Sign Up <i class="m-icon-swapright m-icon-white"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <?php foreach($plans as $key => $plan): ?>
+                <div class="col-md-3">
+                    <div class="pricing pricing-active hover-effect">
+                        <div class="pricing-head pricing-head-active">
+                            <h3><?php echo $plan->name; ?>
+
+                                <span>
+                                    Officia deserunt mollitia
+                                </span>
+                            </h3>
+                            <h4><?php echo $plan->type == 'py' ? '<i>&euro;</i>'.$plan->price : 'Fee'; ?></i>
+                                <span>
+                                    <?php echo $plan->type == 'py' ? $langLbl['Per Year'] :  $langLbl['Per Service']; ?>
+
+                                </span>
+                            </h4>
+                        </div>
+                        <ul class="pricing-content list-unstyled">
+                            <li>
+                                <i class="fa fa-tags"></i><?php echo $langLbl['VIEWING YOUR PROFESSIONAL DETAILS']; ?>
+
+                            </li>
+                            <li>
+                                <i class="fa fa-asterisk"></i><?php echo $langLbl['PERSONAL ADMINISTRATOR PANEL']; ?>
+
+                            </li>
+                            <li>
+                                <i class="fa fa-heart"></i><?php echo $langLbl['MULTIPLE SERVICES AND MULTIPLE OFFICES']; ?>
+
+                            </li>
+                            <li>
+                                <i class="fa fa-star"></i><?php echo $langLbl['PERSONAL CONNECTION URL']; ?>
+
+                            </li>
+                            <li>
+                                <i class="fa fa-shopping-cart"></i><?php echo $langLbl['INDEX PROFILE']; ?>
+
+                            </li>
+                            <li>
+                                <i class="fa fa-tree"></i><?php echo $langLbl['OFFERS PUBLICATION']; ?>
+
+                            </li>
+                            <li>
+                                <i class="fa fa-child"></i><?php echo $langLbl['SECTION PERSONAL ITEMS']; ?>
+
+                            </li>
+                        </ul>
+                        <div class="pricing-footer">
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut non libero magna psum olor .
+                            </p>
+                            <a href="<?php echo URL::route('company.auth.signup', array('pro_'.$plan->type, $plan->price ) ); ?>" class="btn btn-primary">
+                                <?php echo $langLbl['Sign Up']; ?> <i class="m-icon-swapright m-icon-white"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <?php endforeach; ?>                
+            </div>
+        </div>
+    </div>
+</div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('company.layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

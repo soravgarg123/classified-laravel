@@ -1,0 +1,67 @@
+
+
+<?php $__env->startSection('main'); ?>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3 margin-top-xl margin-bottom-xl">
+            <form role="form" method="post" action="<?php echo URL::route('user.sendResetPasswordEmail'); ?>">
+                <div class="form-group">
+                    <div class="row text-center">
+                        <p class="form-control-static">
+                        <h2 class="text-center"><?php echo $langLbl['Did you forgot the password?']; ?></h2>
+                        </p>
+                        <p class="form-control-static">
+                        <h4 class="text-center"><?php echo $langLbl['Enter your email to reset']; ?></h4>
+                        </p>
+                    </div>
+                </div>
+
+                <?php if($errors->has()): ?>
+                <div class="alert alert-danger alert-dismissibl fade in">
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only"><?php echo $langLbl['Close']; ?></span>
+                    </button>
+                    <?php foreach($errors->all() as $error): ?>
+                    <p><?php echo $error; ?></p>
+                    <?php endforeach; ?>
+                </div>
+                <?php endif; ?>
+
+                <?php if(isset($alert)): ?>
+                <div class="alert alert-<?php echo $alert['type']; ?> alert-dismissibl fade in">
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only"><?php echo $langLbl['Close']; ?></span>
+                    </button>
+                    <p>
+                        <?php echo $alert['msg']; ?>
+
+                    </p>
+                </div>
+                <?php endif; ?>                          
+
+                <div class="margin-top-lg"></div>
+                <div class="form-group">
+                    <label class="control-label"><?php echo $langLbl['Email']; ?></label>
+                    <input type="text" class="form-control input-lg" placeholder="<?php echo $langLbl['Email Address']; ?>" name="email">
+                </div>
+
+                <div class="margin-top-lg"></div>
+                <div class="form-group">
+                    <div class="text-right">                            
+                        <button type="submit" class="btn green btn-lg">
+                            <?php echo $langLbl['Submit']; ?> <span class="glyphicon glyphicon-ok-circle"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="margin-top-lg"></div>
+            </form>    
+        </div>
+    </div>
+</div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('user.layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,5 @@
+<div class="chatting_main">
+
+</div>
+
+<input type="hidden" value="" id="hidden_array">

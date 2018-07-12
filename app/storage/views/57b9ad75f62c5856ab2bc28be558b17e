@@ -1,0 +1,121 @@
+    
+<?php $__env->startSection('page-styles'); ?>
+<?php echo HTML::style('/assets/metronic/global/plugins/typeahead/typeahead.css'); ?>
+
+<?php echo HTML::style('//fonts.googleapis.com/css?family=Bitter'); ?>
+
+<?php echo HTML::style('/assets/metronic/frontend/layout/css/style.css'); ?>
+
+<?php echo HTML::style('/assets/metronic/frontend/layout/css/style-responsive.css'); ?>
+
+<?php echo HTML::style('/assets/metronic/frontend/layout/css/themes/red.css'); ?>
+
+<?php echo HTML::style('/assets/metronic/frontend/layout/css/custom.css'); ?>
+
+<?php echo HTML::style('/assets/metronic/admin/layout/css/layout.css'); ?>
+
+<?php echo HTML::style('/assets/metronic/global/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.css'); ?>
+
+<?php echo HTML::style('/assets/css/style_frontend.css'); ?>
+
+<?php echo HTML::style('/assets/css/messenger.css'); ?>
+
+<?php echo HTML::style('/assets/css/superlist.css'); ?>
+
+<?php echo HTML::style('/assets/metronic/global/plugins/select2/select2.css'); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('body'); ?>
+<body class="corporate" >
+    <div class="page-wrapper">
+        <?php $__env->startSection('header'); ?>
+        <!-- / End live chat -->
+
+        <div class="header background-default" style="border-top: 5px solid #AE3030;">  
+            <div class="clearfix"></div>  
+            <div class="header-wrapper">
+                <div class="container">
+                    <div class="header-inner">
+                        <div class="header-content">
+                            <div class="header-top">
+                                <a href="javascript:void(0);" class="innr_mob"><i class="fa fa-bars"></i></a> 
+                                <ul class="nav innr_mob_toggle">
+                                    <li><a href="#" class="btn-menu"><?php echo $langLbl['Request a service']; ?></a></li>
+                                    <li><a href="<?php echo URL::route('user.howitworks'); ?>" target="_blank" class="btn-menu"><?php echo $langLbl['How it works']; ?></a></li>
+                                    <li>
+                                        <a href="#" style="color: #FFF;" class="btn-menu"><?php echo $langLbl['Select Language']; ?> <span class="caret"></span></a>
+                                        <ul>
+                                            <?php if($siteLanguage): ?>
+                                            <?php foreach($siteLanguage as $sLangKey => $sLangVal): ?>
+                                            <li>
+                                                <a href="javascript:void(0);" lang="<?php echo $sLangVal == '' ? 'en' : $sLangVal; ?>" class="langDD dropdown-toggle <?php if((isset($_COOKIE['current_lang']) ? $_COOKIE['current_lang'] : 'en') == ($sLangVal == '' ? 'en' : $sLangVal)): ?> active <?php endif; ?>">
+                                                    <?php echo $langLbl[$sLangKey]; ?> 
+                                                </a>
+                                            </li> 
+                                            <?php endforeach; ?>
+                                            <?php endif; ?>
+                                        </ul>
+                                    </li>                        
+                                </ul>
+
+                                <div class="header-logo">
+                                    <a href="<?php echo URL::route('user.home'); ?>"><img src="<?php echo asset('assets/img/logo.png'); ?>" alt="Finternet-Group" style="width:100%; max-width:270px; min-width:200px;">
+                                    </a>
+                                </div>
+
+                                <a href="javascript:void(0);" class="mobi-toggler moble"><i class="fa fa-bars"></i></a>   
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>            
+
+        <?php echo $__env->yieldSection(); ?>
+
+        <?php $__env->startSection('main'); ?>
+                <img src="http://www.denduluri.net/maintenance.jpg">
+        <?php echo $__env->yieldSection(); ?>
+
+        <?php $__env->startSection('footer'); ?>
+        <div class="page-wrapper footercol">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-sm-6 padding-top-10 foot_border" style="padding-bottom:10px;color:grey;">
+                        Copyright &copy; 2010-<?php echo date("Y"); ?> DoveCercare.
+                    </div>                        
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php echo $__env->yieldSection(); ?>
+</body>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('page-scripts'); ?>
+<?php echo HTML::script('/assets/metronic/frontend/layout/scripts/back-to-top.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/admin/layout/scripts/layout.js'); ?>        
+<?php echo HTML::script('/assets/metronic/frontend/layout/scripts/layout.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/admin/pages/scripts/custom.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/global/plugins/typeahead/handlebars.min.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/global/plugins/typeahead/typeahead.bundle.min.js'); ?>        
+<?php echo HTML::script('//maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true'); ?>
+
+<?php echo HTML::script('/assets/js/brain-socket.min.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/global/plugins/select2/select2.min.js'); ?>
+
+ 
+<?php $__env->stopSection(); ?>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('main', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

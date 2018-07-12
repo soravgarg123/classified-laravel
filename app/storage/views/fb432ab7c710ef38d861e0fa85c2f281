@@ -1,0 +1,159 @@
+<?php $__env->startSection('main'); ?>
+<?php
+$nameVal = 'name' . $currentLanguage;
+$descriptionVal = 'description' . $currentLanguage;
+$postTitleVal = 'post_title' . $currentLanguage;
+$postContentVal = 'post_content' . $currentLanguage;
+?>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 margin-top-normal margin-bottom-normal">
+
+            <?php if(count($posts) > 0): ?> 
+            <div class="pull-right" style="margin-top:25px;"><?php echo $posts->links(); ?></div>
+            <div class="clearfix"></div>
+
+            <!-- START POST LIST -->
+            <div class="row" style="padding-top:30px;">
+                <div class="col-sm-8 col-lg-9">
+                    <div class="posts">
+                        <?php foreach($posts as $post): ?>
+                        <?php
+                        if ($post->company_id != 0 && isset($post->company))
+                            $company = $post->company;
+                        else {
+                            $company = new stdClass();
+                            $company->slug = 'admin';
+                            $company->name = 'Admin';
+                        }
+                        $name = [];
+                        $slug = [];
+                        $subCategories = $post->subCategories;
+                        foreach ($subCategories as $s) {
+                            $name[] = $s->Category->$nameVal;
+                            $sl[] = $s->Category->slug;
+                        }
+                        $cat_name = implode(",", $name);
+                        ?>
+
+                        <div class="post">
+
+                            <div class="post-image">
+                                <img src="<?php echo HTTP_POST_PATH.$post->featured_image; ?>">
+                                <a class="read-more" href="<?php echo URL::route('post.detail', $post->slug); ?>"><?php echo $langLbl['View']; ?></a>
+                            </div><!-- /.post-image -->
+
+                            <div class="post-content">
+                                <h2><a href="<?php echo URL::route('post.detail', $post->slug); ?>"><?php echo $post->$postTitleVal; ?></a><a></a></h2><a>
+                                    <p><?php echo substr($post->$postContentVal, 0, 300); ?> ...</p>
+                                </a></div><!-- /.post-content -->
+                            <div class="post-meta clearfix">
+                                <div class="post-meta-author"><a><?php echo $langLbl['By']; ?> </a><a href="<?php echo URL::route('post.author', $company->slug ); ?>"><?php echo $company->name; ?></a></div><!-- /.post-meta-author -->
+                                <div class="post-meta-date"><?php echo $post->created_at; ?></div><!-- /.post-meta-date -->
+                                <?php if($cat_name != ''): ?>
+                                <div class="post-meta-categories"><i class="fa fa-tags"></i> 
+                                    <?php for($i=0; $i<count($name); $i++): ?>
+                                        <a href="<?php echo URL::route('post.category', $sl[$i] ); ?>"><?php echo $name[$i]; ?></a><?php if($i != count($name)-1): ?>,<?php endif; ?>
+                                        <?php endfor; ?>
+                                </div><!-- /.post-meta-categories -->
+                                <?php endif; ?>
+                                <div class="post-meta-comments"><i class="fa fa-comments"></i> <a href="blog-detail.html"><?php echo $post->comment_count; ?> <?php echo $langLbl['comments']; ?></a></div><!-- /.post-meta-comments -->
+                                <div class="post-meta-more"><a href="blog-detail.html"><?php echo $langLbl['Read More']; ?> <i class="fa fa-chevron-right"></i></a></div><!-- /.post-meta-more -->
+                            </div><!-- /.post-meta -->
+                        </div>
+
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            <div class="form-group">
+                                <div class="input-icon">
+                                    <i class="fa fa-pencil" style="margin-top:16px;"></i>
+                                    <input type="text" class="form-control input-lg input-circle custom-typeahead" id="js-cat-keyword" placeholder="<?php echo $langLbl['Enter Keyword']; ?>" value="<?php echo Session::get('prof_keyword'); ?>">
+                                </div>
+                            </div>					                	                
+                        </div>
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <button type="button" class="btn green btn-block btn-circle btn-lg" id="js-cat-search">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h3 style="color:#E02222;"><i class="fa fa-bookmark" style="font-size:23px;"></i> <?php echo $langLbl['Categories']; ?></h3>
+                            <ul class="list-unstyled cat-wrapper">
+                                <?php foreach($postcategory as $c): ?>
+                                <?php if($c->$nameVal != $langLbl['Other']): ?>
+                                <li><a href="<?php echo URL::route('post.category', $c->slug ); ?>"><?php echo $c->$nameVal; ?> </a>(<?php echo $c->getCatCount($c->id); ?>)</li>
+                                <?php endif; ?>
+                                <?php endforeach; ?>
+                                <?php foreach($postcategory as $c): ?>
+                                <?php if($c->$nameVal == $langLbl['Other']): ?>
+                                <li><a href="<?php echo URL::route('post.category', $c->slug ); ?>"><?php echo $c->$nameVal; ?> </a>(<?php echo $c->getCatCount($c->id); ?>)</li>
+                                <?php endif; ?>
+                                <?php endforeach; ?>
+                            </ul>
+                            <h3 style="color:#E02222;"><i class="fa fa-graduation-cap" style="font-size:20px;"></i> <?php echo $langLbl['World of Professions']; ?></h3>
+                            <ul class="list-unstyled cat-wrapper">
+                                <li><a href="<?php echo URL::route('post.professions' ); ?>"><?php echo $langLbl['All posts about Professions']; ?> </a>(<?php echo $cntAdminPost; ?>)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>   
+            <!-- END POST LIST -->
+            <div class="pull-right"><?php echo $posts->links(); ?></div>
+            <div class="clearfix"></div>
+            <?php else: ?>
+            <div class="note note-info">
+                <h4 class="block"><?php echo $langLbl['The post is empty.']; ?></h4>
+            </div>
+            <?php endif; ?>
+        </div>
+
+    </div>
+</div>
+
+<form method="get" action="<?php echo URL::route('post.search'); ?>" id="post-search-frm">
+    <input type="hidden" name="keyword"/>
+</form>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('custom-scripts'); ?>
+<?php echo HTML::script('/assets/js/bootstrap-tooltip.js'); ?>
+
+<script>
+    $(document).ready(function() {
+
+    });
+    var categories = [];
+    <?php foreach($postcategory as $key => $value): ?>
+            categories[categories.length] = '<?php echo $value->name; ?>';
+    <?php foreach($value -> subCategories as $subKey => $subValue): ?>
+            categories[categories.length] = '<?php echo $subValue->name; ?>';
+    <?php endforeach; ?>
+            <?php endforeach; ?>
+            $('#js-cat-keyword').typeahead({
+        hint: true,
+        highlight: true,
+        minLength: 1
+    }, {
+        name: 'keywords',
+        displayKey: 'value',
+        source: substringMatcher(categories)
+    });
+
+    $("button#js-cat-search").click(function() {
+        $("input[name='keyword']").val($("#js-cat-keyword").val());
+        $("#post-search-frm").submit();
+    });
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('user.layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,164 @@
+
+
+<?php $__env->startSection('main'); ?>
+<?php
+$nameVal = 'name' . $currentLanguage;
+$descriptionVal = 'description' . $currentLanguage;
+?>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-7 margin-top-normal margin-bottom-normal">
+            <?php if(count($carts) > 0): ?> 
+            <div class="pull-right"><?php echo $carts->links(); ?></div>
+            <div class="clearfix"></div>
+            <?php foreach($carts as $cart): ?>
+            <?php $company = $cart->company;
+            $store = $cart->store;
+            ?>
+            <div class="row margin-top-xs">
+                <div class="col-md-4 col-sm-4">
+                    <a href="<?php echo URL::route('store.detail', $company->slug); ?>">
+                        <?php
+                        $tooltip = "<div class='testimonials-v1'><div class='carousel-info'><img style='width:50px;height:50px;float:left;' src='" . HTTP_COMPANY_PATH . $company->photo . "'/><h4 style='float:left;margin-left:10px;margin-top:12px;'>" . $company->name . "</h4></div><div style='clear:both;'></div></div>";
+                        $tooltip.= "<p style='margin-top:10px;'><b>" . $langLbl['Keywords'] . " : </b>";
+                        $keywords = explode(",", $company->keyword);
+                        foreach ($keywords as $key => $value) {
+                            if ($key != 0)
+                                $tooltip.=", ";
+                            $tooltip.= $value;
+                        }
+                        $tooltip.= "</p>";
+                        $tooltip.= "<p><b>" . $langLbl['Email'] . " : </b>" . $company->email . "</p>";
+                        $tooltip.= "<p><b>" . $langLbl['Phone'] . " : </b>" . $company->phone . "</p>";
+                        $tooltip.= "<p><b>" . $langLbl['VAT ID'] . " : </b>" . $company->vat_id . "</p>";
+                        $tooltip.= "<p><b>" . $langLbl['Description'] . " : </b>" . substr($store->$descriptionVal, 0, 300) . "</p>";
+                        ?>
+                        <img class="img-responsive img-rounded" alt="" src="<?php echo HTTP_STORE_PATH.$store->photo; ?>" data-toggle="tooltip" data-placement="right" data-html="true" data-title="<?php echo $tooltip; ?>">
+                    </a>
+                </div>
+                <div class="col-md-8 col-sm-8">
+                    <h3 class="">
+                        <a href="<?php echo URL::route('store.detail', $store->slug); ?>"><?php echo $store->$nameVal; ?></a>
+                        <?php
+                        if ($cart->status == 0) { //pending...
+                            $status_class = "label-info";
+                            $status = $langLbl['Pending'];
+                        } elseif ($cart->status == 1) {
+                            $status_class = "label-success";
+                            $status = $langLbl['Completed'];
+                        }// completed...
+                        elseif ($cart->status == 2) {
+                            $status_class = "label-warning";
+                            $status = $langLbl['Cancelled'];
+                        }// cancelled...
+                        else {
+                            $status_class = "label-danger";
+                            $status = $langLbl['Book'];
+                        }//book
+                        ?> 
+                        <span class="label label-sm <?php echo $status_class; ?>"><?php echo $status; ?></span>
+                        <button class="btn btn-link btn-sm" data-id="<?php echo $cart->id; ?>" id="js-btn-remove-cart" title="Remove Cart"><i class="fa fa-trash-o"></i></button>
+                    </h3>
+                    <div class="pull-left">             
+                        <input id="js-number-rating" data-symbol="&#8226;" type="number" class="rating" min=0 max=5 step=1 data-show-clear=false data-show-caption=false data-size='xs' value="<?php echo $store->getRatingScore(); ?>" readonly=true>          
+                    </div>
+                    <span class="pull-left company-highlight" style="padding:12px;">( <?php echo $store->getRatingCount(); ?> Reviews )</span>
+                    <div class="clearfix"></div>
+                    <ul class="blog-info">
+                        <li><span class="color-default"><b><i class="fa fa-phone"></i> <?php echo $company->phone; ?></b></span></li>
+                        <li><span class="color-default"><b><i class="fa fa-envelope-o"></i> <?php echo $company->email; ?></b></span></li>                      
+                    </ul>                        
+                    <?php $options = unserialize($cart->options); ?>
+                    <ul class="blog-info">
+                        <?php if( $options['service_available'] == 1 ): ?>
+                        <li><span class="color-default"><b><i class="fa fa-calendar"></i> <?php echo $langLbl['Booking Date']; ?> : </b></span> <?php echo $cart->book_date; ?></li>
+                        <li><span class="color-default"><b><i class="fa fa-clock-o"></i> <?php echo $langLbl['Duration']; ?> : </b></span> <?php echo $cart->duration; ?></li>                            
+                        <?php else: ?>
+                        <?php $delivery_date = date('Y-m-d', strtotime($cart->created_at . "+" . $options['delivery_days'] . " day")); ?>
+                        <li><span class="color-default"><b><i class="fa fa-calendar"></i><?php echo $langLbl['Delivery Date']; ?> : <?php echo $langLbl['By']; ?> </b></span><?php echo $delivery_date; ?></li>
+                        <li><span class="color-default"><b><i class="fa fa-map-marker"></i><?php echo $langLbl['Delivery Place']; ?> : </b></span><?php echo $options['delivery_place']; ?></li>
+                        <?php endif; ?>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <hr/>
+                </div>
+            </div>
+            <?php endforeach; ?>
+            <div class="pull-right"><?php echo $carts->links(); ?></div>
+            <div class="clearfix"></div>
+            <?php else: ?>
+            <div class="note note-info">
+                <h4 class="block"><?php echo $langLbl['The cart is empty']; ?></h4>
+            </div>
+            <?php endif; ?>
+        </div>
+
+        <!-- <div class="col-sm-5">
+            <div id="map-canvas" style="height: 600px; width: 100%; border: 2px solid #E6400C;" class="margin-top-sm margin-bottom-xs"></div>            
+        </div> -->
+    </div>
+</div>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('custom-scripts'); ?>
+<?php echo HTML::script('/assets/js/bootstrap-tooltip.js'); ?>
+
+<script>
+    $(document).ready(function() {
+    $("button#js-btn-remove-cart").click(function() {
+    var obj = $(this);
+            $.ajax({
+    url: "<?php echo URL::route('async.user.cart.remove'); ?>",
+            dataType : "json",
+            type : "POST",
+            data : { cart_id : $(this).attr('data-id') },
+            success : function(data){
+                bootbox.alert(data.msg);
+                if(data.result == "success"){
+                    obj.parents("div.margin-top-xs").eq(0).next().remove();
+                    obj.parents("div.margin-top-xs").eq(0).remove();
+                    window.setTimeout(function(){
+                        window.location.reload();
+                        }, 2000);
+                      }
+                    }
+                  });
+                });
+              });
+/*            function initialize() {
+
+            var mapPosition = new google.maps.LatLng(<?php echo DEFAULT_LAT; ?>, <?php echo DEFAULT_LNG; ?>);
+                    var mapOptions = { zoom: 12, center: mapPosition };
+                    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+                    var marker = [];
+                    var infowindow = [];
+                    <?php foreach($carts as $key => $cart): ?>
+<?php $value = $cart->company; ?>
+            var contentString = ''
+                    + '<div style="width: 220px;">'
+                    + '    <p><b>Name : </b><?php echo $value->$nameVal; ?></p>'
+                    + '    <p><b>Description : </b><?php echo addslashes(substr($cart->store->$descriptionVal, 0, 150)); ?></p>'
+                    + '    <p><i class="fa fa-phone"></i> <?php echo $cart->company->phone; ?>&nbsp;&nbsp;&nbsp;'
+                    + '    <p><b>Address : </b> <?php echo $cart->company->email; ?></p>'
+                    + '</div>';
+                    infowindow[<?php echo $key; ?>] = new google.maps.InfoWindow({
+            content: contentString
+            });
+                    marker[<?php echo $key; ?>] = new google.maps.Marker({position: new google.maps.LatLng(<?php echo $cart->store->lat; ?>, <?php echo $cart->store->lng; ?>), map: map, title: '<?php echo $value->$nameVal; ?>'});
+                    google.maps.event.addListener(marker[<?php echo $key; ?>], 'mouseover', function() {
+            infowindow[<?php echo $key; ?>].open(map, marker[<?php echo $key; ?>]);
+            });
+                    google.maps.event.addListener(marker[<?php echo $key; ?>], 'mouseout', function() {
+            infowindow[<?php echo $key; ?>].close();
+            });
+                    <?php endforeach; ?>
+            }
+    google.maps.event.addDomListener(window, 'load', initialize);*/
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('user.layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,253 @@
+
+
+<?php $__env->startSection('custom-styles'); ?>
+<?php echo HTML::style('/assets/metronic/global/plugins/typeahead/typeahead.css'); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('breadcrumb'); ?>
+<div class="row">
+    <div class="col-md-12">
+        <ul class="page-breadcrumb breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <span><?php echo $langLbl['Consumer']; ?></span>
+                <i class="fa fa-angle-right"></i>
+            </li>
+            <li>
+                <span><?php echo $langLbl['Detail']; ?></span>
+            </li>
+        </ul>
+    </div>
+</div>    
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<?php if (isset($alert)) { ?>
+    <div class="alert alert-<?php echo $alert['type']; ?> alert-dismissibl fade in">
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only"><?php echo $langLbl['Close']; ?></span>
+        </button>
+        <p>
+            <?php echo $alert['msg']; ?>
+        </p>
+    </div>
+<?php } ?>
+
+<div class="portlet box red">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-navicon"></i> <?php echo $langLbl['Consumer Detail']; ?>
+
+        </div>
+        <div class="actions">		    
+            <button class="btn btn-default btn-sm" id="js-btn-add-stamp" data-user="<?php echo $user->id; ?>">
+                <i class="fa fa-plus"></i>&nbsp;<?php echo $langLbl['Stamp']; ?>
+
+            </button>
+        </div>		
+    </div>
+    <div class="portlet-body form">
+        <div class="form-horizontal" >
+            <div class="form-body">
+                <?php if($siteLanguage): ?>
+                <?php foreach($siteLanguage as $lkey=>$rvalue): ?>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label"><?php echo Form::label('name'.$rvalue, $langLbl['Name'].' ('.$langLbl[$lkey].')'); ?></label>
+                    <div class="col-sm-9">
+                        <?php echo Form::text('name'.$rvalue, $user->{'name'.$rvalue}, ['class' => 'form-control']); ?>
+
+                    </div>
+                </div>	
+                <?php endforeach; ?>
+                <?php endif; ?> 
+
+                <?php if($company->plan_id != ''): ?>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><b><?php echo $langLbl['Email']; ?> : </b></label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static"><?php echo $user->email; ?></p>
+                    </div>                
+
+                    <label class="col-sm-2 control-label"><b><?php echo $langLbl['Phone']; ?> : </b></label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static"><?php echo $user->phone; ?></p>
+                    </div>
+                </div>
+                <?php endif; ?>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"><b><?php echo $langLbl['Visits']; ?> : </b></label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static"><?php echo $consumer->count_visit; ?></p>
+                    </div>
+
+                    <label class="col-sm-2 control-label"><b><?php echo $langLbl['Stamps']; ?> : </b></label>
+                    <div class="col-sm-4">
+                        <p class="form-control-static"><?php echo $consumer->count_stamp; ?></p>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="portlet box red margin-top-lg">
+    <div class="portlet-title">
+        <div class="caption">
+            <?php echo $langLbl['Consumer Offers']; ?>
+
+        </div>
+    </div>
+    <div class="portlet-body">
+        <table class="table table-striped table-hover">
+            <tbody>
+                <?php foreach($userOffers as $key => $value): ?>
+                <tr>
+                    <td style="line-height: 40px;" class="text-center"><span class="badge badge-danger"><?php echo $key + 1; ?></span></td>
+                    <td>
+                        <div class="pull-left">
+                            <img src="<?php echo HTTP_OFFER_PATH.$value->offer->photo; ?>" style="height: 40px;">
+                        </div>
+                        <div class="pull-left" style="margin-left: 10px;">
+                            <div><b><?php echo $value->offer->name; ?></b></div>
+                            <div class="font-size-sm"><i><?php echo $value->offer->description; ?></i></div>                                        
+                        </div>
+                        <div class="clearfix"></div>
+                    </td>
+                    <td style="line-height: 40px;" class="text-center">
+                        <h3><?php echo $value->code; ?></h3>
+                    </td>
+                    <td style="line-height: 40px;" class="text-center">
+                        <h4 class="color-default"><?php echo !$value->offer->is_review ? $value->offer->price.'&euro;' : $langLbl['By Activity']; ?></h4>
+                    </td>
+                    <td style="line-height: 40px;" class="text-center">
+                        <div><i><?php echo "Get At : ".$value->created_at; ?></i></div>
+                    </td>
+                    <td style="line-height: 40px;" class="text-center">
+                        <a href="<?php echo URL::route('company.user.useOffer', array($value->id, $visit->id)); ?>" class="btn blue btn-sm"><i class="fa fa-heart"></i>&nbsp;<?php echo $langLbl['Use Offer']; ?></a>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+
+                <?php if(count($userOffers) == 0): ?>
+                <tr>
+                    <td><?php echo $langLbl['There is no offers']; ?></td>
+                </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>    
+    </div>
+</div>
+
+<div class="portlet box red margin-top-lg">
+    <div class="portlet-title">
+        <div class="caption">
+            <?php echo $langLbl['Available Loyalties']; ?>
+
+        </div>
+    </div>
+    <div class="portlet-body">
+        <table class="table table-striped table-hover">
+            <tbody>
+                <?php foreach($loyalties as $key => $value): ?>
+                <tr>
+                    <td style="line-height: 40px;" class="text-center"><span class="badge badge-danger"><?php echo $key + 1; ?></span></td>
+                    <td>
+                        <div class="pull-left">
+                            <img src="<?php echo HTTP_LOYALTY_PATH.$value->photo; ?>" style="height: 40px;">
+                        </div>
+                        <div class="pull-left" style="margin-left: 10px;">
+                            <div><b><?php echo $value->name; ?></b></div>
+                            <div class="font-size-sm"><i><?php echo $value->description; ?></i></div>                                        
+                        </div>
+                        <div class="clearfix"></div>
+                    </td>
+                    <td style="line-height: 40px;" class="text-center">
+                        <h3 class="color-default"><?php echo $value->count_visit." ". $langLbl['Stamps Requires']; ?></h3>
+                    </td>
+                    <td style="line-height: 40px;" class="text-center">
+                        <a href="<?php echo URL::route('company.user.useLoyalty', array($value->id, $visit->id)); ?>" class="btn blue btn-sm"><i class="fa fa-heart"></i>&nbsp;<?php echo $langLbl['Use Loyalty']; ?></a>
+                    </td>                    
+                </tr>
+                <?php endforeach; ?>
+                <?php if(count($loyalties) == 0): ?>
+                <tr>
+                    <td><?php echo $langLbl['There is no available loyalties']; ?></td>
+                </tr>
+                <?php endif; ?>                
+            </tbody>
+        </table>    
+    </div>
+</div>
+
+<div class="portlet box red margin-top-lg">
+    <div class="portlet-title">
+        <div class="caption">
+            <?php echo $langLbl['Provided Feedbacks']; ?>
+
+        </div>
+    </div>
+    <div class="portlet-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th><?php echo $langLbl['Store Name']; ?></th>
+                    <?php foreach($company->ratingTypes as $ratingType): ?>
+                    <th class="text-center"><?php echo $ratingType->name; ?></th>
+                    <?php endforeach; ?>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($company->stores as $store): ?>
+                <tr>
+                    <?php foreach($store->providedFeedbacks($user->id)->get() as $feedback): ?>
+                    <td class="text-center">
+                        <?php echo $store->name; ?>
+
+                    </td>                
+                    <?php foreach($feedback->ratings as $rating): ?>
+                    <td class="text-center">
+                        <?php if($rating->type->is_score): ?>
+                        <input id="js-number-rating" data-symbol="&#9899;" type="number" class="rating" min=0 max=5 step=1 data-show-clear=false data-show-caption=false data-size='xs' value="<?php echo $feedback->getTypeScore($rating->type_id); ?>" readonly=true>
+                        <?php else: ?>
+                        <?php echo $feedback->getTypeScore($rating->type_id) == -1 ? '--' : ($feedback->getTypeScore($rating->type_id) == 1 ? $langLbl['Yes'] : $langLbl['No']); ?>
+
+                        <?php endif; ?>
+                    </td>
+                    <?php endforeach; ?>
+                    <?php endforeach; ?>            
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('custom-scripts'); ?>
+<script>
+    $(document).ready(function() {
+        $("button#js-btn-add-stamp").click(function() {
+            $.ajax({
+                url: "<?php echo URL::route('async.company.stamp.add'); ?>",
+                dataType: "json",
+                type: "POST",
+                data: {user_id: $(this).attr('data-user')},
+                success: function(data) {
+                    bootbox.alert(data.msg);
+                    window.setTimeout(function() {
+                        bootbox.hideAll();
+                    }, 2000);
+                }
+            });
+        });
+    });
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('company.layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

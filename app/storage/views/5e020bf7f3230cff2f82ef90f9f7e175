@@ -1,0 +1,159 @@
+
+
+<?php $__env->startSection('breadcrumb'); ?>
+<div class="row">
+    <div class="col-md-12">
+        <h3 class="page-title"><?php echo $langLbl['Professional Management']; ?></h3>
+        <ul class="page-breadcrumb breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <span><?php echo $langLbl['Professional']; ?></span>
+                <i class="fa fa-angle-right"></i>
+            </li>
+            <li>
+                <span><?php echo $langLbl['List']; ?></span>
+            </li>
+        </ul>
+
+    </div>
+</div>    
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+
+<?php if(isset($alert)): ?>
+<div class="alert alert-<?php echo $alert['type']; ?> alert-dismissibl fade in">
+    <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only"><?php echo $langLbl['Close']; ?></span>
+    </button>
+    <p>
+        <?php echo $alert['msg']; ?>
+
+    </p>
+</div>
+<?php endif; ?>
+
+<div class="portlet box blue">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-navicon"></i> <?php echo $langLbl['Professional List']; ?>
+
+        </div>
+        <div class="actions">
+            <a href="<?php echo URL::route('admin.company.create'); ?>" class="btn btn-default btn-sm">
+                <span class="glyphicon glyphicon-plus"></span>&nbsp;<?php echo $langLbl['Add New']; ?>
+
+            </a>								    
+        </div>
+    </div>
+    <div class="portlet-body ">
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th><?php echo $langLbl['Name']; ?></th>
+                    <th><?php echo $langLbl['Email']; ?></th>
+                    <th><?php echo $langLbl['Phone']; ?></th>
+                    <th><?php echo $langLbl['VAT ID']; ?></th>
+                    <th><?php echo $langLbl['Email']; ?>/<?php echo $langLbl['SMS']; ?></th>
+                    <th><?php echo $langLbl['Status']; ?></th>
+                    <th><?php echo $langLbl['Phone']; ?></th>
+                    <th><?php echo $langLbl['Payment']; ?></th>
+                    <th><?php echo $langLbl['action']; ?></th>
+                    <th class="th-action"><?php echo $langLbl['Edit']; ?></th>
+                    <th class="th-action"><?php echo $langLbl['Feedback']; ?></th>
+                    <th class="th-action"><?php echo $langLbl['Delete']; ?></th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($companies as $key => $value): ?>
+                <tr>
+                    <td><?php echo ((Input::has('page') ? Input::get('page') : 1) - 1 ) * PAGINATION_SIZE + ($key + 1); ?></td>
+                    <td><?php echo $value->name; ?></td>
+                    <td><?php echo $value->email; ?></td>
+                    <td><?php echo $value->phone; ?></td>
+                    <td><?php echo $value->vat_id; ?></td>
+                    <td><?php echo $value->count_email."/".$value->count_sms; ?></td>
+                    <td>
+                        <?php
+                            if($value->is_active){
+                                echo "Active";
+                            }else{
+                                echo "Inactive";
+                            }
+                        ?>
+                    </td>
+                    <td><input type="checkbox" class="verified-box" c_type="phone_verified" main="<?php echo $value->id; ?>" <?php if($value->phone_verified == 0) echo "checked"; ?> ></td>
+                    <td><input type="checkbox" class="verified-box" c_type="payment_verified" main="<?php echo $value->id; ?>" <?php if($value->payment_verified == 0) echo "checked"; ?> ></td>
+                    <td>
+                    <?php 
+                        if($value->suspend == 0){ // block - 0 ?>
+                            <a title="Click here to unblock" href="<?php echo URL::route('admin.company.unblock', $value->id); ?>" class="btn btn-sm btn-info">
+                                <span class="fa fa-times"></span>
+                            </a>
+                    <?php }else{ // unblock - 1 ?>
+                            <a title="Click here to block" href="<?php echo URL::route('admin.company.block', $value->id); ?>" class="btn btn-sm btn-info">
+                                <span class="fa fa-check"></span>
+                            </a>
+                    <?php  } ?>
+                    </td>
+                    <td>
+                        <a href="<?php echo URL::route('admin.company.edit', $value->id); ?>" class="btn btn-sm btn-info">
+                            <span class="glyphicon glyphicon-edit"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="<?php echo URL::route('admin.company.feedback', $value->id); ?>" class="btn btn-sm btn-info">
+                            <i class="fa fa-star"></i>
+                        </a>
+                    </td>                        
+                    <td>
+                        <a href="<?php echo URL::route('admin.company.delete', $value->id); ?>" class="btn btn-sm btn-danger" id="js-a-delete">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </a>
+                    </td>                        
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        <div class="pull-right"><?php echo $companies->links(); ?></div>
+        <div class="clearfix"></div>
+    </div>
+</div>    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>   
+
+<!-- phone-payment verified script start -->
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('body').on('change','.verified-box',function(){
+        var type = $(this).attr('c_type');
+        var compnay_id = $(this).attr('main');
+        var status;
+            if(this.checked){
+                status = 0;
+            }else{
+                status = 1;
+            }
+        $.ajax({
+            url: "<?php echo URL::route('admin.company.verify'); ?>",
+            type: "post",
+            dataType: "json",
+            data: {type:type,compnay_id:compnay_id,status:status},
+            success:function(data){
+                console.log(data.msg);
+            },
+            error:function(error){
+                console.log(error);
+            }
+        });
+      });
+    });
+</script>
+
+<!-- phone-payment verified script end -->
+<?php $__env->stopSection(); ?>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('admin.layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

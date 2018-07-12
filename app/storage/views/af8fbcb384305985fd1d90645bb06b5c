@@ -1,0 +1,428 @@
+
+
+<?php $__env->startSection('custom-styles'); ?>]
+<style>
+    #map-canvas {
+        height: 300px;
+    }
+</style>
+<?php echo HTML::style('/assets/metronic/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css'); ?>
+
+<?php echo HTML::style('/assets/metronic/global/plugins/select2/select2.css'); ?>
+
+<?php echo HTML::style('/assets/css/bootstrap-multiselect.css'); ?>
+
+<style>
+    .cat_sel span.multiselect-selected-text{
+        float:left;
+    }
+    .cat_sel b.caret{
+        float:right;
+        margin-top:8px;
+    }
+</style>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('breadcrumb'); ?>
+<div class="row">
+    <div class="col-md-12">
+        <ul class="page-breadcrumb breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <span><?php echo $langLbl['Professional Profile']; ?></span>
+            </li>
+        </ul>
+    </div>
+</div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<?php if($errors->has()): ?>
+<div class="alert alert-danger alert-dismissibl fade in">
+    <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only"><?php echo $langLbl['Close']; ?></span>
+    </button>
+    <?php foreach($errors->all() as $error): ?>
+    <?php echo $error; ?>		
+    <?php endforeach; ?>
+</div>
+<?php endif; ?>
+<?php if (isset($alert)) { ?>
+    <div class="alert alert-<?php echo $alert['type']; ?> alert-dismissibl fade in">
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only"><?php echo $langLbl['Close']; ?></span>
+        </button>
+        <p>
+            <?php echo $alert['msg']; ?>
+        </p>
+    </div>
+<?php } ?>  
+<?php
+$nameVal = 'name' . $currentLanguage;
+?>
+<div class="tabbable-line">
+    <ul class="nav nav-tabs ">
+        <li class="<?php echo $tabNo == 1 ? 'active' : ''; ?>" id="js-li-tab" data-url="<?php echo URL::route('company.profile', 1); ?>">
+            <a href="#tab_1"><?php echo $langLbl['General Information']; ?></a>
+        </li>
+        <li class="<?php echo $tabNo == 3 ? 'active' : ''; ?>" id="js-li-tab" data-url="<?php echo URL::route('company.profile', 3); ?>">
+            <a href="#tab_3"><?php echo $langLbl['Profile & Cover Photo']; ?></a>
+        </li>
+        <li class="<?php echo $tabNo == 4 ? 'active' : ''; ?>" id="js-li-tab" data-url="<?php echo URL::route('company.profile', 4); ?>">
+            <a href="#tab_4"><?php echo $langLbl['Change Password']; ?></a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane <?php echo $tabNo == 1 ? 'active' : ''; ?>" id="tab_1">
+            <div class="portlet box red">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-user"></i><?php echo $langLbl['General Information']; ?>
+
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    <form action="<?php echo URL::route('company.profile.updateCompany'); ?>" class="form-horizontal form-row-seperated" method="post">
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label"><?php echo Form::label('name', $langLbl['Name'].' *'); ?></label>
+                                <div class="col-sm-9">
+                                        <?php echo Form::text('name', $company->name, ['class' => 'form-control']); ?>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label"><?php echo $langLbl['About Me']; ?></label>
+                                <div class="col-sm-9">
+                                    <div class="portlet box"> 
+                                        <div class="portlet-body">
+                                            <div class="tabbable-custom">
+                                                <ul class="nav nav-tabs">
+                                                    <?php if($siteLanguage): ?>
+                                                    <?php foreach($siteLanguage as $lkey=>$rvalue): ?>
+                                                    <li class="<?php if(empty($rvalue)): ?> active  <?php endif; ?>">
+                                                        <a data-toggle="tab" href="#tab_description_<?php echo $langLbl[$lkey]; ?>"><?php echo Ucfirst($langLbl[$lkey]); ?></a>
+                                                    </li>
+                                                    <?php endforeach; ?>
+                                                    <?php endif; ?> 
+                                                </ul>
+                                                <div class="tab-content">
+                                                    <?php if($siteLanguage): ?>
+                                                    <?php foreach($siteLanguage as $lkey=>$rvalue): ?>
+                                                    <div id="tab_description_<?php echo $langLbl[$lkey]; ?>" class="tab-pane <?php if(empty($rvalue)): ?> active  <?php endif; ?>">
+                                                        <?php echo Form::text('description'.$rvalue, $company->{'description'.$rvalue}, ['class' => 'form-control']); ?>
+
+                                                    </div>
+                                                    <?php endforeach; ?>
+                                                    <?php endif; ?> 
+                                                </div>
+                                            </div>
+                                        </div>	
+                                    </div>
+                                </div>
+                            </div>	
+                            <div class="form-group">
+                                <label class="control-label col-md-3"><?php echo Form::label('register', $langLbl['Registered to']); ?></label>
+                                <div class="col-md-8">
+                                    <select name="register" class="form-control" required>								
+                                        <?php foreach([ $langLbl['Professional College'], $langLbl['Professional Order'], $langLbl['Bar Register']] as $r): ?>
+                                        <option value="<?php echo $r; ?>" <?php echo $company->register == $r ? 'selected':''; ?>><?php echo $r; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <?php foreach([
+                            'email' => $langLbl['Email'].' *',
+                            'category'=> $langLbl['Category'].' *',
+                            'country'=> $langLbl['Country'],
+                            'languages'=> $langLbl['Languages'],                                        
+                            'phone' => $langLbl['Phone'],
+                            'rate'=> $langLbl['Hourly Rate'],
+                            'city'=> $langLbl['City of College or Order'],
+                            'user_key'=> $langLbl['Registration Number'],
+                            'vat_id' => $langLbl['VAT ID'].' *',
+                            'keyword' => $langLbl['Keyword'],
+                            ] as $key => $value): ?>                                    
+                            <?php if($key == 'keyword' ): ?>
+                            <div class="form-group">
+                                <label class="control-label col-md-3"><?php echo Form::label($key, $value).' : '; ?></label>
+                                <div class="col-md-8">
+                                    <textarea class="form-control" name="<?php echo $key; ?>" rows="3"><?php echo $company->{$key}; ?></textarea>
+                                </div>
+                            </div>
+                            <?php elseif($key == 'paypal_id'): ?>
+                            <div class="form-group">
+                                <label class="control-label col-md-3"><?php echo Form::label($key, $value).' : '; ?></label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" placeholder="Business email ID" name="<?php echo $key; ?>" value="<?php echo $company->{$key}; ?>">
+                                </div>
+                            </div>
+                            <?php elseif($key == 'country'): ?>
+                            <div class="form-group">
+                                <label class="control-label col-md-3"><?php echo Form::label($key, $value).' : '; ?></label>
+                                <div class="col-md-8">
+                                    <select name="<?php echo $key; ?>" id="select2_sample4" class="form-control select2">
+                                        <?php foreach($countries as $c): ?>
+                                        <option value="<?php echo $c->iso2; ?>" <?php echo $c->iso2 == $company->country ? 'selected':''; ?>><?php echo $c->short_name; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <?php elseif($key == 'rate'): ?>
+                            <div class="form-group">
+                                <label class="control-label col-md-3"><?php echo Form::label($key, $value); ?></label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control rate" placeholder="price in euro" name="<?php echo $key; ?>" value="<?php echo $company->rate; ?>"/>
+                                </div>
+                            </div>
+                            <?php elseif($key == 'languages'): ?>
+                            <div class="form-group">
+                                <label class="control-label col-md-3"><?php echo Form::label($key, $value).':'; ?></label>
+                                <div class="col-md-8 lang-sel">
+                                    <?php $sel_lng = explode(",", $company->languages); ?>											
+                                    <select id="lng_sel" multiple="multiple" name="<?php echo $key; ?>[]">
+                                        <?php foreach($languages as $l): ?>
+                                        <option value="<?php echo $l->alpha2; ?>" ><?php echo $l->name_en; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <?php elseif($key == 'category'): ?>
+                            <div class="form-group">
+                                <label class="control-label col-md-3"><?php echo Form::label($key, $value); ?></label>
+                                <div class="col-md-8 cat_sel">
+                                    <?php
+                                    $sel_cat = [];
+                                    foreach ($company->subClasses as $item) {
+                                        $sel_cat[] = $item->sub_class_id;
+                                    }
+                                    ?>
+                                    <select id="cat_sel" multiple="multiple" name="sub_category[]">
+                                        <?php foreach($categories as $category): ?>									                
+                                        <optgroup label="<?php echo $category->$nameVal; ?>">
+                                            <?php foreach($category->subClasses as $subCategory): ?>
+                                            <option value="<?php echo $subCategory->id; ?>">&nbsp; <?php echo $subCategory->$nameVal; ?></option>
+                                            <?php endforeach; ?>
+                                            <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <?php elseif($key == 'register'): ?>
+                            <div class="form-group">
+                                <label class="control-label col-md-3"><?php echo Form::label($key, $value); ?></label>
+                                <div class="col-md-8">
+                                    <select name="<?php echo $key; ?>" class="form-control" required>												
+                                        <?php foreach([ $langLbl['Professional College'], $langLbl['Professional Order'], $langLbl['Bar Register']] as $r): ?>
+                                        <option value="<?php echo $r; ?>" <?php echo $company->register == $r ? 'selected':''; ?>><?php echo $r; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <?php else: ?>
+                            <div class="form-group">
+                                <label class="control-label col-md-3"><?php echo Form::label($key, $value).' : '; ?></label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" name="<?php echo $key; ?>" value="<?php echo $company->{$key}; ?>">
+                                </div>
+                            </div>
+                            <?php endif; ?>
+                            <?php endforeach; ?>	
+                            
+                            <div class="form-group">
+                                <label class="control-label col-md-3"><?php echo $langLbl['Default Language']; ?></label>
+                                <div class="col-md-8">
+                                    <select class="form-control" name="default_language">
+                                        <?php foreach($siteLanguage as $sLangKey => $sLangVal): ?>
+                                        <option value="<?php echo $sLangVal; ?>"><?php echo $langLbl[$sLangKey]; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-actions fluid">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <button type="submit" onclick="return validate()" class="btn green"><i class="fa fa-save"></i> <?php echo $langLbl['Save']; ?></button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane <?php echo $tabNo == 3 ? 'active' : ''; ?>" id="tab_3">
+            <div class="portlet box red">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-user"></i><?php echo $langLbl['Photos']; ?>
+
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    <form action="<?php echo URL::route('company.profile.updatePhoto'); ?>" class="form-horizontal form-row-seperated" method="post" enctype="multipart/form-data">
+                        <div class="form-body">
+                            <?php foreach([
+                            'photo' => 'Photo',
+                            ] as $key => $value): ?>
+                            <div class="form-group">
+                                <label class="control-label col-md-3"><?php echo Form::label($key, $value).' : '; ?></label>
+                                <div class="col-md-8">
+                                    <div class="fileinput fileinput-new" data-provides="fileinput">
+                                        <div class="fileinput-new thumbnail" style="width: 120px; height: 120px;">
+                                            <img src="<?php echo HTTP_COMPANY_PATH.$company->photo; ?>" alt=""/>
+                                        </div>
+                                        <div class="fileinput-preview fileinput-exists thumbnail" style="max-width: 120px; max-height: 120px;"></div>
+                                        <div>
+                                            <span class="btn default btn-file">
+                                                <span class="fileinput-new"><?php echo $langLbl['Select image']; ?></span>
+                                                <span class="fileinput-exists"><?php echo $langLbl['Change']; ?></span>
+                                                <input type="file" name="<?php echo $key; ?>">
+                                            </span>
+                                            <a href="#" class="btn red fileinput-exists" data-dismiss="fileinput"><?php echo $langLbl['Remove']; ?></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php endforeach; ?>
+                        </div>
+                        <div class="form-actions fluid">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <button type="submit" class="btn green"><i class="fa fa-save"></i> <?php echo $langLbl['Save']; ?></button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane <?php echo $tabNo == 4 ? 'active' : ''; ?>" id="tab_4">
+            <div class="portlet box red">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-user"></i><?php echo $langLbl['Change Password']; ?>
+
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    <form action="<?php echo URL::route('company.profile.changePassword'); ?>" class="form-horizontal form-row-seperated" method="post">
+                        <div class="form-body">
+                            <?php foreach([
+                            'password_current' => $langLbl['Current Password'],
+                            'password' =>  $langLbl['New Password'],
+                            'password_confirmation' =>  $langLbl['Retype Password'],
+                            ] as $key => $value): ?>
+                            <div class="form-group">
+                                <label class="control-label col-md-3"><?php echo Form::label($key, $value).' : '; ?></label>
+                                <div class="col-md-6">
+                                    <input type="password" class="form-control" name="<?php echo $key; ?>">
+                                </div>
+                            </div>
+                            <?php endforeach; ?>
+                        </div>
+                        <div class="form-actions fluid">
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <button type="submit" class="btn green"><i class="fa fa-save"></i> <?php echo $langLbl['Save']; ?></button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>				
+    </div>
+</div>    
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('custom-scripts'); ?>
+<?php echo HTML::script('/assets/metronic/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/global/plugins/bootstrap-select/bootstrap-select.min.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/global/plugins/select2/select2.min.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/global/plugins/jquery-multi-select/js/jquery.multi-select.js'); ?>
+
+<?php echo HTML::script('/assets/metronic/admin/pages/scripts/components-dropdowns.js'); ?>
+
+<?php echo HTML::script('/assets/js/bootstrap-3.3.2.min.js'); ?>    
+<?php echo HTML::script('/assets/js/bootstrap-multiselect.js'); ?>
+
+<?php echo HTML::script('/assets/js/bootstrap-multiselect-collapsible-groups.js'); ?>
+
+<script>
+
+    $(document).ready(function() {
+        ComponentsFormTools.init();
+        ComponentsDropdowns.init();
+
+        /* 	 $("input#js-checkbox-sub-category").change(function(){
+         if($('input#js-checkbox-sub-category:checked').length > 1 ){
+         alert("You are available to choose one category");
+         $(this).prop('checked',false);
+         return false;
+         }
+         }); */
+
+        $('input.rate').keypress(function(event) {
+            if (event.which >= 37 && event.which <= 40) {
+                event.preventDefault();
+            }
+            var $this = $(this);
+            var num = $this.val().replace(/,/gi, "").split("").reverse().join("");
+            var num2 = RemoveRougeChar(num.replace(/(.{3})/g, "$1,").split("").reverse().join(""));
+            // the following line has been simplified. Revision history contains original.
+            $this.val(num2);
+        });
+
+        //language multiselect
+        var sel_lng = <?php echo json_encode($sel_lng); ?>;
+        $('#lng_sel').multiselect({
+            enableFiltering: true,
+            enableCaseInsensitiveFiltering: true,
+            maxHeight: 250,
+            buttonWidth: '100%',
+            enableClickableOptGroups: true,
+        });
+
+        $('#lng_sel').multiselect('select', <?php echo json_encode($sel_lng); ?>);
+
+        //category multiselect
+        var sel_cat = <?php echo json_encode($sel_cat); ?>;
+        $('#cat_sel').multiselect({
+            enableFiltering: true,
+            enableCaseInsensitiveFiltering: true,
+            maxHeight: 250,
+            buttonWidth: '100%',
+            enableClickableOptGroups: true,
+        });
+        $('#cat_sel').multiselect('select', <?php echo json_encode($sel_cat); ?>);
+        $("li#js-li-tab").click(function() {
+            window.location.href = $(this).attr('data-url');
+        });
+    });
+
+    function RemoveRougeChar(convertString) {
+        if (convertString.substring(0, 1) == ",") {
+            return convertString.substring(1, convertString.length)
+        }
+        return convertString;
+    }
+    function validate() {
+        var objList = $("input#js-checkbox-sub-category:checked");
+        for (var i = 0; i < objList.length; i++) {
+            $("div#js-div-sub-category").append($("<input type='hidden' name='sub_category[]' value=" + objList.eq(i).val() + ">"));
+        }
+        return true;
+    }
+</script>
+<?php $__env->stopSection(); ?>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('company.layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,9 @@
+.bsswitch-large {
+    min-width: 120px !important;
+}
+textarea{
+	height: 400px !important;
+}
+.form_area {
+    resize: none;
+}

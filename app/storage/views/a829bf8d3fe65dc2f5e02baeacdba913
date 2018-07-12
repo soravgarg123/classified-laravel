@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <div>
+            Hello,
+        </div>
+        <div>
+            <?php echo $name; ?> want support with <a href="mela.dovecercare.com">mela.dovecercare.com
+            </a></br>
+            <p> Name: <?php echo $name; ?> </p></br>
+            <p> Email-id: <?php echo $email; ?> </p></br>
+            <p> Message: <?php echo $message1; ?> </p></br>
+        </div>
+        <hr/>
+        <div>
+            
+        </div>
+    </body>
+</html>

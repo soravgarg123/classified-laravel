@@ -1,0 +1,351 @@
+
+<?php $__env->startSection('custom-styles'); ?>
+<style>
+    .page-wrapper{
+        background-color:#f7f8f9;
+    }
+    .rating-xs{
+        font-size: 1.2em !important;
+    }
+</style>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('main'); ?>
+<?php
+$nameVal = 'name' . $currentLanguage;
+$descriptionVal = 'description' . $currentLanguage;
+$postTitleVal = 'post_title' . $currentLanguage;
+$postContentVal = 'post_content' . $currentLanguage;
+?>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="pull-right margin-top-xs">
+                <button class="btn <?php echo (Session::get('dt') == 'grid') ? 'btn-primary' : 'btn-default'; ?>" id="js-btn-display" data-display="grid"><i class="fa fa-th"></i></button>
+                <button class="btn <?php echo (Session::get('dt') == 'list') ? 'btn-primary' : 'btn-default'; ?>" id="js-btn-display" data-display="list"><i class="fa fa-th-list"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <?php if(Session::get('dt') == 'grid'): ?>
+    <div class="row margin-top-xs margin-bottom-sm">
+        <?php if(count($stores) > 0): ?>
+        <div class="col-sm-12 pull-right"><?php echo $stores->appends(Request::input())->links(); ?></div>
+        <div class="clearfix"></div>    
+        <?php foreach($stores as $key => $store): ?>
+
+        <div class="col-sm-3">
+            <div class="thumbnail company-list">
+                <a href="<?php echo URL::route('store.detail', $store->slug); ?>">
+                    <?php
+                    $tooltip = "<h4>" . $store->$nameVal . "</h4>";
+                    $tooltip.= "<p><b>" . $langLbl['Keywords'] . " : </b>";
+                    $keywords = explode(",", $store->keyword);
+                    foreach ($keywords as $subKey => $value) {
+                        if ($subKey != 0)
+                            $tooltip.=", ";
+                        $tooltip.= $value;
+                    }
+                    $tooltip.= "</p>";
+                    $tooltip.= "<p><b>" . $langLbl['Email'] . " : </b>" . $store->company->email . "</p>";
+                    $tooltip.= "<p><b>" . $langLbl['Phone'] . " : </b>" . $store->phone . "</p>";
+                    $tooltip.= "<p><b>" . $langLbl['VAT ID'] . " : </b>" . $store->company->vat_id . "</p>";
+                    $tooltip.= "<p><b>" . $langLbl['Description'] . " : </b>" . substr($store->$descriptionVal, 0, 300) . "</p>";
+                    ?>
+                    <div style="height: 145px; width: 100%; background: url(<?php echo HTTP_STORE_PATH.$store->photo; ?>); background-size: cover;" data-toggle="tooltip" data-placement="<?php echo $key % 4 == 3 ? 'left' : 'right'; ?>" data-html="true" data-title="<?php echo $tooltip; ?>"></div>
+                </a>
+                <h4 class="color-default margin-top-xs">
+                    <a href="<?php echo URL::route('store.detail', $store->slug); ?>" data-toggle="tooltip" data-placement="<?php echo $key % 4 == 3 ? 'left' : 'right'; ?>" data-html="true" data-title="<?php echo $tooltip; ?>">
+                        <?php echo $store->name; ?>
+
+                    </a>
+                </h4>
+
+                <div class="row">
+                    <p class="col-sm-4  text-right color-default"><b><?php echo $langLbl['Email']; ?> : </b></p>
+                    <p class="col-sm-7 no-padding-left"><?php echo $store->company->email; ?></p>
+                </div>
+
+                <div class="row">
+                    <p class="col-sm-4 text-right color-default"><b><?php echo $langLbl['Phone']; ?> : </b></p>
+                    <p class="col-sm-7 no-padding-left"><?php echo $store->company->phone; ?></p>
+                </div>                       
+
+                <div class="row">
+                    <p class="col-sm-4 text-right color-default"><b><?php echo $langLbl['Offices']; ?> : </b></p>
+                    <div class="col-sm-7 no-padding-left">
+                        <?php $i = 0; ?>
+                        <?php foreach($store->officies as $office): ?>
+                        <?php $i++; ?>
+                        <p class="col-sm-12" style="padding-left:0;"><?php echo $office->office->name; ?> <?php echo $i == 2 ? ' ...' : ''; ?></p>
+                        <?php if ($i == 2) break; ?>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+
+                <div class="pull-left">
+                    <?php if(Session::has('user_id')): ?>
+                    <!-- <button class="btn btn-primary btn-sm" data-id="<?php echo $store->id; ?>" id="js-btn-add-cart"><i class="fa fa-plus"></i> Cart</button> -->
+                    <?php endif; ?>
+                </div>
+                <div class="pull-right" style="margin-top: -10px;">
+                    <input id="js-number-rating" type="number" class="rating" min=0 max=5 step=1 data-show-clear=false data-show-caption=false data-size='xs' value="<?php echo $store->getRatingScore(); ?>" readonly=true>
+                </div>
+                <div class="clearfix"></div>
+
+            </div>
+        </div>        
+        <?php endforeach; ?>
+        <?php else: ?>
+        <div class="note note-info">
+            <h4 class="block"><?php echo $langLbl['There is no search result']; ?></h4>
+        </div>
+        <?php endif; ?>
+    </div>
+    <?php else: ?>
+    <div class="row margin-top-xs margin-bottom-sm">
+        <div class="col-sm-9">
+            <?php if(count($stores) > 0): ?>
+            <div class="cards-row">
+                <div class="pull-right"><?php echo $stores->appends(Request::input())->links(); ?></div>
+                <div class="clearfix"></div>
+                <?php foreach($stores as $key => $store): ?>
+
+                <div class="card-row">
+                    <div class="card-row-inner">
+                        <?php
+                        $tooltip = "<div class='testimonials-v1'><div class='carousel-info'><img style='width:50px;height:50px;float:left;' src='" . HTTP_COMPANY_PATH . $store->company->photo . "'/><h4 style='float:left;margin-left:10px;margin-top:12px;'>" . $store->company->name . "</h4></div><div style='clear:both;'></div></div>";
+                        //$tooltip = "<h4>".$store->name."</h4>";
+                        $tooltip.= "<p><b>" . $langLbl['Keywords'] . " : </b>";
+                        $keywords = explode(",", $store->keyword);
+                        foreach ($keywords as $subKey => $value) {
+                            if ($subKey != 0)
+                                $tooltip.=", ";
+                            $tooltip.= $value;
+                        }
+                        $tooltip.= "</p>";
+                        $tooltip.= "<p><b>" . $langLbl['Email'] . " : </b>" . $store->company->email . "</p>";
+                        $tooltip.= "<p><b>" . $langLbl['Phone'] . " : </b>" . $store->phone . "</p>";
+                        $tooltip.= "<p><b>" . $langLbl['VAT ID'] . " : </b>" . $store->company->vat_id . "</p>";
+                        $tooltip.= "<p><b>" . $langLbl['Description'] . " : </b>" . substr($store->$descriptionVal, 0, 150) . "...</p>";
+                        ?>
+                        <div class="card-row-image" data-background-image="<?php echo HTTP_STORE_PATH.$store->photo; ?>" data-toggle="tooltip" data-placement="left" data-html="true" data-title="<?php echo $tooltip; ?>" style="background-image: url(<?php echo HTTP_STORE_PATH.$store->photo; ?>);">
+
+                            <div class="card-row-label">
+                                <?php foreach($store->subCategories as $key => $value): ?>
+                                <a href="<?php echo URL::route('store.search').'?keyword='.$value->subCategory->name; ?>"><?php echo $value->subCategory->$nameVal; ?></a>
+                                <?php break; ?>                                
+                                <?php endforeach; ?>
+                            </div><!-- /.card-row-label -->
+                            <?php $options = unserialize($store->options); ?>
+                            <div class="card-row-price">
+                                &euro;<?php echo $store->price_value; ?>
+
+                                <?php if($options['service_available'] == 1): ?>
+                                / <?php echo $store->duration; ?>min
+                                <?php endif; ?>
+                            </div>
+                        </div><!-- /.card-row-image -->
+
+                        <div class="card-row-body">
+                            <h2 class="card-row-title"><a href="<?php echo URL::route('store.detail', $store->slug); ?>"><?php echo $store->$nameVal; ?></a></h2>
+                            <div class="card-row-content"><p><?php echo substr($store->$descriptionVal, 0, 200); ?>...</p></div><!-- /.card-row-content -->
+                        </div><!-- /.card-row-body -->
+
+                        <div class="card-row-properties">
+                            <dl>
+                                <dd><?php echo $langLbl['Price']; ?></dd>
+                                <dt>&euro;<?php echo $store->price_value; ?>
+
+                                <?php if($options['service_available'] == 1): ?>
+                                / <?php echo $store->duration; ?>min
+                                <?php endif; ?>
+                                </dt>
+                                <dd><?php echo $langLbl['Category']; ?></dd>
+                                <dt>
+                                <?php foreach($store->subCategories as $key => $value): ?>
+                                <?php echo $value->subCategory->$nameVal; ?>
+
+                                <?php break; ?>                                
+                                <?php endforeach; ?>
+                                </dt>
+                                <dd><?php echo $langLbl['Address']; ?></dd><dt><?php echo $store->address; ?></dt>
+                                <dd><?php echo $langLbl['Rating']; ?></dd>
+                                <dt>
+                                <div class="card-row-rating">
+                                    <input id="js-number-rating" type="number" class="rating" min=0 max=5 step=1 data-show-clear=false data-show-caption=false data-size='xs' value="<?php echo $store->getRatingScore(); ?>" readonly=true>
+                                </div><!-- /.card-row-rating -->
+                                </dt>
+                            </dl>
+                        </div><!-- /.card-row-properties -->
+                    </div><!-- /.card-row-inner -->
+                </div>                
+
+                <?php endforeach; ?>
+                <div class="pull-right"><?php echo $stores->appends(Request::input())->links(); ?></div>
+                <div class="clearfix"></div>
+                <div class="cards-row">
+                    <?php else: ?>
+                    <div class="note note-info">
+                        <h4 class="block"><?php echo $langLbl['There is no search result']; ?></h4>
+                    </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3 side-bar">
+            <div class="row">
+                <div class="col-sm-9">
+                    <div class="form-group">
+                        <div class="input-icon">
+                            <i class="fa fa-pencil" style="margin-top:16px;"></i>
+                            <input type="text" class="form-control input-lg input-circle custom-typeahead" id="js-cat-keyword" placeholder="<?php echo $langLbl['Enter Keyword']; ?>" value="<?php echo Session::get('prof_keyword'); ?>">
+                        </div>
+                    </div>					                	                
+                </div>
+                <div class="col-sm-3" style="padding-left:0px;">
+                    <div class="form-group">
+                        <button type="button" class="btn green btn-block btn-circle btn-lg" id="js-cat-search">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 style="color:#E02222;"><i class="fa fa-bookmark" style="font-size:23px;"></i> <?php echo $langLbl['Categories']; ?></h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="list-unstyled cat-wrapper">
+                        <?php foreach($postcategory as $c): ?>
+                        <li><a href="<?php echo URL::route('post.category', $c->slug ); ?>"><?php echo $c->$nameVal; ?> </a>(<?php echo $c->getCatCount($c->id); ?>)</li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            </div>
+
+            </br>
+            <h3 style="color:#E02222;"><i class="fa fa-book" style="font-size:23px;"></i> <?php echo $langLbl['Recent Posts']; ?></h3>
+            <?php foreach($recent_posts as $recent_post): ?>                            	
+            <div class="cards-small">
+                <div class="card-small">
+                    <div class="card-small-image">
+                        <a href="<?php echo URL::route('post.detail', $recent_post->slug); ?>">
+                            <img class="img-responsive" src="<?php echo HTTP_POST_PATH.$recent_post->featured_image; ?>">
+                        </a>
+                    </div><!-- /.card-small-image -->
+
+                    <div class="card-small-content">
+                        <h3><a href="<?php echo URL::route('post.detail', $recent_post->slug ); ?>"><?php echo $recent_post->$postTitleVal; ?></a></h3>
+                        <h4><?php echo substr($recent_post->$postContentVal, 0, 50); ?></h4>								                    
+                    </div><!-- /.card-small-content -->
+                </div><!-- /.card-small -->
+            </div>	
+            <hr/>
+            <?php endforeach; ?>
+        </div>
+    </div>
+    <?php endif; ?>
+</div>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('custom-scripts'); ?>
+<?php echo HTML::script('/assets/js/bootstrap-tooltip.js'); ?>
+
+<script>
+    var markers = new Array();
+    var alternateMarkers = [], markersIcon = [];
+    $(document).ready(function() {
+
+        $("button#js-btn-add-cart").click(function() {
+            $.ajax({
+                url: "<?php echo URL::route('async.user.cart.add'); ?>",
+                dataType: "json",
+                type: "POST",
+                data: {store_id: $(this).attr('data-id')},
+                success: function(data) {
+                    bootbox.alert(data.msg);
+                    window.setTimeout(function() {
+                        bootbox.hideAll();
+                    }, 2000);
+                }
+            });
+        });
+
+        $("button#js-btn-display").click(function() {
+            $("input[name='dt']").val($(this).attr('data-display'));
+            $("button#js-btn-search").click();
+        });
+
+        $("div.company-item").find("*").mouseover(function(event) {
+            event.preventDefault();
+        });
+
+        $("div.company-item").hover(function() {
+            var ind = $(this).attr("data-id");
+            Object.size = function(obj) {
+                var size = 0, key;
+                for (key in obj) {
+                    if (obj.hasOwnProperty(key))
+                        size++;
+                }
+                return size;
+            };
+
+            for (var i = 0; i < Object.size(marker[ind]) - 1; i++) {
+                var lat = marker[ind][i].getPosition().lat();
+                var lng = marker[ind][i].getPosition().lng();
+                //map.setCenter(new google.maps.LatLng(lat, lng));
+                // myLatlng = new google.maps.LatLng(lat,lng);
+                marker[ind][i].setIcon(alternateMarkers[ind][i]);
+                infowindow[ind].open(map, marker[ind][i]);
+                //markers.push(marker[ind][i]);            
+            }
+            AutoCenter(marker[ind]);
+            // infowindow[ind].open(map, marker[ind]);
+            //AutoCenter();
+            $(this).addClass('background-gray');
+
+        }, function() {
+            var ind = $(this).attr("data-id");
+            for (var i = 0; i < infowindow.length; i++) {
+                infowindow[i].close();
+            }
+            for (var i = 0; i < Object.size(marker[ind]) - 1; i++) {
+                marker[ind][i].setIcon(markersIcon[ind][i]);
+            }
+            $(this).removeClass('background-gray');
+        });
+    });
+
+//START SEARCH FUNCTION
+    var categories = [];
+    <?php foreach($postcategory as $key => $value): ?>
+            categories[categories.length] = '<?php echo $value->name; ?>';
+    <?php foreach($value -> subCategories as $subKey => $subValue): ?>
+            categories[categories.length] = '<?php echo $subValue->name; ?>';
+    <?php endforeach; ?>
+            <?php endforeach; ?>
+            $('#js-cat-keyword').typeahead({
+        hint: true,
+        highlight: true,
+        minLength: 1
+    }, {
+        name: 'keywords',
+        displayKey: 'value',
+        source: substringMatcher(categories)
+    });
+
+    $("button#js-cat-search").click(function() {
+        $("input[name='keyword']").val($("#js-cat-keyword").val());
+        $("#post-search-frm").submit();
+    });
+//\ END SEARCH FUNCTION
+</script>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('user.layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,95 @@
+
+
+<?php $__env->startSection('breadcrumb'); ?>
+<div class="row">
+    <div class="col-md-12">
+        <ul class="page-breadcrumb breadcrumb">
+            <li>
+                <i class="fa fa-home"></i>
+                <span><?php echo $langLbl['Rating Type']; ?></span>
+                <i class="fa fa-angle-right"></i>
+            </li>
+            <li>
+                <span><?php echo $langLbl['Create']; ?></span>
+            </li>
+        </ul>
+
+    </div>
+</div>    
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+
+<?php if($errors->has()): ?>
+<div class="alert alert-danger alert-dismissibl fade in">
+    <button type="button" class="close" data-dismiss="alert">
+        <span aria-hidden="true">&times;</span>
+        <span class="sr-only"><?php echo $langLbl['Close']; ?></span>
+    </button>
+    <?php foreach($errors->all() as $error): ?>
+    <?php echo $error; ?>		
+    <?php endforeach; ?>
+</div>
+<?php endif; ?>
+
+<div class="portlet box red">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-pencil-square-o"></i> <?php echo $langLbl['Create Rating Type']; ?>
+
+        </div>
+    </div>
+    <div class="portlet-body form">
+        <form class="form-horizontal form-bordered form-row-stripped" role="form" method="post" action="<?php echo URL::route('company.ratingType.store'); ?>">
+            <div class="form-body">     
+                <?php if($siteLanguage): ?>
+                <?php foreach($siteLanguage as $lkey=>$rvalue): ?>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label"><?php echo Form::label('name'.$rvalue, $langLbl['Name'].' ('.$langLbl[$lkey].')'); ?></label>
+                    <div class="col-sm-9">
+                        <?php echo Form::text('name'.$rvalue, null, ['class' => 'form-control']); ?>
+
+                    </div>
+                </div>	
+                <?php endforeach; ?>
+                <?php endif; ?>        
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label"><?php echo $langLbl['Visible']; ?></label>
+                    <div class="col-sm-9">
+                        <select class="form-control" name="is_visible">
+                            <option value=1><?php echo $langLbl['Yes']; ?></option>
+                            <option value=0><?php echo $langLbl['No']; ?></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label"><?php echo $langLbl['Score']; ?>/<?php echo $langLbl['Question']; ?></label>
+                    <div class="col-sm-9">
+                        <select class="form-control" name="is_score">
+                            <option value=1><?php echo $langLbl['Score']; ?></option>
+                            <option value=0><?php echo $langLbl['Question']; ?></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions fluid">
+                <div class="col-sm-12 text-center">
+                    <button class="btn btn-success">
+                        <span class="glyphicon glyphicon-ok-circle"></span> <?php echo $langLbl['Save']; ?>
+
+                    </button>
+                    <a href="<?php echo URL::route('company.ratingType'); ?>" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-share-alt"></span> <?php echo $langLbl['Back']; ?>
+
+                    </a>
+                </div>
+            </div>            
+        </form>
+    </div>
+</div>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('company.layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

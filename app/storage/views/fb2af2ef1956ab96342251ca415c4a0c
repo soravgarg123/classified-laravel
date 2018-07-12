@@ -1,0 +1,79 @@
+
+<?php $__env->startSection('main'); ?>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3 margin-top-xl margin-bottom-xl">
+            <div class="login_form_block">
+                <form role="form" method="post" action="<?php echo URL::route('user.doLogin'); ?>">
+                <input type="hidden" name="redirect" value="<?php echo $redirect; ?>" />
+                <div class="form-group">
+                    <div class="row text-center">
+                        <h2 class="text-center text-uppercase"><?php echo $langLbl['Welcome back!']; ?></h2>
+                    </div>
+                </div>
+
+                <?php if(isset($alert)): ?>
+                <div class="margin-top-lg"></div>
+                <div class="alert alert-<?php echo $alert['type']; ?> alert-dismissibl fade in">
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only"><?php echo $langLbl['Close']; ?></span>
+                    </button>
+                    <p>
+                        <?php echo $alert['msg']; ?>
+
+                    </p>
+                </div>
+                <?php endif; ?>
+
+                <?php if($errors->has()): ?>
+                <div class="margin-top-lg"></div>
+                <div class="alert alert-danger alert-dismissibl fade in">
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only"><?php echo $langLbl['Close']; ?></span>
+                    </button>
+                    <?php foreach($errors->all() as $error): ?>
+                    <p><?php echo $error; ?></p>
+                    <?php endforeach; ?>
+                </div>
+                <?php endif; ?>      
+                <div class="form-group">
+                    <input required type="text" class="form-control input-lg" placeholder="<?php echo $langLbl['Email Address']; ?>" name="email">
+                </div>
+                <div class="form-group">
+                    <input required type="password" class="form-control input-lg" placeholder="<?php echo $langLbl['Password']; ?>" name="password">
+                </div>
+                <div class="form-group">
+                    <select required class="form-control input-lg" name="type">
+                        <option value=""><?php echo $langLbl['Login as']; ?></option>
+                        <option value="user"><?php echo $langLbl['User']; ?></option>
+                        <option value="professional"><?php echo $langLbl['Professional']; ?></option>
+                    </select>
+                </div>  
+                <div class="form-group">
+                    <div class="text-center">
+                        <p><span style="float:left;"> <?php echo $langLbl['Remember me']; ?> </span><a style="float:right;" href="<?php echo URL::route('user.forgotpwd'); ?>"><?php echo $langLbl['Forgot Password']; ?></a></p></br>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="text-right" style="display:inline-block; float:right;width:100%">
+                        <button type="submit" class="btn btn-success btn-block btn-lg">
+                            <?php echo $langLbl['Login']; ?> <span class="glyphicon glyphicon-ok-circle"></span>
+                        </button></br>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="text-center">
+                        <p><span style="float:left;"><?php echo $langLbl['Don`t have an account yet?']; ?> </span><a style="float:right;" href="<?php echo URL::route('user.signup'); ?>"><?php echo $langLbl['Register']; ?></a></p>
+                    </div>
+                </div>
+                </form>    
+            </div>
+        </div>
+    </div>
+</div>
+<?php $__env->stopSection(); ?>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('user.layout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
